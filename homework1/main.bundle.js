@@ -41,7 +41,20 @@ var Hotel = (function () {
 
 /***/ }),
 
-/***/ 291:
+/***/ 275:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
+var environment = {
+    production: true,
+    imagePath: 'assets/images/'
+};
+//# sourceMappingURL=environment.js.map
+
+/***/ }),
+
+/***/ 292:
 /***/ (function(module, exports) {
 
 function webpackEmptyContext(req) {
@@ -50,20 +63,20 @@ function webpackEmptyContext(req) {
 webpackEmptyContext.keys = function() { return []; };
 webpackEmptyContext.resolve = webpackEmptyContext;
 module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 291;
+webpackEmptyContext.id = 292;
 
 
 /***/ }),
 
-/***/ 292:
+/***/ 293:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(380);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_widget_widget_module__ = __webpack_require__(403);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(404);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(381);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_widget_widget_module__ = __webpack_require__(404);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(275);
 
 
 
@@ -76,7 +89,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dyna
 
 /***/ }),
 
-/***/ 400:
+/***/ 401:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -116,7 +129,7 @@ var WidgetDetailsComponent = (function () {
 
 /***/ }),
 
-/***/ 401:
+/***/ 402:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -156,13 +169,14 @@ var WidgetWeatherComponent = (function () {
 
 /***/ }),
 
-/***/ 402:
+/***/ 403:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Hotel__ = __webpack_require__(274);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__City__ = __webpack_require__(273);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(275);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WidgetComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -176,12 +190,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var WidgetComponent = (function () {
     function WidgetComponent() {
         this.hotels = [
-            new __WEBPACK_IMPORTED_MODULE_1__Hotel__["a" /* Hotel */]('Tiffany Roma Suite', 'Via Antonio Salandra 6, Via Veneto', '+375291112345', 300, 500, '../assets/images/46074236.jpg', '../assets/images/r46074236.jpg', '../assets/images/b1.jpg', '../assets/images/res.jpg', new __WEBPACK_IMPORTED_MODULE_2__City__["a" /* City */]('Rome', 25, 20)),
-            new __WEBPACK_IMPORTED_MODULE_1__Hotel__["a" /* Hotel */]('Stardust Rome', 'Via Ostia 28, Vatican City - Prati', '+375299984538', 311, 595, '../assets/images/61694.jpg', '../assets/images/r61694.jpg', '../assets/images/7384495.jpg', '../assets/images/res7384495.jpg', new __WEBPACK_IMPORTED_MODULE_2__City__["a" /* City */]('Bologna', 26, 18)),
-            new __WEBPACK_IMPORTED_MODULE_1__Hotel__["a" /* Hotel */]('Santamaria Inn', 'Via Rattazzi 2C, Central Station', '+375294582298', 405, 984, '../assets/images/61321.jpg', '../assets/images/r61321.jpg', '../assets/images/21140.jpg', '../assets/images/res21140.jpg', new __WEBPACK_IMPORTED_MODULE_2__City__["a" /* City */]('Parma', 23, 15))
+            new __WEBPACK_IMPORTED_MODULE_1__Hotel__["a" /* Hotel */]('Tiffany Roma Suite', 'Via Antonio Salandra 6, Via Veneto', '+375291112345', 300, 500, __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].imagePath + '46074236.jpg', __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].imagePath + 'r46074236.jpg', __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].imagePath + 'b1.jpg', __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].imagePath + 'res.jpg', new __WEBPACK_IMPORTED_MODULE_2__City__["a" /* City */]('Rome', 25, 20)),
+            new __WEBPACK_IMPORTED_MODULE_1__Hotel__["a" /* Hotel */]('Stardust Rome', 'Via Ostia 28, Vatican City - Prati', '+375299984538', 311, 595, __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].imagePath + '61694.jpg', __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].imagePath + 'r61694.jpg', __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].imagePath + '7384495.jpg', __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].imagePath + 'res7384495.jpg', new __WEBPACK_IMPORTED_MODULE_2__City__["a" /* City */]('Bologna', 26, 18)),
+            new __WEBPACK_IMPORTED_MODULE_1__Hotel__["a" /* Hotel */]('Santamaria Inn', 'Via Rattazzi 2C, Central Station', '+375294582298', 405, 984, __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].imagePath + '61321.jpg', __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].imagePath + 'r61321.jpg', __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].imagePath + '21140.jpg', __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].imagePath + 'res21140.jpg', new __WEBPACK_IMPORTED_MODULE_2__City__["a" /* City */]('Parma', 23, 15))
         ];
         this._selectedHotel = this.hotels[0];
     }
@@ -209,17 +224,17 @@ var WidgetComponent = (function () {
 
 /***/ }),
 
-/***/ 403:
+/***/ 404:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(166);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(370);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(376);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__widget_component__ = __webpack_require__(402);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__widget_weather_widget_weather_component__ = __webpack_require__(401);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__widget_details_widget_details_component__ = __webpack_require__(400);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(371);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(377);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__widget_component__ = __webpack_require__(403);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__widget_weather_widget_weather_component__ = __webpack_require__(402);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__widget_details_widget_details_component__ = __webpack_require__(401);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WidgetModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -260,22 +275,6 @@ var WidgetModule = (function () {
     return WidgetModule;
 }());
 //# sourceMappingURL=widget.module.js.map
-
-/***/ }),
-
-/***/ 404:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
-var environment = {
-    production: false
-};
-//# sourceMappingURL=environment.js.map
 
 /***/ }),
 
@@ -357,7 +356,7 @@ module.exports = "<div class=\"element\">\n  <div class=\"element-left\">\n    <
 /***/ 480:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(292);
+module.exports = __webpack_require__(293);
 
 
 /***/ })

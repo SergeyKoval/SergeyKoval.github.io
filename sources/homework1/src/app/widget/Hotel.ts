@@ -2,6 +2,7 @@ import {City} from './City';
 
 export class Hotel {
   public constructor(
+
     public name: string,
     public address: string,
     public telephone: string,
