@@ -4,10 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { WidgetComponent } from './widget.component';
+import { WidgetWeatherComponent } from './widget-weather/widget-weather.component';
+import { WidgetDetailsComponent } from './widget-details/widget-details.component';
 
 @NgModule({
   declarations: [
-    WidgetComponent
+    WidgetComponent,
+    WidgetWeatherComponent,
+    WidgetDetailsComponent
   ],
   imports: [
     BrowserModule,

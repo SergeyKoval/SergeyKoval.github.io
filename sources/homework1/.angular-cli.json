@@ -7,7 +7,7 @@
     {
       "root": "src",
       "outDir": "../../homework1",
-      "deployUrl": "/homework",
+      "deployUrl": "/homework1",
       "assets": [
         "assets",
         "favicon.ico"
