@@ -1,7 +1,7 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { WidgetModule } from './widget/widget.module';
+import { WidgetModule } from './app/widget/widget.module';
 import { environment } from './environments/environment';
 
 if (environment.production) {
