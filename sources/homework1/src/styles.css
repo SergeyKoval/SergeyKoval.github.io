@@ -283,7 +283,8 @@ i.text-info{
 }
 .copy-right {
   text-align: center;
-  padding:0em 0em 2em 0em;
+  padding:100px 0em 2em 0em;
+  clear: left;
 }
 .copy-right p {
   font-size: 1em;
