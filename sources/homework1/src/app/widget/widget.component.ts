@@ -12,7 +12,7 @@ import {environment} from '../../environments/environment';
 export class WidgetComponent {
   public hotels: Hotel[] = [
     new Hotel('Tiffany Roma Suite', 'Via Antonio Salandra 6, Via Veneto', '+375291112345', 300, 500,
-              environment.imagePath + '46074236.jpg', environment.imagePath + 'r46074236.jpg',
+              environment.imagePath + '46.jpg', environment.imagePath + 'r46074236.jpg',
               environment.imagePath + 'b1.jpg', environment.imagePath + 'res.jpg',
               new City('Rome', 25, 20)
     ),
