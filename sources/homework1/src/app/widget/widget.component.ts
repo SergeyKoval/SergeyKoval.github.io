@@ -37,8 +37,4 @@ export class WidgetComponent {
   public get selectedHotel(): Hotel {
     return this._selectedHotel;
   }
-
-  public set selectedHotel(hotel: Hotel) {
-    this._selectedHotel = hotel;
-  }
 }
