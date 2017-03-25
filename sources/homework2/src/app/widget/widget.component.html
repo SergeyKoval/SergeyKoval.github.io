@@ -6,10 +6,7 @@
     <div class="element-left-bottom">
       <div class="ele-strip">
         <ul>
-          <li><a href="#">Hotel</a></li>
-          <li><a href="#">Fishing</a></li>
-          <li><a href="#">Tours</a></li>
-          <li class="anc-bor"><a href="#">Weather</a></li>
+          <li *ngFor="let raiting of raitings" (click)="setSelectedRaiting(raiting.stars)">{{raiting.raitingName}}</li>
         </ul>
       </div>
       <div class="village">
@@ -17,7 +14,7 @@
         <span class="line"> </span>
         <div class="activity_box">
           <div class="scrollbar" id="style-2">
-            <widget-item *ngFor="let hotel of hotels" [hotel]="hotel" (newSelectedHotel)="setSelectedHotel($event)"></widget-item>
+            <widget-item *ngFor="let hotel of hotels | hotelFilter:selectedRating; " [hotel]="hotel" (newSelectedHotel)="setSelectedHotel($event)"></widget-item>
             <div class="clear"></div>
           </div>
         </div>
