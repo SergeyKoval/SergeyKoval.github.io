@@ -1,4 +1,4 @@
-export const environment = {
+export const environment: env = {
   production: true,
-  imagePath: 'homework1/assets/images/'
+  imagePath: 'homework2/assets/images/'
 };

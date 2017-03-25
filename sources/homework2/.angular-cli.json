@@ -1,13 +1,13 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "homework1"
+    "name": "homework2"
   },
   "apps": [
     {
       "root": "src",
-      "outDir": "../../homework1",
-      "deployUrl": "/homework1",
+      "outDir": "../../homework2",
+      "deployUrl": "/homework2",
       "assets": [
         "assets",
         "favicon.ico"

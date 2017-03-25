@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {Hotel} from '../../widget/Hotel';
 
 @Pipe({
   name: 'hotelFilter'

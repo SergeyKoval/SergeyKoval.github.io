@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {Hotel} from '../Hotel';
 
 @Component({
   selector: 'widget-details',
