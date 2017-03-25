@@ -23,7 +23,7 @@ export class WidgetComponent {
 
   public setSelectedRating(rating: number): void {
     this._selectedRating = rating;
-    this._selectedHotel = !rating ? this.hotels[0] : this.hotels.filter((hotel: Hotel) => hotel.rating === this._selectedRating)[0];
+    this.setSelectedHotel(!rating ? this.hotels[0] : this.hotels.filter((hotel: Hotel) => hotel.rating === this._selectedRating)[0]);
   }
 
   public get selectedRating(): number {
