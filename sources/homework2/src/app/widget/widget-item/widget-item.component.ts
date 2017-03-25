@@ -9,7 +9,8 @@ import {Hotel} from '../Hotel';
 export class WidgetItemComponent {
   @Input()
   public hotel: Hotel;
-
+  @Input()
+  public first: boolean;
   @Output()
   public newSelectedHotel: EventEmitter<Hotel> = new EventEmitter();
 }

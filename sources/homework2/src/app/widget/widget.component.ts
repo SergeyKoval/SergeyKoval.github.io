@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import {Hotel} from './Hotel';
 import {City} from './City';
 import {environment} from '../../environments/environment';
-import {raitings} from '../common/data/raitings';
+import {ratings} from '../common/data/ratings';
 
 @Component({
   selector: 'widget',
@@ -11,9 +11,9 @@ import {raitings} from '../common/data/raitings';
   styleUrls: ['widget.component.css']
 })
 export class WidgetComponent {
-  public raitings: Raiting[] = raitings;
+  public ratings: Rating[] = ratings;
   public hotels: Hotel[] = [
-    new Hotel('Tiffany Roma Suite', 5, 'Via Antonio Salandra 6, Via Veneto', '+375291112345', 300, 500,
+    new Hotel('Tiffany Roma Suite', 3, 'Via Antonio Salandra 6, Via Veneto', '+375291112345', 300, 500,
               environment.imagePath + '46.jpg', environment.imagePath + 'r46074236.jpg',
               environment.imagePath + 'b1.jpg', environment.imagePath + 'res.jpg',
               new City('Rome', 25, 20)
@@ -23,7 +23,7 @@ export class WidgetComponent {
               environment.imagePath + '7384495.jpg', environment.imagePath + 'res7384495.jpg',
               new City('Bologna', 26, 18)
     ),
-    new Hotel('Santamaria Inn', 3, 'Via Rattazzi 2C, Central Station', '+375294582298', 405, 984,
+    new Hotel('Santamaria Inn', 5, 'Via Rattazzi 2C, Central Station', '+375294582298', 405, 984,
               environment.imagePath + '61321.jpg', environment.imagePath + 'r61321.jpg',
               environment.imagePath + '21140.jpg', environment.imagePath + 'res21140.jpg',
               new City('Parma', 23, 15),
@@ -41,8 +41,9 @@ export class WidgetComponent {
     return this._selectedHotel;
   }
 
-  public setSelectedRaiting(raiting: number): void {
-    this._selectedRating = raiting;
+  public setSelectedRating(rating: number): void {
+    this._selectedRating = rating;
+    this._selectedHotel = !rating ? this.hotels[0] : this.hotels.filter((hotel: Hotel) => hotel.rating === this._selectedRating)[0];
   }
 
   public get selectedRating(): number {

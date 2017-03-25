@@ -3,7 +3,7 @@ import {City} from './City';
 export class Hotel {
   public constructor(
     public name: string,
-    public raitng: number,
+    public rating: number,
     public address: string,
     public telephone: string,
     public followers: number,

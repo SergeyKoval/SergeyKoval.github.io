@@ -7,10 +7,6 @@ import {Hotel} from '../../widget/Hotel';
 export class HotelFilterPipe implements PipeTransform {
 
   public transform(hotels: Hotel[], selectedRating: number): Hotel[] {
-    if (!selectedRating) {
-      return hotels;
-    }
-
-    return hotels.filter((hotel: Hotel) => hotel.raitng === selectedRating);
+    return !selectedRating ? hotels : hotels.filter((hotel: Hotel) => hotel.rating === selectedRating);
   }
 }
