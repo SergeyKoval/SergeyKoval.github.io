@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 
-import {ratings} from '../common/data/ratings';
 import {hotels} from '../common/data/hotels';
 
 @Component({
@@ -9,7 +8,6 @@ import {hotels} from '../common/data/hotels';
   styleUrls: ['widget.component.css']
 })
 export class WidgetComponent {
-  public ratings: Rating[] = ratings;
   public hotels: Hotel[] = hotels;
 
   private _selectedHotel: Hotel = this.hotels[0];

@@ -6,8 +6,8 @@
     <div class="element-left-bottom">
       <div class="ele-strip">
         <ul>
-          <li *ngFor="let rating of ratings"
-              (click)="setSelectedRating(rating.stars)">{{rating.ratingName}}</li>
+          <li (click)="setSelectedRating(null)">All</li>
+          <li *ngFor="let rating of [4, 5]" (click)="setSelectedRating(rating)">{{rating}} *</li>
         </ul>
       </div>
       <div class="village">
