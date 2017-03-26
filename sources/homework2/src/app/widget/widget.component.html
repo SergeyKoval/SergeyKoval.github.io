@@ -17,8 +17,7 @@
         <span class="line"> </span>
         <div class="activity_box">
           <div class="scrollbar" id="style-2">
-            <widget-item *ngFor="let hotel of filteredHotels"
-                         (newSelectedHotel)="setSelectedHotel($event)" [hotel]="hotel"></widget-item>
+            <widget-item *ngFor="let hotel of filteredHotels" (newSelectedHotel)="setSelectedHotel($event)" [hotel]="hotel"></widget-item>
             <div class="clear"></div>
           </div>
         </div>
