@@ -6,7 +6,7 @@ import { WidgetWeatherComponent } from './widget-weather/widget-weather.componen
 import { WidgetDetailsComponent } from './widget-details/widget-details.component';
 import { WidgetItemComponent } from './widget-item/widget-item.component';
 import { HotelFilterPipe } from '../common/pipes/hotel-filter.pipe';
-import { FilteredSelectedHotelDirective } from '../common/directives/filtered-selected-hotel.directive';
+import { FilteredHotelsDirective } from '../common/directives/filtered-hotels.directive';
 
 @NgModule({
   declarations: [
@@ -15,7 +15,7 @@ import { FilteredSelectedHotelDirective } from '../common/directives/filtered-se
     WidgetDetailsComponent,
     WidgetItemComponent,
     HotelFilterPipe,
-    FilteredSelectedHotelDirective
+    FilteredHotelsDirective
   ],
   imports: [
     BrowserModule

@@ -96,7 +96,7 @@ module.exports = "<div class=\"temperatur\">\n  <h5>{{city.name}}</h5>\n  <span 
 /***/ 141:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"element\" *ngIf=\"hotels | hotelFilter:selectedRating as filteredHotels\"\n     [filteredSelectedHotel]=\"filteredHotels[0]\" (initFilteredHotel)=\"setSelectedHotel($event)\">\n  <div class=\"element-left\">\n    <div class=\"element-bg-img\">\n      <img [src]=\"selectedHotel.image\" alt=\"\" class=\"img-responsive\">\n    </div>\n    <div class=\"element-left-bottom\">\n      <div class=\"ele-strip\">\n        <ul>\n          <li [ngClass]=\"{selected: isSelectedRaiting(null)}\" (click)=\"setSelectedRating(null)\">All</li>\n          <li *ngFor=\"let rating of [4, 5]\" [ngClass]=\"{selected: isSelectedRaiting(rating)}\"\n              (click)=\"setSelectedRating(rating)\">{{rating}} *</li>\n        </ul>\n      </div>\n      <div class=\"village\">\n        <h3>Righteous indignation & like</h3>\n        <span class=\"line\"> </span>\n        <div class=\"activity_box\">\n          <div class=\"scrollbar\" id=\"style-2\">\n            <widget-item *ngFor=\"let hotel of filteredHotels\"\n                         (newSelectedHotel)=\"setSelectedHotel($event)\" [hotel]=\"hotel\"></widget-item>\n            <div class=\"clear\"></div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class=\"element-right\">\n    <widget-weather [city]=\"selectedHotel.city\"></widget-weather>\n    <widget-details [hotel]=\"selectedHotel\"></widget-details>\n  </div>\n</div>\n"
+module.exports = "<div class=\"element\" *ngIf=\"hotels | hotelFilter:selectedRating as filteredHotels\"\n     [filteredHotels]=\"filteredHotels\" (initFilteredHotel)=\"chooseSelectedHotel($event)\">\n  <div class=\"element-left\">\n    <div class=\"element-bg-img\">\n      <img [src]=\"selectedHotel.image\" alt=\"\" class=\"img-responsive\">\n    </div>\n    <div class=\"element-left-bottom\">\n      <div class=\"ele-strip\">\n        <ul>\n          <li [ngClass]=\"{selected: isSelectedRaiting(null)}\" (click)=\"setSelectedRating(null)\">All</li>\n          <li *ngFor=\"let rating of [4, 5]\" [ngClass]=\"{selected: isSelectedRaiting(rating)}\"\n              (click)=\"setSelectedRating(rating)\">{{rating}} *</li>\n        </ul>\n      </div>\n      <div class=\"village\">\n        <h3>Righteous indignation & like</h3>\n        <span class=\"line\"> </span>\n        <div class=\"activity_box\">\n          <div class=\"scrollbar\" id=\"style-2\">\n            <widget-item *ngFor=\"let hotel of filteredHotels\" (newSelectedHotel)=\"setSelectedHotel($event)\" [hotel]=\"hotel\"></widget-item>\n            <div class=\"clear\"></div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class=\"element-right\">\n    <widget-weather [city]=\"selectedHotel.city\"></widget-weather>\n    <widget-details [hotel]=\"selectedHotel\"></widget-details>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -225,7 +225,7 @@ var hotels = [
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(3);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FilteredSelectedHotelDirective; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FilteredHotelsDirective; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -236,36 +236,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var FilteredSelectedHotelDirective = (function () {
-    function FilteredSelectedHotelDirective() {
+var FilteredHotelsDirective = (function () {
+    function FilteredHotelsDirective() {
         this.initFilteredHotel = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* EventEmitter */]();
     }
-    Object.defineProperty(FilteredSelectedHotelDirective.prototype, "filteredSelectedHotel", {
+    Object.defineProperty(FilteredHotelsDirective.prototype, "filteredHotels", {
         set: function (hotel) {
             this.initFilteredHotel.emit(hotel);
         },
         enumerable: true,
         configurable: true
     });
-    return FilteredSelectedHotelDirective;
+    return FilteredHotelsDirective;
 }());
 __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["N" /* Input */])(),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [Object])
-], FilteredSelectedHotelDirective.prototype, "filteredSelectedHotel", null);
+    __metadata("design:type", Array),
+    __metadata("design:paramtypes", [Array])
+], FilteredHotelsDirective.prototype, "filteredHotels", null);
 __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Z" /* Output */])(),
     __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* EventEmitter */]) === "function" && _a || Object)
-], FilteredSelectedHotelDirective.prototype, "initFilteredHotel", void 0);
-FilteredSelectedHotelDirective = __decorate([
+], FilteredHotelsDirective.prototype, "initFilteredHotel", void 0);
+FilteredHotelsDirective = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* Directive */])({
-        selector: '[filteredSelectedHotel]'
+        selector: '[filteredHotels]'
     })
-], FilteredSelectedHotelDirective);
+], FilteredHotelsDirective);
 
 var _a;
-//# sourceMappingURL=filtered-selected-hotel.directive.js.map
+//# sourceMappingURL=filtered-hotels.directive.js.map
 
 /***/ }),
 
@@ -441,6 +441,12 @@ var WidgetComponent = (function () {
     WidgetComponent.prototype.setSelectedHotel = function (hotel) {
         this._selectedHotel = hotel;
     };
+    WidgetComponent.prototype.chooseSelectedHotel = function (hotels) {
+        var _this = this;
+        if (!this._selectedHotel || !hotels.some(function (hotel) { return hotel === _this._selectedHotel; })) {
+            this._selectedHotel = hotels[0];
+        }
+    };
     Object.defineProperty(WidgetComponent.prototype, "selectedHotel", {
         get: function () {
             return this._selectedHotel;
@@ -486,7 +492,7 @@ WidgetComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__widget_details_widget_details_component__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__widget_item_widget_item_component__ = __webpack_require__(76);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__common_pipes_hotel_filter_pipe__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__common_directives_filtered_selected_hotel_directive__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__common_directives_filtered_hotels_directive__ = __webpack_require__(73);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WidgetModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -515,7 +521,7 @@ WidgetModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_4__widget_details_widget_details_component__["a" /* WidgetDetailsComponent */],
             __WEBPACK_IMPORTED_MODULE_5__widget_item_widget_item_component__["a" /* WidgetItemComponent */],
             __WEBPACK_IMPORTED_MODULE_6__common_pipes_hotel_filter_pipe__["a" /* HotelFilterPipe */],
-            __WEBPACK_IMPORTED_MODULE_7__common_directives_filtered_selected_hotel_directive__["a" /* FilteredSelectedHotelDirective */]
+            __WEBPACK_IMPORTED_MODULE_7__common_directives_filtered_hotels_directive__["a" /* FilteredHotelsDirective */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */]

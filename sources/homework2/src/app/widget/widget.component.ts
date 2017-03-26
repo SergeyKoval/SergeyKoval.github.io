@@ -17,6 +17,12 @@ export class WidgetComponent {
     this._selectedHotel = hotel;
   }
 
+  public chooseSelectedHotel(hotels: Hotel[]): void {
+    if (!this._selectedHotel || !hotels.some((hotel: Hotel) => hotel === this._selectedHotel)) {
+      this._selectedHotel = hotels[0];
+    }
+  }
+
   public get selectedHotel(): Hotel {
     return this._selectedHotel;
   }

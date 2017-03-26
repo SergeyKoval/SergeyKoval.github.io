@@ -1,5 +1,5 @@
 <div class="element" *ngIf="hotels | hotelFilter:selectedRating as filteredHotels"
-     [filteredSelectedHotel]="filteredHotels[0]" (initFilteredHotel)="setSelectedHotel($event)">
+     [filteredHotels]="filteredHotels" (initFilteredHotel)="chooseSelectedHotel($event)">
   <div class="element-left">
     <div class="element-bg-img">
       <img [src]="selectedHotel.image" alt="" class="img-responsive">
