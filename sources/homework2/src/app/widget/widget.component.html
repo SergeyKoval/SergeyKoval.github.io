@@ -1,4 +1,5 @@
-<div class="element">
+<div class="element" *ngIf="hotels | hotelFilter:selectedRating as filteredHotels"
+     [filteredSelectedHotel]="filteredHotels[0]" (initFilteredHotel)="setSelectedHotel($event)">
   <div class="element-left">
     <div class="element-bg-img">
       <img [src]="selectedHotel.image" alt="" class="img-responsive">
@@ -7,7 +8,8 @@
       <div class="ele-strip">
         <ul>
           <li [ngClass]="{selected: isSelectedRaiting(null)}" (click)="setSelectedRating(null)">All</li>
-          <li [ngClass]="{selected: isSelectedRaiting(rating)}" *ngFor="let rating of [4, 5]" (click)="setSelectedRating(rating)">{{rating}} *</li>
+          <li *ngFor="let rating of [4, 5]" [ngClass]="{selected: isSelectedRaiting(rating)}"
+              (click)="setSelectedRating(rating)">{{rating}} *</li>
         </ul>
       </div>
       <div class="village">
@@ -15,7 +17,7 @@
         <span class="line"> </span>
         <div class="activity_box">
           <div class="scrollbar" id="style-2">
-            <widget-item *ngFor="let hotel of (hotels | hotelFilter:selectedRating)"
+            <widget-item *ngFor="let hotel of filteredHotels"
                          (newSelectedHotel)="setSelectedHotel($event)" [hotel]="hotel"></widget-item>
             <div class="clear"></div>
           </div>

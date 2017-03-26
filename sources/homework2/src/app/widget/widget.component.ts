@@ -10,7 +10,7 @@ import {hotels} from '../common/data/hotels';
 export class WidgetComponent {
   public hotels: Hotel[] = hotels;
 
-  private _selectedHotel: Hotel = this.hotels[0];
+  private _selectedHotel: Hotel = null;
   private _selectedRating: number = null;
 
   public setSelectedHotel(hotel: Hotel): void {
@@ -23,7 +23,6 @@ export class WidgetComponent {
 
   public setSelectedRating(rating: number): void {
     this._selectedRating = rating;
-    this.setSelectedHotel(!rating ? this.hotels[0] : this.hotels.filter((hotel: Hotel) => hotel.rating === this._selectedRating)[0]);
   }
 
   public get selectedRating(): number {
