@@ -3,3 +3,8 @@
   color: #fff;
   cursor: pointer;
 }
+
+.selected {
+  font-weight: bold;
+  color: cornflowerblue !important;
+}

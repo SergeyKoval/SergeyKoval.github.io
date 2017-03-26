@@ -29,4 +29,8 @@ export class WidgetComponent {
   public get selectedRating(): number {
     return this._selectedRating;
   }
+
+  public isSelectedRaiting(value: number): boolean {
+    return value === this._selectedRating;
+  }
 }
