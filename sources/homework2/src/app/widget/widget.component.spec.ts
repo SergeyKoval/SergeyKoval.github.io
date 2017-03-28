@@ -2,7 +2,7 @@ import { TestBed, async } from '@angular/core/testing';
 
 import { WidgetComponent } from './widget.component';
 
-describe('AppComponent', () => {
+describe('MailboxComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
