@@ -1,3 +1,8 @@
-<h1>
-  {{title}}
-</h1>
+<ul>
+  <li class="text" *ngFor="let item of items | async">
+    {{item | json}}
+  </li>
+  {{profile | async | json}}
+
+  <button (click)="search()">test</button>
+</ul>
