@@ -1,0 +1,11 @@
+<div *ngIf="!showLoadingIndicator; else loading">
+  <item *ngFor="let repository of repositories" [repository]="repository"></item>
+</div>
+
+<ng-template #loading>
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%">
+      Searching...
+    </div>
+  </div>
+</ng-template>

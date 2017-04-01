@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
+  selector: 'github-search',
   templateUrl: 'github-search.component.html',
   styleUrls: ['github-search.component.css']
 })
 export class GithubSearchComponent {
-  title = 'app works!';
+  public searchTerm: string;
+
+  public initSearch(value: string): void {
+    this.searchTerm = value;
+  }
 }
