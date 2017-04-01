@@ -26,7 +26,7 @@ exports = module.exports = __webpack_require__(13)();
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "img {\r\n  width: 64px;\r\n  height: 64px;\r\n}\r\n", ""]);
 
 // exports
 
@@ -82,7 +82,7 @@ module.exports = "<search (searchTerm)=\"initSearch($event)\"></search>\n<items 
 /***/ 138:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"panel panel-default\">\n  <div class=\"panel-body\">\n    <div class=\"media\">\n      <div class=\"media-left\">\n        <img class=\"media-object\" src=\"{{repository.owner.avatar_url}}\" style=\"width: 64px; height: 64px;\">\n      </div>\n      <div class=\"media-body\">\n        <h4 class=\"media-heading\">{{repository.name}} ({{repository.full_name}})</h4>\n        {{repository.description}}\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"panel panel-default\">\n  <div class=\"panel-body\">\n    <div class=\"media\">\n      <div class=\"media-left\">\n        <img class=\"media-object\" src=\"{{repository.owner.avatar_url}}\">\n      </div>\n      <div class=\"media-body\">\n        <h4 class=\"media-heading\">{{repository.name}} ({{repository.full_name}})</h4>\n        {{repository.description}}\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
