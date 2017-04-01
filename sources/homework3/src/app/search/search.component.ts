@@ -7,11 +7,11 @@ import {Component, EventEmitter, Output} from '@angular/core';
 })
 export class SearchComponent {
   @Output()
-  public searchTerm: EventEmitter<string> = new EventEmitter();
+  public searchTerm$: EventEmitter<string> = new EventEmitter();
 
   public search (value: string): void {
     if (value.length >= 2) {
-      this.searchTerm.emit(value);
+      this.searchTerm$.emit(value);
     }
   }
 }

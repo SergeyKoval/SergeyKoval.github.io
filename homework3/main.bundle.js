@@ -337,18 +337,18 @@ var ItemsComponent = (function () {
     function ItemsComponent(_githubSearchService) {
         this._githubSearchService = _githubSearchService;
         this.showLoadingIndicator = false;
-        this._searchSubject = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
+        this._searchSubject$$ = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
     }
     Object.defineProperty(ItemsComponent.prototype, "searchTerm", {
         set: function (searchValue) {
-            this._searchSubject.next(searchValue);
+            this._searchSubject$$.next(searchValue);
         },
         enumerable: true,
         configurable: true
     });
     ItemsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._searchSubject.subscribe(function (searchValue) {
+        this._searchSubject$$.subscribe(function (searchValue) {
             _this.showLoadingIndicator = true;
             _this._githubSearchService.findRepositories(searchValue)
                 .subscribe(function (repositories) {
@@ -396,11 +396,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var SearchComponent = (function () {
     function SearchComponent() {
-        this.searchTerm = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* EventEmitter */]();
+        this.searchTerm$ = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* EventEmitter */]();
     }
     SearchComponent.prototype.search = function (value) {
         if (value.length >= 2) {
-            this.searchTerm.emit(value);
+            this.searchTerm$.emit(value);
         }
     };
     return SearchComponent;
@@ -408,7 +408,7 @@ var SearchComponent = (function () {
 __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Z" /* Output */])(),
     __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* EventEmitter */]) === "function" && _a || Object)
-], SearchComponent.prototype, "searchTerm", void 0);
+], SearchComponent.prototype, "searchTerm$", void 0);
 SearchComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Y" /* Component */])({
         selector: 'search',

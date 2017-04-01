@@ -11,17 +11,17 @@ export class ItemsComponent implements OnInit {
   public repositories: Repository[];
   public showLoadingIndicator: boolean = false;
 
-  private _searchSubject: Subject<string> = new Subject();
+  private _searchSubject$$: Subject<string> = new Subject();
 
   public constructor(private _githubSearchService: GithubSearchService) {}
 
   @Input()
   public set searchTerm(searchValue: string) {
-    this._searchSubject.next(searchValue);
+    this._searchSubject$$.next(searchValue);
   }
 
   public ngOnInit(): void {
-    this._searchSubject.subscribe((searchValue: string) => {
+    this._searchSubject$$.subscribe((searchValue: string) => {
       this.showLoadingIndicator = true;
       this._githubSearchService.findRepositories(searchValue)
         .subscribe((repositories: Repository[]) => {
