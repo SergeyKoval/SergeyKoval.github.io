@@ -1,4 +1,4 @@
-export const profiles: Profile[] = [
+export const PROFILES: Profile[] = [
   {
     username: 'ikoval',
     firstName: 'Irina',

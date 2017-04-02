@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'mailbox-profile',
@@ -6,5 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
-
+  @Input()
+  public profile: Profile;
 }

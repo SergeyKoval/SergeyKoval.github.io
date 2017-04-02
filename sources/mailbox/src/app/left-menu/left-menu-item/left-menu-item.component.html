@@ -1,0 +1,15 @@
+<li [ngClass]="{open: selectedItem}">
+  <a href="javascript:;">
+    <i [ngClass]="leftMenuItem.icon"></i>
+    <span class="title">{{leftMenuItem.name}}</span>
+  </a>
+  <ul class="sub-menu" style='display:block;' *ngIf="leftMenuItem.subItems && selectedItem">
+    <li *ngFor="let subItem of leftMenuItem.subItems">
+      <a _ngcontent-c0="" href="mail-inbox.html" [ngClass]="{active: subItem === selectedSubItem}">
+        <i _ngcontent-c0="" [ngClass]="subItem.icon" *ngIf="subItem.icon"></i>
+        {{subItem.name}}
+        <span *ngIf="subItem.countLabel" class="label label-accent">{{subItem.countLabel}}</span>
+      </a>
+    </li>
+  </ul>
+</li>
