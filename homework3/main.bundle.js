@@ -75,7 +75,7 @@ module.exports = module.exports.toString();
 /***/ 137:
 /***/ (function(module, exports) {
 
-module.exports = "<search (searchTerm)=\"initSearch($event)\"></search>\n<items [searchTerm]=\"searchTerm\"></items>\n"
+module.exports = "<search (searchTerm$)=\"initSearch($event)\"></search>\n<items [searchTerm]=\"searchTerm\"></items>\n"
 
 /***/ }),
 
