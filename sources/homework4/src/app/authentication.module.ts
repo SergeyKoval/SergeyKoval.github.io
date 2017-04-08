@@ -4,12 +4,13 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
 import { RootComponent } from './root.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './authentication/login/login.component';
 import {routes} from './routes';
-import { SignupComponent } from './signup/signup.component';
-import { InputComponent } from './input/input.component';
+import { SignupComponent } from './authentication/signup/signup.component';
+import { InputComponent } from './authentication/input/input.component';
 import { IndexComponent } from './index/index.component';
 import {AuthenticationGuardService} from './authentication-guard.service';
+import { AuthenticationComponent } from './authentication/authentication.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {AuthenticationGuardService} from './authentication-guard.service';
     LoginComponent,
     SignupComponent,
     InputComponent,
-    IndexComponent
+    IndexComponent,
+    AuthenticationComponent
   ],
   imports: [
     BrowserModule,

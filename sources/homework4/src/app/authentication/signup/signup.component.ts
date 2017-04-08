@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {AuthenticationGuardService} from '../authentication-guard.service';
+import {AuthenticationGuardService} from '../../authentication-guard.service';
 
 @Component({
   selector: 'signup',
