@@ -119,9 +119,14 @@ input, textarea {
   -webkit-transition: border-color .25s ease, box-shadow .25s ease;
   transition: border-color .25s ease, box-shadow .25s ease;
 }
-input:focus, textarea:focus {
+/*input:focus, textarea:focus {*/
+  /*outline: 0;*/
+  /*border-color: #1ab188;*/
+/*}*/
+
+.validation-failed {
   outline: 0;
-  border-color: #1ab188;
+  border-color: #c62828;
 }
 
 textarea {
@@ -139,12 +144,13 @@ textarea {
   display: table;
   clear: both;
 }
-.top-row > div {
+.top-row div {
   float: left;
   width: 48%;
   margin-right: 4%;
 }
-.top-row > div:last-child {
+
+.top-row > authentication-input:last-child > div {
   margin: 0;
 }
 

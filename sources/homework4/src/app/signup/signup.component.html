@@ -1,3 +1,15 @@
-<p>
-  signup works!
-</p>
+<div id="signup">
+  <h1>Sign Up for Free</h1>
+
+  <form [formGroup]="signupForm">
+    <div class="top-row">
+      <authentication-input [input]="signupForm.get('firstName')" [submitted]="submitted">First Name</authentication-input>
+      <authentication-input [input]="signupForm.get('lastName')" [submitted]="submitted">Last Name</authentication-input>
+    </div>
+    <authentication-input [input]="signupForm.get('email')" [submitted]="submitted">Email Address</authentication-input>
+    <authentication-input [input]="signupForm.get('password')" [type]="'password'" [submitted]="submitted">Set A Password</authentication-input>
+
+    <button type="submit" class="button button-block" (click)="singUp()">Get Started</button>
+  </form>
+
+</div>
