@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
-import { AuthenticationComponent } from './authentication.component';
+import { RootComponent } from './root.component';
 import { LoginComponent } from './login/login.component';
 import {routes} from './routes';
 import { SignupComponent } from './signup/signup.component';
@@ -13,7 +13,7 @@ import {AuthenticationGuardService} from './authentication-guard.service';
 
 @NgModule({
   declarations: [
-    AuthenticationComponent,
+    RootComponent,
     LoginComponent,
     SignupComponent,
     InputComponent,
@@ -28,6 +28,6 @@ import {AuthenticationGuardService} from './authentication-guard.service';
   providers: [
     AuthenticationGuardService
   ],
-  bootstrap: [AuthenticationComponent]
+  bootstrap: [RootComponent]
 })
 export class AuthenticationModule { }
