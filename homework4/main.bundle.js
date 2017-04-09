@@ -699,7 +699,7 @@ var routes = [
         pathMatch: 'full'
     },
     {
-        path: '/authentication',
+        path: 'authentication',
         component: __WEBPACK_IMPORTED_MODULE_4__authentication_authentication_component__["a" /* AuthenticationComponent */],
         children: [
             {
@@ -722,13 +722,13 @@ var routes = [
         ]
     },
     {
-        path: 'index',
+        path: '/index',
         component: __WEBPACK_IMPORTED_MODULE_2__index_index_component__["a" /* IndexComponent */],
         canActivate: [__WEBPACK_IMPORTED_MODULE_3__authentication_guard_service__["a" /* AuthenticationGuardService */]]
     },
     {
         path: '**',
-        redirectTo: 'authentication'
+        redirectTo: '/authentication'
     }
 ];
 //# sourceMappingURL=routes.js.map
