@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Data, ParamMap, Params} from '@angular/router';
 
 @Component({
   selector: 'app-index',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit {
+  public authenticationType: string;
 
-  constructor() { }
+  public constructor(private _route: ActivatedRoute) {}
 
-  ngOnInit() {
+  public ngOnInit(): void {
+    this._route.queryParams.subscribe((data: Params) => {
+      this.authenticationType = data['type'];
+    });
   }
-
 }

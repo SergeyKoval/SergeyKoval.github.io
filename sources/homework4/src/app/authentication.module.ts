@@ -11,6 +11,7 @@ import { InputComponent } from './authentication/input/input.component';
 import { IndexComponent } from './index/index.component';
 import {AuthenticationGuardService} from './authentication-guard.service';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import {AuthenticationFormService} from './authentication/authentication-form.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AuthenticationComponent } from './authentication/authentication.compone
     RouterModule.forRoot(routes)
   ],
   providers: [
-    AuthenticationGuardService
+    AuthenticationGuardService,
+    AuthenticationFormService
   ],
   bootstrap: [RootComponent]
 })
