@@ -694,42 +694,80 @@ RootComponent = __decorate([
 
 var routes = [
     {
-        path: 'homework4',
-        redirectTo: 'homework4/authentication',
+        path: '',
+        redirectTo: 'homework4',
         pathMatch: 'full'
     },
     {
-        path: 'homework4/authentication',
-        component: __WEBPACK_IMPORTED_MODULE_4__authentication_authentication_component__["a" /* AuthenticationComponent */],
+        path: 'homework4',
         children: [
             {
-                path: '',
-                redirectTo: 'login',
-                pathMatch: 'full'
+                path: 'authentication',
+                component: __WEBPACK_IMPORTED_MODULE_4__authentication_authentication_component__["a" /* AuthenticationComponent */],
+                children: [
+                    {
+                        path: '',
+                        redirectTo: 'login',
+                        pathMatch: 'full'
+                    },
+                    {
+                        path: 'login',
+                        component: __WEBPACK_IMPORTED_MODULE_0__authentication_login_login_component__["a" /* LoginComponent */]
+                    },
+                    {
+                        path: 'signup',
+                        component: __WEBPACK_IMPORTED_MODULE_1__authentication_signup_signup_component__["a" /* SignupComponent */]
+                    },
+                    {
+                        path: '**',
+                        redirectTo: 'login'
+                    }
+                ]
             },
             {
-                path: 'homework4/authentication/login',
-                component: __WEBPACK_IMPORTED_MODULE_0__authentication_login_login_component__["a" /* LoginComponent */]
-            },
-            {
-                path: 'homework4/authentication/signup',
-                component: __WEBPACK_IMPORTED_MODULE_1__authentication_signup_signup_component__["a" /* SignupComponent */]
-            },
-            {
-                path: '**',
-                redirectTo: 'homework4/authentication/login'
+                path: 'index',
+                component: __WEBPACK_IMPORTED_MODULE_2__index_index_component__["a" /* IndexComponent */],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_3__authentication_guard_service__["a" /* AuthenticationGuardService */]]
             }
         ]
     },
     {
-        path: 'homework4/index',
-        component: __WEBPACK_IMPORTED_MODULE_2__index_index_component__["a" /* IndexComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_3__authentication_guard_service__["a" /* AuthenticationGuardService */]]
-    },
-    {
         path: '**',
-        redirectTo: 'homework4/authentication'
+        redirectTo: 'homework4'
     }
+    // {
+    //   path: 'homework4',
+    //   redirectTo: 'homework4/authentication',
+    //   pathMatch: 'full'
+    // },
+    // {
+    //   path: 'authentication',
+    //   component: AuthenticationComponent,
+    //   children: [
+    //     {
+    //       path: '',
+    //       redirectTo: 'login',
+    //       pathMatch: 'full'
+    //     },
+    //     {
+    //       path: 'login',
+    //       component: LoginComponent
+    //     },
+    //     {
+    //       path: 'signup',
+    //       component: SignupComponent
+    //     },
+    //     {
+    //       path: '**',
+    //       redirectTo: 'login'
+    //     }
+    //   ]
+    // },
+    // {
+    //   path: 'homework4/index',
+    //   component: IndexComponent,
+    //   canActivate: [AuthenticationGuardService]
+    // }
 ];
 //# sourceMappingURL=routes.js.map
 
