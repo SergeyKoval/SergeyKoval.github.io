@@ -729,7 +729,7 @@ var routes = [
     },
     {
         path: '**',
-        redirectTo: 'homework4'
+        redirectTo: 'homework4/authentication'
     }
     // {
     //   path: 'homework4',
