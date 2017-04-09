@@ -6,7 +6,8 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
+      "outDir": "../../homework4",
+      "deployUrl": "/homework4",
       "assets": [
         "assets",
         "favicon.ico"
