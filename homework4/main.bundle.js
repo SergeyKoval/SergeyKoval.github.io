@@ -708,27 +708,27 @@ var routes = [
                 pathMatch: 'full'
             },
             {
-                path: 'login',
+                path: 'homework4/authentication/login',
                 component: __WEBPACK_IMPORTED_MODULE_0__authentication_login_login_component__["a" /* LoginComponent */]
             },
             {
-                path: 'signup',
+                path: 'homework4/authentication/signup',
                 component: __WEBPACK_IMPORTED_MODULE_1__authentication_signup_signup_component__["a" /* SignupComponent */]
             },
             {
                 path: '**',
-                redirectTo: 'login'
+                redirectTo: 'homework4/authentication/login'
             }
         ]
     },
     {
-        path: 'index',
+        path: 'homework4/index',
         component: __WEBPACK_IMPORTED_MODULE_2__index_index_component__["a" /* IndexComponent */],
         canActivate: [__WEBPACK_IMPORTED_MODULE_3__authentication_guard_service__["a" /* AuthenticationGuardService */]]
     },
     {
         path: '**',
-        redirectTo: 'authentication'
+        redirectTo: 'homework4/authentication'
     }
 ];
 //# sourceMappingURL=routes.js.map
