@@ -691,7 +691,7 @@ RootComponent = __decorate([
 var routes = [
     {
         path: '',
-        redirectTo: 'homework4/authentication',
+        redirectTo: 'homework4/authentication/login',
         pathMatch: 'full'
     },
     {
@@ -729,7 +729,7 @@ var routes = [
     },
     {
         path: '**',
-        redirectTo: 'homework4/authentication'
+        redirectTo: 'homework4/authentication/login'
     }
 ];
 //# sourceMappingURL=routes.js.map
