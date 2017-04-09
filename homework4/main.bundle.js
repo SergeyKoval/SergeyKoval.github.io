@@ -695,11 +695,11 @@ RootComponent = __decorate([
 var routes = [
     {
         path: 'homework4',
-        redirectTo: 'authentication',
+        redirectTo: 'homework4/authentication',
         pathMatch: 'full'
     },
     {
-        path: 'authentication',
+        path: 'homework4/authentication',
         component: __WEBPACK_IMPORTED_MODULE_4__authentication_authentication_component__["a" /* AuthenticationComponent */],
         children: [
             {
