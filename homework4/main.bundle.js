@@ -691,7 +691,7 @@ RootComponent = __decorate([
 var routes = [
     {
         path: '',
-        redirectTo: '/homework4/authentication',
+        redirectTo: 'homework4/authentication',
         pathMatch: 'full'
     },
     {
