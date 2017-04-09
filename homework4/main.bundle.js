@@ -695,7 +695,7 @@ var routes = [
         pathMatch: 'full'
     },
     {
-        path: 'homework4',
+        path: '/homework4',
         children: [
             {
                 path: 'authentication',
