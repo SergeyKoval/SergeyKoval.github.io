@@ -7,7 +7,7 @@ import {AuthenticationComponent} from './authentication/authentication.component
 
 export const routes: Route[] = [
   {
-    path: 'homework4',
+    path: '',
     redirectTo: 'authentication',
     pathMatch: 'full'
   },
