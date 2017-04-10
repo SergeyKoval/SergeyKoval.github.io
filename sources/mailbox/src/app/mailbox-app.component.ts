@@ -3,11 +3,11 @@ import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'ang
 import {ProfileService} from './common/service/profile.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: 'mailbox.component.html',
-  styleUrls: ['mailbox.component.css']
+  selector: 'mailbox-app-root',
+  templateUrl: 'mailbox-app.component.html',
+  styleUrls: ['mailbox-app.component.css']
 })
-export class MailboxComponent implements OnInit {
+export class MailboxAppComponent implements OnInit {
   public profile: Profile;
 
   // public subject = new Subject();
