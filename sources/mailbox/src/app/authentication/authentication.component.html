@@ -1,3 +1,10 @@
-<p>
-  authentication works!
-</p>
+<div class="form">
+  <h1>Mailbox authentication</h1>
+
+  <form [formGroup]="authenticationForm">
+    <authentication-input [input]="authenticationForm.get('email')" [submitted]="submitted">Email</authentication-input>
+    <authentication-input [input]="authenticationForm.get('password')" [type]="'password'" [submitted]="submitted">Password</authentication-input>
+
+    <button class="button button-block" (click)="authenticate()">Log In</button>
+  </form>
+</div>
