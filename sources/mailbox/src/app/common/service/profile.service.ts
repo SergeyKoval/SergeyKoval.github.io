@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
 
 @Injectable()
@@ -7,7 +7,7 @@ export class ProfileService {
 
   public constructor(private _af: AngularFire) {}
 
-  // public getProfileByUsername(username: string): Profile {
+// public getProfileByUsername(username: string): Profile {
   //   let profile: Profile = null;
   //   const subject: Subject<string> = new Subject();
   //

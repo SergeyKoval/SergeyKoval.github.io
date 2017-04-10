@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 
+import {Subject} from 'rxjs/Subject';
+import {Subscription} from 'rxjs/Subscription';
+
 import {AuthenticationService} from '../common/service/authentication.service';
 
 @Component({
@@ -12,6 +15,8 @@ import {AuthenticationService} from '../common/service/authentication.service';
 export class AuthenticationComponent implements OnInit {
   public authenticationForm: FormGroup;
   public submitted: boolean = false;
+  public errorMessage: string;
+  public loading: boolean = false;
 
   public constructor(
     private _authenticationService: AuthenticationService,
@@ -20,15 +25,27 @@ export class AuthenticationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.authenticationForm = this._authenticationService.initAuthenticationForm();
+    const authenticationResult: Subject<string> = this._authenticationService.authenticationResult;
+    const subscribe: Subscription = authenticationResult.subscribe((result: string) => {
+      this.loading = false;
+
+      if (result) {
+        this.errorMessage = result;
+      } else {
+        this.errorMessage = null;
+        subscribe.unsubscribe();
+        authenticationResult.complete();
+        console.log('Finished');
+      }
+    });
   }
 
   public authenticate(): void {
-    if (this.authenticationForm.valid) {
+    this.submitted = true;
 
-      // this._ags.indexAvailable = true;
-      // this._router.navigate(['/index'], { queryParams: { type: this._authenticationType } });
-    } else {
-      this.submitted = true;
+    if (this.authenticationForm.valid) {
+      this.loading = true;
+      this._authenticationService.authenticate(this.authenticationForm.value);
     }
   }
 }

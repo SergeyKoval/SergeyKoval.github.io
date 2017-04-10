@@ -14,6 +14,24 @@ h1 {
   margin: 0 0 40px;
 }
 
+h2 {
+  text-align: center;
+  color: #c62828;
+}
+
+.progress {
+  height: 53px;
+  margin-bottom: 0;
+}
+
+.progress-bar {
+  width: 100%;
+  color: #ffffff;
+  padding: 15px 0;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
 .button {
   border: 0;
   outline: none;

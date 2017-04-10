@@ -1,10 +1,18 @@
 <div class="form">
-  <h1>Mailbox authentication</h1>
+  <h1>Mailbox</h1>
 
   <form [formGroup]="authenticationForm">
     <authentication-input [input]="authenticationForm.get('email')" [submitted]="submitted">Email</authentication-input>
     <authentication-input [input]="authenticationForm.get('password')" [type]="'password'" [submitted]="submitted">Password</authentication-input>
 
-    <button class="button button-block" (click)="authenticate()">Log In</button>
+    <button class="button button-block" (click)="authenticate()" *ngIf="!loading; else loadingIndicator">Log In</button>
   </form>
+
+  <h2 *ngIf="errorMessage">{{errorMessage}}</h2>
 </div>
+
+<ng-template #loadingIndicator>
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped active" role="progressbar">Log In</div>
+  </div>
+</ng-template>

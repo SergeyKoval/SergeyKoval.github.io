@@ -1,7 +1,8 @@
 type Profile = {
-  username: string,
+  email: string,
   firstName: string,
   lastName: string,
   jobPosition: string,
-  photo: string
+  photo: string,
+  password: string
 };
