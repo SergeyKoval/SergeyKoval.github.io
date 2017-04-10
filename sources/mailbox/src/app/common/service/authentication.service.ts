@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 
 import {Md5} from 'ts-md5/dist/md5';
 import {AngularFire} from 'angularfire2';
@@ -10,9 +10,8 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/first';
 
 @Injectable()
-export class AuthenticationService implements CanActivate {
-  public authenticatedProfile: Profile;
-
+export class AuthenticationService implements CanActivate, Resolve<Profile> {
+  private _authenticatedProfile: Profile;
   private _collectionName: string = '/profiles';
   private _authenticationResult: Subject<string> = new Subject();
   private _authenticateQ: Observable<Profile[]>;
@@ -32,7 +31,7 @@ export class AuthenticationService implements CanActivate {
   }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (!this.authenticatedProfile) {
+    if (!this._authenticatedProfile) {
       this._router.navigate(['authenticate']);
       return false;
     }
@@ -40,10 +39,14 @@ export class AuthenticationService implements CanActivate {
     return true;
   }
 
+  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Profile {
+    return this._authenticatedProfile;
+  }
+
   public initAuthenticationForm(): FormGroup {
     return this._formBuilder.group({
-      email: ['', [Validators.required, Validators.email, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(3)]]
+      email: ['ikoval@gmail.com', [Validators.required, Validators.email, Validators.minLength(3)]],
+      password: ['12345', [Validators.required, Validators.minLength(3)]]
     });
   }
 
@@ -54,7 +57,7 @@ export class AuthenticationService implements CanActivate {
       } else if (Md5.hashStr(credentials.password) !== profiles[0].password) {
         this._authenticationResult.next('Invalid password');
       } else {
-        this.authenticatedProfile = profiles[0];
+        this._authenticatedProfile = profiles[0];
         this._authenticationResult.next(null);
       }
     });

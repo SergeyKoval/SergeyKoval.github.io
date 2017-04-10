@@ -6,7 +6,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularFireModule} from 'angularfire2';
 
 import { MailboxAppComponent } from './mailbox-app.component';
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileComponent } from './mailbox/profile/profile.component';
 import {firebaseConfig} from '../environments/firebase.config';
 import {ProfileService} from './common/service/profile.service';
 import { LeftMenuComponent } from './left-menu/left-menu.component';

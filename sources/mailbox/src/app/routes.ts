@@ -17,7 +17,10 @@ export const routes: Route[] = [
   {
     path: 'mailbox',
     component: MailboxComponent,
-    canActivate: [AuthenticationService]
+    canActivate: [AuthenticationService],
+    resolve: {
+      profile: AuthenticationService
+    }
   },
   {
     path: '**',
