@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import {Md5} from 'ts-md5/dist/md5';
 import {AngularFire} from 'angularfire2';
@@ -8,9 +9,8 @@ import {Observable} from 'rxjs/Observable';
 
 import 'rxjs/add/operator/first';
 
-
 @Injectable()
-export class AuthenticationService {
+export class AuthenticationService implements CanActivate {
   public authenticatedProfile: Profile;
 
   private _collectionName: string = '/profiles';
@@ -20,7 +20,8 @@ export class AuthenticationService {
 
   public constructor(
     private _formBuilder: FormBuilder,
-    private _af: AngularFire
+    private _af: AngularFire,
+    private _router: Router
   ) {
     this._authenticateQ = this._af.database.list(this._collectionName, {
       query: {
@@ -28,6 +29,15 @@ export class AuthenticationService {
         equalTo: this._authenticateQP
       }
     }).first();
+  }
+
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    if (!this.authenticatedProfile) {
+      this._router.navigate(['authenticate']);
+      return false;
+    }
+
+    return true;
   }
 
   public initAuthenticationForm(): FormGroup {

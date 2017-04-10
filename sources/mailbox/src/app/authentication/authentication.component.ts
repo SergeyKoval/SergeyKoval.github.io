@@ -35,7 +35,7 @@ export class AuthenticationComponent implements OnInit {
         this.errorMessage = null;
         subscribe.unsubscribe();
         authenticationResult.complete();
-        console.log('Finished');
+        this._router.navigate(['/mailbox']);
       }
     });
   }
