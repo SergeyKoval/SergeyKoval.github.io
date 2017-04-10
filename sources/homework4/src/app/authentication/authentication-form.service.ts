@@ -3,8 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Injectable()
 export class AuthenticationFormService {
-  public constructor(private _formBuilder: FormBuilder) {
-  }
+  public constructor(private _formBuilder: FormBuilder) {}
 
   public initFormGroup(authenticationType: string): FormGroup {
     switch (authenticationType) {

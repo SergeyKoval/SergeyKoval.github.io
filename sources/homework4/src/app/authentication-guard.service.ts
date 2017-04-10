@@ -5,8 +5,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 export class AuthenticationGuardService implements CanActivate {
   private _indexAvailable: boolean;
 
-  public constructor(private _router: Router) {
-  }
+  public constructor(private _router: Router) {}
 
   public set indexAvailable(value: boolean) {
     this._indexAvailable = value;

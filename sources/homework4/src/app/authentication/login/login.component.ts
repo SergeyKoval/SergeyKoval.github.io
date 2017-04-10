@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import {BaseAuthenticationComponent} from '../base-authentication.component';
 import {Router} from '@angular/router';
+
+import {BaseAuthenticationComponent} from '../base-authentication.component';
 import {AuthenticationGuardService} from '../../authentication-guard.service';
 import {AuthenticationFormService} from '../authentication-form.service';
 
