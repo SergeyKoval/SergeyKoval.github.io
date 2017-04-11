@@ -63,7 +63,22 @@ export const routes: Route[] = [
       },
       {
         path: 'contacts',
-        component: ContactsComponent
+        component: ContactsComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'all',
+            pathMatch: 'full'
+          },
+          {
+            path: 'all',
+            component: MailListComponent,
+          },
+          {
+            path: ':group',
+            component: MailListComponent,
+          }
+        ]
       },
       {
         path: '**',

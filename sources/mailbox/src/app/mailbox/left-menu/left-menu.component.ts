@@ -13,7 +13,7 @@ export class LeftMenuComponent implements OnInit {
 
   public ngOnInit(): void {
     if (!this.selectedLeftMenuItem) {
-      this.selectedLeftMenuItem = this.leftMenuItems[0];
+      this.selectedLeftMenuItem = this.leftMenuItems[1];
     }
     if (!this.selectedLeftMenuSubItem) {
       this.selectedLeftMenuSubItem = this.selectedLeftMenuItem.subItems[0];
