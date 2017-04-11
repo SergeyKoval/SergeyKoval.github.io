@@ -9,10 +9,6 @@ import {Router} from '@angular/router';
 export class LeftMenuItemComponent {
   @Input()
   public leftMenuItem: LeftMenuItem;
-  @Input()
-  public selectedItem: boolean;
-  @Input()
-  public selectedSubItem: LeftMenuItem;
 
   public constructor(public router: Router) {}
 }

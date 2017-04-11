@@ -1,10 +1,6 @@
 <ul class='wraplist'>
   <li class='menusection'></li>
-  <mailbox-left-menu-item *ngFor="let menuItem of leftMenuItems"
-                          [leftMenuItem]="menuItem"
-                          [selectedItem]="menuItem === selectedLeftMenuItem"
-                          [selectedSubItem]="selectedLeftMenuSubItem">
-  </mailbox-left-menu-item>
+  <mailbox-left-menu-item *ngFor="let menuItem of leftMenuItems" [leftMenuItem]="menuItem"></mailbox-left-menu-item>
   <li class='menusection'></li>
   <mailbox-left-menu-actions></mailbox-left-menu-actions>
 </ul>
