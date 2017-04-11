@@ -17,6 +17,9 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { MailboxComponent } from './mailbox/mailbox.component';
 import {AuthenticationService} from './common/service/authentication.service';
 import {InputComponent} from './authentication/input/input.component';
+import { MailsComponent } from './mailbox/mails/mails.component';
+import { ContactsComponent } from './mailbox/contacts/contacts.component';
+import { MailListComponent } from './mailbox/mails/mail-list/mail-list.component';
 
 
 @NgModule({
@@ -28,7 +31,10 @@ import {InputComponent} from './authentication/input/input.component';
     LeftMenuActionsComponent,
     AuthenticationComponent,
     InputComponent,
-    MailboxComponent
+    MailboxComponent,
+    MailsComponent,
+    ContactsComponent,
+    MailListComponent
   ],
   imports: [
     BrowserModule,
