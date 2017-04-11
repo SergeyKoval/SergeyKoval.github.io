@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {LEFT_MENU_ITEMS} from '../common/data/leftMenuItems';
+import {LEFT_MENU_ITEMS} from '../../common/data/leftMenuItems';
 
 @Component({
   selector: 'mailbox-left-menu',
