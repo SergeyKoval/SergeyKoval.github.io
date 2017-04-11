@@ -20,7 +20,8 @@ import {InputComponent} from './authentication/input/input.component';
 import { MailsComponent } from './mailbox/mails/mails.component';
 import { ContactsComponent } from './mailbox/contacts/contacts.component';
 import { MailListComponent } from './mailbox/mails/mail-list/mail-list.component';
-
+import {MenuService} from './mailbox/left-menu/menu.service';
+import { ActiveMenuPipe } from './common/pipes/active-menu.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { MailListComponent } from './mailbox/mails/mail-list/mail-list.component
     MailboxComponent,
     MailsComponent,
     ContactsComponent,
-    MailListComponent
+    MailListComponent,
+    ActiveMenuPipe
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { MailListComponent } from './mailbox/mails/mail-list/mail-list.component
   ],
   providers: [
     AuthenticationService,
-    ProfileService
+    ProfileService,
+    MenuService
   ],
   bootstrap: [MailboxAppComponent]
 })

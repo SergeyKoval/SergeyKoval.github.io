@@ -1,8 +1,10 @@
 <li class='menusection'></li>
-<div *ngIf="selectedLeftMenuItem.type === 'MAIL'">
-  <a _ngcontent-c0="" class="btn btn-primary btn-block" href="mail-compose.html">Compose</a>
+<div *ngIf="router.isActive('mails' | activeMenu)">
+  <a class="btn btn-primary btn-block" href="">Compose</a>
+  <a class="btn btn-primary btn-block" href="" disabled="true">Delete</a>
 </div>
-<div *ngIf="selectedLeftMenuItem.type === 'CONTACTS'">
-  <a _ngcontent-c0="" class="btn btn-primary btn-block" href="mail-compose.html">Add contact</a>
-  <a _ngcontent-c0="" class="btn btn-primary btn-block" href="mail-compose.html">Add group</a>
+<div *ngIf="router.isActive('contacts' | activeMenu)">
+  <a class="btn btn-primary btn-block" href="">Add contact</a>
+  <a class="btn btn-primary btn-block" href="">Add group</a>
+  <a class="btn btn-primary btn-block" href="">Delete</a>
 </div>

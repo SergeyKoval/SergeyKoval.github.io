@@ -1,4 +1,5 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'mailbox-left-menu-actions',
@@ -6,6 +7,5 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./left-menu-actions.component.css']
 })
 export class LeftMenuActionsComponent {
-  @Input()
-  public selectedLeftMenuItem: LeftMenuItem;
+  public constructor(public router: Router) {}
 }

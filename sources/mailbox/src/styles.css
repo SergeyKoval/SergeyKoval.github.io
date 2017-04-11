@@ -828,7 +828,6 @@ a:hover, a:focus {
   padding-left: 20px;
 }
 #main-menu-wrapper li ul.sub-menu {
-  display: none;
   list-style-type: none;
   font-size: 14px;
   width: 100%;
@@ -857,8 +856,9 @@ a:hover, a:focus {
   border-left: 4px solid transparent;
 }
 #main-menu-wrapper li.open .sub-menu a.active, #main-menu-wrapper li.open .sub-menu a:hover, #main-menu-wrapper li .sub-menu a:hover {
-  background-color: rgba(33, 33, 33, 0.1);
-  border-left: 4px solid #3F51B5;
+  border-left: 4px solid #6A1B9A;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 #main-menu-wrapper li.open .sub-menu a{
@@ -923,7 +923,7 @@ a:hover, a:focus {
   font-size: 10px;
   padding: 3px 7px;
   float: right;
-  margin: 15px 15px 0 0;
+  margin: 10px 15px 0 0;
   position: absolute;
   right: 30px;
 }
