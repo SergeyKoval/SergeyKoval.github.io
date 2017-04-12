@@ -5,7 +5,7 @@ import {MailboxComponent} from './mailbox/mailbox.component';
 import {AuthenticationService} from './common/service/authentication.service';
 import {MailsComponent} from './mailbox/mails/mails.component';
 import {ContactsComponent} from './mailbox/contacts/contacts.component';
-import {MailListComponent} from "./mailbox/mails/mail-list/mail-list.component";
+import {MailListComponent} from './mailbox/mails/mail-list/mail-list.component';
 
 export const routes: Route[] = [
   {
@@ -15,7 +15,7 @@ export const routes: Route[] = [
   },
   {
     path: 'authentication',
-    component: AuthenticationComponent,
+    component: AuthenticationComponent
   },
   {
     path: 'mailbox',
@@ -41,19 +41,19 @@ export const routes: Route[] = [
           },
           {
             path: 'inbox',
-            component: MailListComponent,
+            component: MailListComponent
           },
           {
             path: 'sent',
-            component: MailListComponent,
+            component: MailListComponent
           },
           {
             path: 'drafts',
-            component: MailListComponent,
+            component: MailListComponent
           },
           {
             path: 'trash',
-            component: MailListComponent,
+            component: MailListComponent
           },
           {
             path: '**',
@@ -72,11 +72,11 @@ export const routes: Route[] = [
           },
           {
             path: 'all',
-            component: MailListComponent,
+            component: MailListComponent
           },
           {
             path: ':group',
-            component: MailListComponent,
+            component: MailListComponent
           }
         ]
       },

@@ -1,12 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+import {UtilsService} from '../service/utils.service';
+
 @Pipe({
   name: 'activeMenu'
 })
 export class ActiveMenuPipe implements PipeTransform {
-  private static readonly PARENT_ROUTE_PATH: string = 'mailbox/';
+  public constructor(private _utilsService: UtilsService) {}
 
   public transform(value: string): string {
-    return `${ActiveMenuPipe.PARENT_ROUTE_PATH}${value}`;
+    return this._utilsService.joinUrl(value);
   }
 }

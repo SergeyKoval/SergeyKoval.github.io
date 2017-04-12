@@ -21,6 +21,8 @@ import { MailsComponent } from './mailbox/mails/mails.component';
 import { ContactsComponent } from './mailbox/contacts/contacts.component';
 import { MailListComponent } from './mailbox/mails/mail-list/mail-list.component';
 import { ActiveMenuPipe } from './common/pipes/active-menu.pipe';
+import {UtilsService} from './common/service/utils.service';
+import {MenuService} from './common/service/menu.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { ActiveMenuPipe } from './common/pipes/active-menu.pipe';
   ],
   providers: [
     AuthenticationService,
-    ProfileService
+    ProfileService,
+    UtilsService,
+    MenuService
   ],
   bootstrap: [MailboxAppComponent]
 })
