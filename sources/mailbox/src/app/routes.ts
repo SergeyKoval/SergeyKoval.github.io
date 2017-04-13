@@ -6,6 +6,7 @@ import {AuthenticationService} from './common/service/authentication.service';
 import {MailsComponent} from './mailbox/mails/mails.component';
 import {ContactsComponent} from './mailbox/contacts/contacts.component';
 import {MailListComponent} from './mailbox/mails/mail-list/mail-list.component';
+import {MenuService} from './common/service/menu.service';
 
 export const routes: Route[] = [
   {
@@ -41,19 +42,31 @@ export const routes: Route[] = [
           },
           {
             path: 'inbox',
-            component: MailListComponent
+            component: MailListComponent,
+            resolve: {
+              activeMenuItem: MenuService
+            }
           },
           {
             path: 'sent',
-            component: MailListComponent
+            component: MailListComponent,
+            resolve: {
+              activeMenuItem: MenuService
+            }
           },
           {
             path: 'drafts',
-            component: MailListComponent
+            component: MailListComponent,
+            resolve: {
+              activeMenuItem: MenuService
+            }
           },
           {
             path: 'trash',
-            component: MailListComponent
+            component: MailListComponent,
+            resolve: {
+              activeMenuItem: MenuService
+            }
           },
           {
             path: '**',
@@ -72,11 +85,17 @@ export const routes: Route[] = [
           },
           {
             path: 'all',
-            component: MailListComponent
+            component: MailListComponent,
+            resolve: {
+              activeMenuItem: MenuService
+            }
           },
           {
             path: ':group',
-            component: MailListComponent
+            component: MailListComponent,
+            resolve: {
+              activeMenuItem: MenuService
+            }
           }
         ]
       },

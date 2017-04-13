@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-import {MenuService} from '../../../common/service/menu.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'mailbox-mail-list',
@@ -10,9 +9,11 @@ import {MenuService} from '../../../common/service/menu.service';
 export class MailListComponent implements OnInit {
   public activeMenuItem: LeftMenuItem;
 
-  public constructor(private _menuService: MenuService) { }
+  public constructor(private _activatedRoute: ActivatedRoute) { }
 
   public ngOnInit(): void {
-    this.activeMenuItem = this._menuService.activeMenuItem;
+    this._activatedRoute.data.subscribe((data: {activeMenuItem: LeftMenuItem}) => {
+      this.activeMenuItem = data.activeMenuItem;
+    });
   }
 }

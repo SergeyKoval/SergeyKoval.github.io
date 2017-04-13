@@ -5,7 +5,7 @@
   </a>
   <ul class="sub-menu" *ngIf="router.isActive(leftMenuItem.href | activeMenu)">
     <li *ngFor="let subItem of leftMenuItem.subItems">
-      <a [routerLink]="[subItem.href]" routerLinkActive="active" (click)="activateMenuItem(subItem)">
+      <a [routerLink]="[subItem.href]" routerLinkActive="active">
         <i [ngClass]="subItem.icon" *ngIf="subItem.icon"></i>
         {{subItem.name}}
         <span *ngIf="subItem.countLabel" class="label label-accent">{{subItem.countLabel}}</span>
