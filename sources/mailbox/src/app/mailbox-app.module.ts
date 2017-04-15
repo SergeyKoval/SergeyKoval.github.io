@@ -23,6 +23,11 @@ import { MailListComponent } from './mailbox/mails/mail-list/mail-list.component
 import { ActiveMenuPipe } from './common/pipes/active-menu.pipe';
 import {UtilsService} from './common/service/utils.service';
 import {MenuService} from './common/service/menu.service';
+import {MailsService} from './common/service/mails.service';
+import { MailListItemComponent } from './mailbox/mails/mail-list/mail-list-item/mail-list-item.component';
+import {ContactsService} from './common/service/contacts.service';
+import { ContactPipe } from './common/pipes/contact.pipe';
+import { MailDatePipe } from './common/pipes/mail-date.pipe';
 
 @NgModule({
   declarations: [
@@ -37,7 +42,10 @@ import {MenuService} from './common/service/menu.service';
     MailsComponent,
     ContactsComponent,
     MailListComponent,
-    ActiveMenuPipe
+    ActiveMenuPipe,
+    MailListItemComponent,
+    ContactPipe,
+    MailDatePipe
   ],
   imports: [
     BrowserModule,
@@ -50,7 +58,9 @@ import {MenuService} from './common/service/menu.service';
     AuthenticationService,
     ProfileService,
     UtilsService,
-    MenuService
+    MenuService,
+    MailsService,
+    ContactsService
   ],
   bootstrap: [MailboxAppComponent]
 })

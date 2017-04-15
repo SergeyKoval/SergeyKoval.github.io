@@ -11,8 +11,9 @@ import 'rxjs/add/operator/first';
 
 @Injectable()
 export class AuthenticationService implements CanActivate, Resolve<Profile> {
+  private readonly _collectionName: string = '/profiles';
+
   private _authenticatedProfile: Profile;
-  private _collectionName: string = '/profiles';
   private _authenticationResult: Subject<string> = new Subject();
   private _authenticateQ: Observable<Profile[]>;
   private _authenticateQP: Subject<string> = new Subject();
@@ -67,5 +68,9 @@ export class AuthenticationService implements CanActivate, Resolve<Profile> {
 
   public get authenticationResult(): Subject<string> {
     return this._authenticationResult;
+  }
+
+  public get authenticatedProfile(): Profile {
+    return this._authenticatedProfile;
   }
 }

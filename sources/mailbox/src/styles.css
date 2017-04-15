@@ -8199,3 +8199,53 @@ table.dataTable tfoot th select, table.dataTable tfoot td select{
 table.dataTable.display tbody tr:first-child td {
   border-top: 1px solid #eeeeee;
 }
+
+.mail_list ul{
+  padding: 0;
+  margin: 0;
+}
+.mail_list ul li{
+  list-style: none;
+  font-size: 0;
+}
+
+.mail_list ul li{
+  border-bottom: 1px solid #cccccc;
+}
+
+.mail_list ul li:first-child{
+  border-top: 1px solid #cccccc;
+}
+
+.odd {
+  background-color: #f9f9f9;
+}
+
+.mail_list .row{
+  margin: 0;
+}
+
+.mail_list .row > span{
+  display: inline-block;
+  padding: 10px;
+  font-size: 14px;
+}
+.mail_list .checkbox-col{
+  width: 3%;
+}
+
+.mail_list .star-col{
+  width: 3%;
+}
+
+.mail_list .name-col{
+  width: 24%;
+}
+
+.mail_list .subj-col{
+  width: 60%;
+}
+
+.mail_list .date-col{
+  width: 10%;
+}

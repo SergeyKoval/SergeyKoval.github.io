@@ -4,5 +4,6 @@ type Profile = {
   lastName: string,
   jobPosition: string,
   photo: string,
-  password: string
+  password: string,
+  $key?: string
 };
