@@ -31,6 +31,7 @@ export class MailListItemComponent {
     if (!this.mail.read) {
       this.mail.read = true;
       this._mailService.updateMail(this.mail);
+      this._mailService.updateMenuLabels();
     }
 
     this._router.navigate(['mailbox/mails/view'], {queryParams: {id: this.mail.$key}});

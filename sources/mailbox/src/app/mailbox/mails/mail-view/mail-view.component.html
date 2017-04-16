@@ -25,7 +25,10 @@
               [queryParams]="{id: this.mail.$key}">
         <i class="fa fa-mail-forward icon-xs"></i>
       </button>
-      <button type="button" class="btn btn-default btn-icon" title="Trash"><i class="fa fa-trash-o icon-xs"></i></button>
+      <button type="button" class="btn btn-default btn-icon" title="Trash"
+              (click)="moveToTrash()" *ngIf="(mail.type !== 'TRASH')">
+        <i class="fa fa-trash-o icon-xs"></i>
+      </button>
     </div>
   </div>
 

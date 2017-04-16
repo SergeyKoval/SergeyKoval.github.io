@@ -11,13 +11,11 @@ export class MenuService implements Resolve<LeftMenuItem> {
   private _fullMenu: LeftMenuItem[] = LEFT_MENU_ITEMS;
   private _activeMenuItem: ReplaySubject<LeftMenuItem> = new ReplaySubject(1);
 
-  public constructor(private _utilsService: UtilsService) {}
-
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): LeftMenuItem {
     for (const menuItem of this._fullMenu) {
       for (const subMenuItem of menuItem.subItems) {
-        if (this._utilsService.sameUrl(state.url, subMenuItem)) {
-          this.activeMenuItem.next(subMenuItem);
+        if (UtilsService.sameUrl(state.url, subMenuItem)) {
+          this._activeMenuItem.next(subMenuItem);
           return subMenuItem;
         }
       }

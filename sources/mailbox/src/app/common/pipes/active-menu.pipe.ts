@@ -6,9 +6,7 @@ import {UtilsService} from '../service/utils.service';
   name: 'activeMenu'
 })
 export class ActiveMenuPipe implements PipeTransform {
-  public constructor(private _utilsService: UtilsService) {}
-
   public transform(value: string): string {
-    return this._utilsService.joinUrl(value);
+    return UtilsService.joinUrl(value);
   }
 }

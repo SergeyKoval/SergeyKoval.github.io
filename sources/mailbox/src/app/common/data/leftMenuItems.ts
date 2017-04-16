@@ -10,7 +10,7 @@ export const LEFT_MENU_ITEMS: LeftMenuItem[] = [
         name: 'Inbox',
         href: 'mails/inbox',
         icon: 'fa fa-inbox',
-        countLabel: 4
+        countLabel: 0
       },
       {
         type: 'SENT',
@@ -31,7 +31,7 @@ export const LEFT_MENU_ITEMS: LeftMenuItem[] = [
         name: 'Trash',
         href: 'mails/trash',
         icon: 'fa fa-trash-o',
-        countLabel: 2
+        countLabel: 0
       }
     ]
   },

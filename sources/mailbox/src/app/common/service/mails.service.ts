@@ -8,22 +8,25 @@ import {Observable} from 'rxjs/Observable';
 
 import {AuthenticationService} from './authentication.service';
 import {ContactsService} from './contacts.service';
+import {MenuService} from './menu.service';
 
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class MailsService implements Resolve<Mail> {
-  private readonly _collectionName: string = '/mails';
+  private readonly COLLECTION_NAME: string = '/mails';
 
   private _mailsQ: Observable<Mail[]>;
+  private _unreadMailsQ: Observable<Mail[]>;
   private _mailsQP: Subject<string> = new Subject();
 
   public constructor(
     private _authenticationService: AuthenticationService,
+    private _menuService: MenuService,
     private _formBuilder: FormBuilder,
     private _af: AngularFire
   ) {
-    this._mailsQ = this._af.database.list(this._collectionName, {
+    this._mailsQ = this._af.database.list(this.COLLECTION_NAME, {
       query: {
         orderByChild: 'ownerType',
         equalTo: this._mailsQP
@@ -31,6 +34,13 @@ export class MailsService implements Resolve<Mail> {
     }).map((mails: Mail[]) => {
       mails.sort((first: Mail, second: Mail) => second.time - first.time);
       return mails;
+    });
+
+    this._unreadMailsQ = this._af.database.list(this.COLLECTION_NAME, {
+      query: {
+        orderByChild: 'read',
+        equalTo: false
+      }
     });
   }
 
@@ -67,8 +77,8 @@ export class MailsService implements Resolve<Mail> {
 
     return this._formBuilder.group({
       owner: [owner],
-      type: ['SENT'],
-      ownerType: [`${owner}SENT`],
+      type: [''],
+      ownerType: [''],
       favorite: [false],
       read: [true],
       sender: [myContact],
@@ -80,7 +90,7 @@ export class MailsService implements Resolve<Mail> {
   }
 
   public getMail(id: string): FirebaseObjectObservable<Mail> {
-    return this._af.database.object(`${this._collectionName}/${id}`);
+    return this._af.database.object(`${this.COLLECTION_NAME}/${id}`);
   }
 
   public searchMails(type: string): void {
@@ -93,6 +103,30 @@ export class MailsService implements Resolve<Mail> {
 
   public updateMail(mail: Mail): firebase.Promise<void> {
     return this.getMail(mail.$key).update(mail);
+  }
+
+  public addMail(mail: Mail): void {
+    this._af.database.list(this.COLLECTION_NAME).push(mail);
+  }
+
+  public updateMenuLabels(): void {
+    let inboxMenuItem: LeftMenuItem;
+    let trashMenuItem: LeftMenuItem;
+    for (const menuItem of this._menuService.fullMenu) {
+      for (const subMenuItem of menuItem.subItems) {
+        if (subMenuItem.type === 'INBOX') {
+          inboxMenuItem = subMenuItem;
+        }
+        if (subMenuItem.type === 'TRASH') {
+          trashMenuItem = subMenuItem;
+        }
+      }
+    }
+
+    this._unreadMailsQ.subscribe((mails: Mail[]) => {
+      inboxMenuItem.countLabel = mails.filter((mail: Mail) => mail.type === 'INBOX').length;
+      trashMenuItem.countLabel = mails.filter((mail: Mail) => mail.type === 'TRASH').length;
+    });
   }
 
   private prepareReceivers(mail: Mail, myContact: Contact, typeAll: string): Contact[] {

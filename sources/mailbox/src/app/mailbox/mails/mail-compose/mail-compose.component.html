@@ -6,16 +6,13 @@
   <form [formGroup]="mailForm">
     <div class="col-xs-12 mail_view_title">
       <div class="pull-right">
-        <button type="button" class="btn btn-default btn-icon" data-color-class="primary" data-animate=" animated fadeIn"
-                data-toggle="tooltip" data-original-title="Send" data-placement="top">
+        <button type="button" class="btn btn-default btn-icon" title="Send" (click)="sendMail('SENT')">
           <i class="fa fa-paper-plane-o icon-xs"></i>
         </button>
-        <button type="button" class="btn btn-default btn-icon" data-color-class="primary" data-animate=" animated fadeIn"
-                data-toggle="tooltip" data-original-title="Save" data-placement="top">
+        <button type="button" class="btn btn-default btn-icon" title="Save and close" (click)="sendMail('DRAFT')">
           <i class="fa fa-floppy-o icon-xs"></i>
         </button>
-        <button type="button" class="btn btn-default btn-icon" data-color-class="primary" data-animate=" animated fadeIn"
-                data-toggle="tooltip" data-original-title="Trash" data-placement="top">
+        <button type="button" class="btn btn-default btn-icon" title="Delete" (click)="sendMail('TRASH')">
           <i class="fa fa-trash-o icon-xs"></i>
         </button>
       </div>
