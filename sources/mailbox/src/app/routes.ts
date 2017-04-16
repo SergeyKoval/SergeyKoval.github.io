@@ -7,6 +7,9 @@ import {MailsComponent} from './mailbox/mails/mails.component';
 import {ContactsComponent} from './mailbox/contacts/contacts.component';
 import {MailListComponent} from './mailbox/mails/mail-list/mail-list.component';
 import {MenuService} from './common/service/menu.service';
+import {MailViewComponent} from './mailbox/mails/mail-view/mail-view.component';
+import {MailsService} from './common/service/mails.service';
+import {MailComposeComponent} from './mailbox/mails/mail-compose/mail-compose.component';
 
 export const routes: Route[] = [
   {
@@ -39,6 +42,40 @@ export const routes: Route[] = [
             path: '',
             redirectTo: 'inbox',
             pathMatch: 'full'
+          },
+          {
+            path: 'view',
+            component: MailViewComponent,
+            resolve: {
+              mail: MailsService
+            }
+          },
+          {
+            path: 'compose',
+            component: MailComposeComponent,
+            data: {
+              type: 'Compose'
+            }
+          },
+          {
+            path: 'forward',
+            component: MailComposeComponent,
+            resolve: {
+              mail: MailsService
+            },
+            data: {
+              type: 'Forward'
+            }
+          },
+          {
+            path: 'reply',
+            component: MailComposeComponent,
+            resolve: {
+              mail: MailsService
+            },
+            data: {
+              type: 'Reply'
+            }
           },
           {
             path: 'inbox',

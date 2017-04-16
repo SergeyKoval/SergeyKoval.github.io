@@ -28,6 +28,8 @@ import { MailListItemComponent } from './mailbox/mails/mail-list/mail-list-item/
 import {ContactsService} from './common/service/contacts.service';
 import { ContactPipe } from './common/pipes/contact.pipe';
 import { MailDatePipe } from './common/pipes/mail-date.pipe';
+import { MailViewComponent } from './mailbox/mails/mail-view/mail-view.component';
+import { MailComposeComponent } from './mailbox/mails/mail-compose/mail-compose.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { MailDatePipe } from './common/pipes/mail-date.pipe';
     ActiveMenuPipe,
     MailListItemComponent,
     ContactPipe,
-    MailDatePipe
+    MailDatePipe,
+    MailViewComponent,
+    MailComposeComponent
   ],
   imports: [
     BrowserModule,

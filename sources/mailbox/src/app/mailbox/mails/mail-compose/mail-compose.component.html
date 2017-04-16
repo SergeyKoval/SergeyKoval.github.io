@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h3 class="mail_head">{{type}}</h3>
+  </div>
+
+  <form [formGroup]="mailForm">
+    <div class="col-xs-12 mail_view_title">
+      <div class="pull-right">
+        <button type="button" class="btn btn-default btn-icon" data-color-class="primary" data-animate=" animated fadeIn"
+                data-toggle="tooltip" data-original-title="Send" data-placement="top">
+          <i class="fa fa-paper-plane-o icon-xs"></i>
+        </button>
+        <button type="button" class="btn btn-default btn-icon" data-color-class="primary" data-animate=" animated fadeIn"
+                data-toggle="tooltip" data-original-title="Save" data-placement="top">
+          <i class="fa fa-floppy-o icon-xs"></i>
+        </button>
+        <button type="button" class="btn btn-default btn-icon" data-color-class="primary" data-animate=" animated fadeIn"
+                data-toggle="tooltip" data-original-title="Trash" data-placement="top">
+          <i class="fa fa-trash-o icon-xs"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group mail_cc_bcc">
+      <label class="form-label">To:</label>
+      <span class="desc">enter email and press whitespace, e.g. "ikoval@gmail.com "</span>
+    </div>
+
+    <div class="controls">
+      <div class="bootstrap-tagsinput">
+        <span class="tag label label-primary" *ngFor="let receiver of mailForm.controls.receivers.value">{{receiver | contact}}<span data-role="remove"></span></span>
+        <input type="text" placeholder="" size="1" style="width: 100px !important;">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Subject:</label>
+      <div class="controls">
+        <input type="text" class="form-control" [formControl]="mailForm.controls.topic">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Message:</label>
+      <textarea class="form-control" [formControl]="mailForm.controls.body"></textarea>
+    </div>
+  </form>
+</div>

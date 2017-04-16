@@ -35,7 +35,11 @@
       <div class="progress-bar progress-bar-striped active" role="progressbar">Loading...</div>
     </div>
     <ul>
-      <mailbox-mail-list-item *ngFor="let mail of mails; odd as odd" [mail]="mail" [odd]="odd"></mailbox-mail-list-item>
+      <mailbox-mail-list-item *ngFor="let mail of mails; odd as odd"
+                              [mail]="mail"
+                              [odd]="odd"
+                              (loading)="$event">
+      </mailbox-mail-list-item>
     </ul>
   </div>
 </div>

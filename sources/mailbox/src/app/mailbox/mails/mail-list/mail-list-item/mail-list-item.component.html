@@ -3,11 +3,11 @@
     <span class="checkbox-col"><input class="iCheck" type="checkbox"></span>
     <span class="star-col">
       <span class="star">
-        <i class='fa fa-star-o icon-xs icon-accent' [ngClass]="{'fa-star-o': !mail.favorite, 'fa-star': mail.favorite}"></i>
+        <i class='fa fa-star-o icon-xs icon-accent' [ngClass]="{'fa-star-o': !mail.favorite, 'fa-star': mail.favorite}" (click)="favorite()"></i>
       </span>
     </span>
-    <span class="name-col open-view" [ngClass]="{unread: !mail.read}">{{mail.sender | contact}}</span>
-    <span class="subj-col open-view"><span class="msgtext">{{mail.topic}}</span></span>
+    <span class="name-col open-view" [ngClass]="{unread: !mail.read}" (click)="openMail()">{{mail.sender | contact}}</span>
+    <span class="subj-col open-view"><span class="msgtext" (click)="openMail()">{{mail.topic}}</span></span>
     <span class="date-col open-view"><span class="msg_time">{{mail.time | mailDate}}</span></span>
   </div>
 </li>

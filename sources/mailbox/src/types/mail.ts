@@ -8,5 +8,6 @@ type Mail = {
   receivers: Contact[],
   topic: string,
   body: string,
-  time: number
+  time: number,
+  $key?: string
 };
