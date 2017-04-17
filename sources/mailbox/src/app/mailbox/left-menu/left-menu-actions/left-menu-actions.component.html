@@ -1,7 +1,7 @@
 <li class='menusection'></li>
 <div *ngIf="router.isActive('mails' | activeMenu)">
   <a class="btn btn-primary btn-block" [routerLink]="['/mailbox/mails/compose']">Compose</a>
-  <a class="btn btn-primary btn-block" href="" disabled="true">Delete</a>
+  <a class="btn btn-primary btn-block" (click)="deleteEmails()" [attr.disabled]="deleteEmailsEnabled ? null : 'true'">Delete</a>
 </div>
 <div *ngIf="router.isActive('contacts' | activeMenu)">
   <a class="btn btn-primary btn-block" href="">Add contact</a>

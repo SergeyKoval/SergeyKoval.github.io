@@ -15,6 +15,9 @@ export class MailListItemComponent {
   public odd: boolean;
   @Output()
   public loading: EventEmitter<boolean> = new EventEmitter();
+  @Output()
+  public checkedMail: EventEmitter<Mail> = new EventEmitter();
+  public checked: boolean = false;
 
   public constructor(
     private _mailService: MailsService,
@@ -35,5 +38,10 @@ export class MailListItemComponent {
     }
 
     this._router.navigate(['mailbox/mails/view'], {queryParams: {id: this.mail.$key}});
+  }
+
+  public chooseMail(): void {
+    this.checked = !this.checked;
+    this.checkedMail.emit(this.mail);
   }
 }

@@ -1,6 +1,8 @@
 <li [ngClass]="{odd: !odd}">
   <div class="row">
-    <span class="checkbox-col"><input class="iCheck" type="checkbox"></span>
+    <span class="checkbox-col">
+      <input class="iCheck" [checked]="checked" type="checkbox" (click)="chooseMail()" *ngIf="mail.type !== 'TRASH'">
+    </span>
     <span class="star-col">
       <span class="star">
         <i class='fa fa-star-o icon-xs icon-accent' [ngClass]="{'fa-star-o': !mail.favorite, 'fa-star': mail.favorite}" (click)="favorite()"></i>
