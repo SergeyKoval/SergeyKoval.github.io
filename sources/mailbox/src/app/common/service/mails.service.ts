@@ -129,6 +129,18 @@ export class MailsService implements Resolve<Mail> {
     });
   }
 
+  public generateMails(): void {
+    const time: number = new Date().getTime();
+    this.getMail('mail1').first().subscribe((mail: Mail) => {
+      const topic: string = mail.topic;
+      for (let _i: number = 1; _i < 40; _i++) {
+        mail.topic = topic + _i;
+        mail.time = time - _i * 1000 * 60 * 60;
+        this.addMail(mail);
+      }
+    });
+  }
+
   private prepareReceivers(mail: Mail, myContact: Contact, typeAll: string): Contact[] {
     if (!(typeAll === 'true')) {
       return [mail.sender];

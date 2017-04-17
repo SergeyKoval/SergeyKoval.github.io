@@ -30,6 +30,7 @@ import { ContactPipe } from './common/pipes/contact.pipe';
 import { MailDatePipe } from './common/pipes/mail-date.pipe';
 import { MailViewComponent } from './mailbox/mails/mail-view/mail-view.component';
 import { MailComposeComponent } from './mailbox/mails/mail-compose/mail-compose.component';
+import { MailPagingPipe } from './common/pipes/mail-paging.pipe';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { MailComposeComponent } from './mailbox/mails/mail-compose/mail-compose.
     ContactPipe,
     MailDatePipe,
     MailViewComponent,
-    MailComposeComponent
+    MailComposeComponent,
+    MailPagingPipe
   ],
   imports: [
     BrowserModule,

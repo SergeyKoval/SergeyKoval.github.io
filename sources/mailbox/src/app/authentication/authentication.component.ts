@@ -6,6 +6,7 @@ import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
 
 import {AuthenticationService} from '../common/service/authentication.service';
+import {MailsService} from '../common/service/mails.service';
 
 @Component({
   selector: 'mailbox-authentication',
@@ -19,6 +20,7 @@ export class AuthenticationComponent implements OnInit {
   public loading: boolean = false;
 
   public constructor(
+    // private _mailService: MailsService,
     private _authenticationService: AuthenticationService,
     private _router: Router
   ) {}
@@ -41,6 +43,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public authenticate(): void {
+    // this._mailService.generateMails();
     this.submitted = true;
 
     if (this.authenticationForm.valid) {

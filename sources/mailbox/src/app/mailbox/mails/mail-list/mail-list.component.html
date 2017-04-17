@@ -1,33 +1,33 @@
 <div class="row">
   <div class="col-xs-12">
     <h3 class="mail_head">{{activeMenuItem.name}} <sup *ngIf="activeMenuItem.countLabel">({{activeMenuItem.countLabel}})</sup></h3>
-    <i class='fa fa-search icon-primary icon-xs icon-accent mail_head_icon'></i>
   </div>
 
   <div class="col-xs-12">
     <div class="pull-left">
       <div class="btn-group mail_more_btn">
-        <button type="button" class="btn btn-default"> All</button>
+        <button type="button" class="btn btn-default">{{filterField}}</button>
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
-          <li><a href="#">All</a></li>
-          <li><a href="#">Read</a></li>
-          <li><a href="#">Unread</a></li>
-          <li><a href="#">Starred</a></li>
+          <li><a (click)="filterMails('All')">All</a></li>
+          <li><a (click)="filterMails('Read')">Read</a></li>
+          <li><a (click)="filterMails('Unread')">Unread</a></li>
+          <li><a (click)="filterMails('Starred')">Starred</a></li>
         </ul>
       </div>
     </div>
 
     <nav class='pull-right'>
       <ul class="pager mail_nav">
-        <li><a href="#"><i class='fa fa-arrow-left icon-xs icon-accent icon-secondary'></i></a></li>
-        <li><a href="#"><i class='fa fa-arrow-right icon-xs icon-accent icon-secondary'></i></a>
-        </li>
+        <li><a (click)="changePage(-1)"><i class='fa fa-arrow-left icon-xs icon-accent icon-secondary'></i></a></li>
+        <li><a (click)="changePage(1)"><i class='fa fa-arrow-right icon-xs icon-accent icon-secondary'></i></a></li>
       </ul>
     </nav>
-    <span class='pull-right mail_count_nav text-muted'><strong>1</strong> to <strong>20</strong> of 3247</span>
+    <span class='pull-right mail_count_nav text-muted'>
+      <strong>{{getFirstItemPage()}}</strong> to <strong>{{getLastItemPage()}}</strong> of {{mails?.length}}
+    </span>
   </div>
 
   <div class="mail_list col-xs-12">
@@ -35,7 +35,7 @@
       <div class="progress-bar progress-bar-striped active" role="progressbar">Loading...</div>
     </div>
     <ul>
-      <mailbox-mail-list-item *ngFor="let mail of mails; odd as odd"
+      <mailbox-mail-list-item *ngFor="let mail of mails | mailPaging:page; odd as odd"
                               [mail]="mail"
                               [odd]="odd"
                               (loading)="$event">
