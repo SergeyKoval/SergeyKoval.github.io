@@ -30,6 +30,7 @@ import { MailDatePipe } from './common/pipes/mail-date.pipe';
 import { MailViewComponent } from './mailbox/mails/mail-view/mail-view.component';
 import { MailComposeComponent } from './mailbox/mails/mail-compose/mail-compose.component';
 import { MailPagingPipe } from './common/pipes/mail-paging.pipe';
+import {LocalStorageModule} from 'angular-2-local-storage';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { MailPagingPipe } from './common/pipes/mail-paging.pipe';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    LocalStorageModule.withConfig({prefix: 'mailbox', storageType: 'localStorage'})
   ],
   providers: [
     AuthenticationService,
