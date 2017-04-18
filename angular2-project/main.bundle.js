@@ -1923,7 +1923,7 @@ var _a;
 
 var routes = [
     {
-        path: '',
+        path: 'angular2-project',
         redirectTo: 'authentication',
         pathMatch: 'full'
     },
