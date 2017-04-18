@@ -20,13 +20,16 @@
 
     <div class="form-group mail_cc_bcc">
       <label class="form-label">To:</label>
-      <span class="desc">enter email and press whitespace, e.g. "ikoval@gmail.com "</span>
+      <span class="desc">type email and press enter, e.g. "apalmer2q@oracle.com"</span>
+      <span class="validation-message">{{errorMessage}}</span>
     </div>
 
     <div class="controls">
       <div class="bootstrap-tagsinput">
-        <span class="tag label label-primary" *ngFor="let receiver of mailForm.controls.receivers.value">{{receiver | contact}}<span data-role="remove"></span></span>
-        <input type="text" placeholder="" size="1" style="width: 100px !important;">
+        <span class="tag label label-primary" *ngFor="let receiver of mailForm.controls.receivers.value">
+          {{receiver | contact}}<span data-role="remove" (click)="removeReceiver(receiver)"></span>
+        </span>
+        <input class="receiver" type="text" [formControl]="mailForm.controls.receiverEmail" (keyup.enter)="evaluateEmail()">
       </div>
     </div>
 

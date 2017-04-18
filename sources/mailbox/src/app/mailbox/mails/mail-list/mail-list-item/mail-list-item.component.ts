@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {MailsService} from '../../../../common/service/mails.service';
+import {Mail} from '../../../../common/model/Mail';
 
 @Component({
   selector: 'mailbox-mail-list-item',

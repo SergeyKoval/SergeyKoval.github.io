@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 
 import {AngularFire, FirebaseObjectObservable} from 'angularfire2';
@@ -7,8 +7,9 @@ import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 
 import {AuthenticationService} from './authentication.service';
-import {ContactsService} from './contacts.service';
 import {MenuService} from './menu.service';
+import {Contact} from '../model/Contact';
+import {Mail} from 'app/common/model/Mail';
 
 import 'rxjs/add/operator/map';
 
@@ -51,7 +52,7 @@ export class MailsService implements Resolve<Mail> {
   public initMailForm(type: string, mail: Mail, typeAll: string): FormGroup {
     const profile: Profile = this._authenticationService.authenticatedProfile;
     const owner: string = type === 'Compose' ? profile.$key : mail.owner;
-    const myContact: Contact = {email: profile.email, firstName: profile.firstName, lastName: profile.lastName};
+    const myContact: Contact = Contact.initFromProfile(profile);
 
     let topic: string;
     let body: string;
@@ -83,9 +84,10 @@ export class MailsService implements Resolve<Mail> {
       read: [true],
       sender: [myContact],
       time: [''],
-      body: [body],
-      topic: [topic],
+      body: [body, [Validators.required, Validators.minLength(3)]],
+      topic: [topic, [Validators.required, Validators.minLength(3)]],
       receivers: [receivers],
+      receiverEmail: ['', [Validators.email]]
     });
   }
 
@@ -146,7 +148,7 @@ export class MailsService implements Resolve<Mail> {
       return [mail.sender];
     }
 
-    const receivers: Contact[] = mail.receivers.filter((contact: Contact) => !ContactsService.isEqual(contact, myContact));
+    const receivers: Contact[] = mail.receivers.filter((contact: Contact) => !myContact.isEqual(contact));
     receivers.push(mail.sender);
     return receivers;
   }

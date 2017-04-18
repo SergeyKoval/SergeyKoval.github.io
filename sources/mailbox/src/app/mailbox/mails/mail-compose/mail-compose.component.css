@@ -2,7 +2,6 @@
   background-color: #fff;
   border: 1px solid #ccc;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  display: inline-block;
   padding: 4px 6px;
   margin-bottom: 10px;
   color: #555;
@@ -10,6 +9,7 @@
   max-width: 100%;
   line-height: 22px;
   cursor: text;
+  display: flex;
 }
 .bootstrap-tagsinput input {
   border: none;
@@ -46,4 +46,15 @@
 
 textarea {
   height: 300px;
+}
+
+.receiver {
+  width: 100px !important;
+  flex-grow: 100;
+}
+
+.validation-message {
+  float: right;
+  color: #c62828;
+  font-weight: bold;
 }

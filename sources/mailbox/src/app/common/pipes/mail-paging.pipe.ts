@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 import {UtilsService} from '../service/utils.service';
+import {Mail} from '../model/Mail';
 
 @Pipe({
   name: 'mailPaging'

@@ -7,6 +7,7 @@ import {UtilsService} from '../../../common/service/utils.service';
 import {Action} from '../../../common/model/Action';
 import {MenuService} from '../../../common/service/menu.service';
 import {MAIL_FILTER_ITEMS} from '../../../common/data/mailFilterItems';
+import {Mail} from '../../../common/model/Mail';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';

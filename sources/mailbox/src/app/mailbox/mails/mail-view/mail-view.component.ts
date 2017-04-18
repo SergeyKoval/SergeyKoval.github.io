@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MailsService} from '../../../common/service/mails.service';
 import {UtilsService} from '../../../common/service/utils.service';
 import {MenuService} from '../../../common/service/menu.service';
+import {Mail} from '../../../common/model/Mail';
 
 @Component({
   selector: 'mailbox-mail-view',

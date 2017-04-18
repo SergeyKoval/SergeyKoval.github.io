@@ -11,7 +11,7 @@
     <span class="name-col open-view"
           [ngClass]="{unread: !mail.read}"
           (click)="openMail()">
-      <span *ngIf="mail.type !== 'SENT'; else overrideSender">{{mail.sender | contact}}</span>
+      <span *ngIf="mail.type !== 'SENT' && mail.type !== 'DRAFT'; else overrideSender">{{mail.sender | contact}}</span>
     </span>
     <span class="subj-col open-view"><span class="msgtext" (click)="openMail()">{{mail.topic}}</span></span>
     <span class="date-col open-view"><span class="msg_time">{{mail.time | mailDate}}</span></span>
