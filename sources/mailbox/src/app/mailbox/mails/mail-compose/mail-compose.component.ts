@@ -23,7 +23,7 @@ export class MailComposeComponent implements OnInit {
   public type: string;
   public mailForm: FormGroup;
   public errorMessage: string;
-  private _previousActiveMenuItem: LeftMenuItem;
+  private _previousActiveMenuItem: MenuItem;
 
   public constructor(
     private _activatedRoute: ActivatedRoute,
@@ -42,7 +42,7 @@ export class MailComposeComponent implements OnInit {
       this.mailForm = this._mailService.initMailForm(this.type, result[0].mail, result[1].all);
     });
 
-    this._menuService.activeMenuItem.subscribe((activeMenuItem: LeftMenuItem) => {
+    this._menuService.activeMenuItem.subscribe((activeMenuItem: MenuItem) => {
       this._previousActiveMenuItem = activeMenuItem;
     });
   }

@@ -21,7 +21,7 @@ import 'rxjs/add/operator/debounce';
 })
 export class MailListComponent implements OnInit {
   public mailFilterItems: string[] = MAIL_FILTER_ITEMS;
-  public activeMenuItem: LeftMenuItem;
+  public activeMenuItem: MenuItem;
   public mails: Mail[];
   public loading: boolean = true;
   public filterField: string = 'All';
@@ -37,7 +37,7 @@ export class MailListComponent implements OnInit {
 
   public ngOnInit(): void {
     this._activatedRoute.data
-      .do((data: {activeMenuItem: LeftMenuItem}) => {
+      .do((data: {activeMenuItem: MenuItem}) => {
         this.activeMenuItem = data.activeMenuItem;
       })
       .switchMapTo(this._mailService.getMails())

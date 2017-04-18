@@ -112,8 +112,8 @@ export class MailsService implements Resolve<Mail> {
   }
 
   public updateMenuLabels(): void {
-    let inboxMenuItem: LeftMenuItem;
-    let trashMenuItem: LeftMenuItem;
+    let inboxMenuItem: MenuItem;
+    let trashMenuItem: MenuItem;
     for (const menuItem of this._menuService.fullMenu) {
       for (const subMenuItem of menuItem.subItems) {
         if (subMenuItem.type === 'INBOX') {

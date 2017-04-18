@@ -13,7 +13,7 @@ import {Mail} from '../../../common/model/Mail';
 })
 export class MailViewComponent implements OnInit {
   public mail: Mail;
-  private _previousActiveMenuItem: LeftMenuItem;
+  private _previousActiveMenuItem: MenuItem;
 
   public constructor(
     private _activatedRoute: ActivatedRoute,
@@ -27,7 +27,7 @@ export class MailViewComponent implements OnInit {
       this.mail = data.mail;
     });
 
-    this._menuService.activeMenuItem.subscribe((activeMenuItem: LeftMenuItem) => {
+    this._menuService.activeMenuItem.subscribe((activeMenuItem: MenuItem) => {
       this._previousActiveMenuItem = activeMenuItem;
     });
   }

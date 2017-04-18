@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
 })
 export class MenuItemComponent {
   @Input()
-  public leftMenuItem: LeftMenuItem;
+  public menuItem: MenuItem;
 
   public constructor(public router: Router) {}
 }

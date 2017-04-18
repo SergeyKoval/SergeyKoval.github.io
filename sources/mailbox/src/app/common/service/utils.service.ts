@@ -8,7 +8,7 @@ export class UtilsService {
     return `${UtilsService.PARENT_ROUTE_PATH}${urlSuffix}`;
   }
 
-  public static sameUrl(url: string, menuItem: LeftMenuItem): boolean {
+  public static sameUrl(url: string, menuItem: MenuItem): boolean {
     return url === menuItem.href || url === UtilsService.joinUrl(menuItem.href);
   }
 

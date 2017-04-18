@@ -1,4 +1,4 @@
-export const LEFT_MENU_ITEMS: LeftMenuItem[] = [
+export const MENU_ITEMS: MenuItem[] = [
   {
     type: 'MAIL',
     name: 'Mails',

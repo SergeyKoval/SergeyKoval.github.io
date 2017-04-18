@@ -4,17 +4,17 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {Subject} from 'rxjs/Subject';
 
-import {LEFT_MENU_ITEMS} from '../data/leftMenuItems';
+import {MENU_ITEMS} from '../data/menuItems';
 import {UtilsService} from './utils.service';
 import {Action} from '../model/Action';
 
 @Injectable()
-export class MenuService implements Resolve<LeftMenuItem> {
-  private _fullMenu: LeftMenuItem[] = LEFT_MENU_ITEMS;
-  private _activeMenuItem: ReplaySubject<LeftMenuItem> = new ReplaySubject(1);
+export class MenuService implements Resolve<MenuItem> {
+  private _fullMenu: MenuItem[] = MENU_ITEMS;
+  private _activeMenuItem: ReplaySubject<MenuItem> = new ReplaySubject(1);
   private _deleteEmails: Subject<Action> = new Subject();
 
-  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): LeftMenuItem {
+  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MenuItem {
     this._deleteEmails.next(Action.DISABLE);
     for (const menuItem of this._fullMenu) {
       for (const subMenuItem of menuItem.subItems) {
@@ -26,11 +26,11 @@ export class MenuService implements Resolve<LeftMenuItem> {
     }
   }
 
-  public get fullMenu(): LeftMenuItem[] {
+  public get fullMenu(): MenuItem[] {
     return this._fullMenu;
   }
 
-  public get activeMenuItem(): ReplaySubject<LeftMenuItem> {
+  public get activeMenuItem(): ReplaySubject<MenuItem> {
     return this._activeMenuItem;
   }
 
