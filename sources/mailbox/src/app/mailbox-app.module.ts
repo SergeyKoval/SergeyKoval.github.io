@@ -8,7 +8,6 @@ import {AngularFireModule} from 'angularfire2';
 import { MailboxAppComponent } from './mailbox-app.component';
 import { ProfileComponent } from './mailbox/profile/profile.component';
 import {firebaseConfig} from '../environments/firebase.config';
-import {ProfileService} from './common/service/profile.service';
 import { LeftMenuComponent } from './mailbox/left-menu/left-menu.component';
 import { LeftMenuItemComponent } from './mailbox/left-menu/left-menu-item/left-menu-item.component';
 import { LeftMenuActionsComponent } from './mailbox/left-menu/left-menu-actions/left-menu-actions.component';
@@ -62,7 +61,6 @@ import { MailPagingPipe } from './common/pipes/mail-paging.pipe';
   ],
   providers: [
     AuthenticationService,
-    ProfileService,
     UtilsService,
     MenuService,
     MailsService,
