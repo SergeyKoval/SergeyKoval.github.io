@@ -2,11 +2,11 @@ import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'mailbox-left-menu-item',
-  templateUrl: './left-menu-item.component.html',
-  styleUrls: ['./left-menu-item.component.css']
+  selector: 'mailbox-menu-item',
+  templateUrl: './menu-item.component.html',
+  styleUrls: ['./menu-item.component.css']
 })
-export class LeftMenuItemComponent {
+export class MenuItemComponent {
   @Input()
   public leftMenuItem: LeftMenuItem;
 

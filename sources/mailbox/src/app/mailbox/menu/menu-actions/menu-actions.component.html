@@ -4,7 +4,7 @@
   <a class="btn btn-primary btn-block" (click)="deleteEmails()" [attr.disabled]="deleteEmailsEnabled ? null : 'true'">Delete</a>
 </div>
 <div *ngIf="router.isActive('contacts' | activeMenu)">
-  <a class="btn btn-primary btn-block" href="">Add contact</a>
-  <a class="btn btn-primary btn-block" href="">Add group</a>
-  <a class="btn btn-primary btn-block" href="">Delete</a>
+  <a class="btn btn-primary btn-block" disabled="true">Add contact</a>
+  <a class="btn btn-primary btn-block" disabled="true">Add group</a>
+  <a class="btn btn-primary btn-block" disabled="true">Delete</a>
 </div>

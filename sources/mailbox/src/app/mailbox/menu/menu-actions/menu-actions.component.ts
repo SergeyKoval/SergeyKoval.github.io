@@ -5,11 +5,11 @@ import {Action} from 'app/common/model/Action';
 import {MenuService} from '../../../common/service/menu.service';
 
 @Component({
-  selector: 'mailbox-left-menu-actions',
-  templateUrl: './left-menu-actions.component.html',
-  styleUrls: ['./left-menu-actions.component.css']
+  selector: 'mailbox-menu-actions',
+  templateUrl: './menu-actions.component.html',
+  styleUrls: ['./menu-actions.component.css']
 })
-export class LeftMenuActionsComponent implements OnInit {
+export class MenuActionsComponent implements OnInit {
   public deleteEmailsEnabled: boolean = false;
 
   public constructor(

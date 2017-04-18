@@ -3,11 +3,11 @@ import {Component, OnInit} from '@angular/core';
 import {MenuService} from '../../common/service/menu.service';
 
 @Component({
-  selector: 'mailbox-left-menu',
-  templateUrl: './left-menu.component.html',
-  styleUrls: ['./left-menu.component.css']
+  selector: 'mailbox-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.css']
 })
-export class LeftMenuComponent implements OnInit {
+export class MenuComponent implements OnInit {
   public leftMenuItems: LeftMenuItem[];
 
   public constructor(private _menuService: MenuService) {}

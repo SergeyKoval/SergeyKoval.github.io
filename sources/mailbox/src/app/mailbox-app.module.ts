@@ -8,9 +8,9 @@ import {AngularFireModule} from 'angularfire2';
 import { MailboxAppComponent } from './mailbox-app.component';
 import { ProfileComponent } from './mailbox/profile/profile.component';
 import {firebaseConfig} from '../environments/firebase.config';
-import { LeftMenuComponent } from './mailbox/left-menu/left-menu.component';
-import { LeftMenuItemComponent } from './mailbox/left-menu/left-menu-item/left-menu-item.component';
-import { LeftMenuActionsComponent } from './mailbox/left-menu/left-menu-actions/left-menu-actions.component';
+import { MenuComponent } from './mailbox/menu/menu.component';
+import { MenuItemComponent } from './mailbox/menu/menu-item/menu-item.component';
+import { MenuActionsComponent } from './mailbox/menu/menu-actions/menu-actions.component';
 import {routes} from './routes';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { MailboxComponent } from './mailbox/mailbox.component';
@@ -35,9 +35,9 @@ import { MailPagingPipe } from './common/pipes/mail-paging.pipe';
   declarations: [
     MailboxAppComponent,
     ProfileComponent,
-    LeftMenuComponent,
-    LeftMenuItemComponent,
-    LeftMenuActionsComponent,
+    MenuComponent,
+    MenuItemComponent,
+    MenuActionsComponent,
     AuthenticationComponent,
     InputComponent,
     MailboxComponent,
