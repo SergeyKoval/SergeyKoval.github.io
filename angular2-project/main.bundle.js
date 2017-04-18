@@ -368,6 +368,7 @@ var AuthenticationService = (function () {
         }).first();
     }
     AuthenticationService.prototype.canActivate = function (route, state) {
+        console.log('canActivate');
         this.checkAuthentication();
         return this._authenticated.asObservable();
     };
@@ -1930,6 +1931,11 @@ var routes = [
     {
         path: 'authentication',
         component: __WEBPACK_IMPORTED_MODULE_0__authentication_authentication_component__["a" /* AuthenticationComponent */]
+    },
+    {
+        path: 'angular2-project/mailbox',
+        redirectTo: 'mailbox',
+        pathMatch: 'full'
     },
     {
         path: 'mailbox',
