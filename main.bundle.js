@@ -894,7 +894,7 @@ var MailComposeComponent = (function () {
         formControls.type.setValue(type);
         formControls.ownerType.setValue("" + formControls.owner.value + type);
         this._mailService.addMail(this.mailForm.value);
-        this._router.navigate([__WEBPACK_IMPORTED_MODULE_5_app_common_service_utils_service__["a" /* UtilsService */].joinUrl(this._previousActiveMenuItem.href)]);
+        this._router.navigate([this._previousActiveMenuItem ? __WEBPACK_IMPORTED_MODULE_5_app_common_service_utils_service__["a" /* UtilsService */].joinUrl(this._previousActiveMenuItem.href) : '/mailbox']);
     };
     return MailComposeComponent;
 }());

@@ -116,6 +116,6 @@ export class MailComposeComponent implements OnInit, OnDestroy {
     formControls.type.setValue(type);
     formControls.ownerType.setValue(`${formControls.owner.value}${type}`);
     this._mailService.addMail(this.mailForm.value);
-    this._router.navigate([UtilsService.joinUrl(this._previousActiveMenuItem.href)]);
+    this._router.navigate([this._previousActiveMenuItem ? UtilsService.joinUrl(this._previousActiveMenuItem.href) : '/mailbox']);
   }
 }
