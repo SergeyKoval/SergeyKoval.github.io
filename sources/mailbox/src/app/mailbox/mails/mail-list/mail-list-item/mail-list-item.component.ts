@@ -15,9 +15,10 @@ export class MailListItemComponent {
   @Input()
   public odd: boolean;
   @Output()
-  public loading: EventEmitter<boolean> = new EventEmitter();
+  public loading$: EventEmitter<boolean> = new EventEmitter();
   @Output()
   public checkedMail: EventEmitter<Mail> = new EventEmitter();
+
   public checked: boolean = false;
 
   public constructor(
@@ -26,9 +27,9 @@ export class MailListItemComponent {
   ) {}
 
   public favorite(): void {
-    this.loading.emit(true);
+    this.loading$.emit(true);
     this.mail.favorite = !this.mail.favorite;
-    this._mailService.updateMail(this.mail).then(() => this.loading.emit(false));
+    this._mailService.updateMail(this.mail).then(() => this.loading$.emit(false));
   }
 
   public openMail(): void {

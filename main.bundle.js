@@ -40,18 +40,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 var MenuService = (function () {
     function MenuService() {
-        this._fullMenu = __WEBPACK_IMPORTED_MODULE_3__data_menuItems__["a" /* MENU_ITEMS */];
-        this._activeMenuItem = new __WEBPACK_IMPORTED_MODULE_1_rxjs_ReplaySubject__["ReplaySubject"](1);
-        this._deleteEmails = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
+        this._FULL_MENU = __WEBPACK_IMPORTED_MODULE_3__data_menuItems__["a" /* MENU_ITEMS */];
+        this._ACTIVE_MENU_ITEM$$ = new __WEBPACK_IMPORTED_MODULE_1_rxjs_ReplaySubject__["ReplaySubject"](1);
+        this._DELETE_EMAILS_ACTION$$ = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
     }
     MenuService.prototype.resolve = function (route, state) {
-        this._deleteEmails.next(__WEBPACK_IMPORTED_MODULE_5__model_Action__["a" /* Action */].DISABLE);
-        for (var _i = 0, _a = this._fullMenu; _i < _a.length; _i++) {
+        this._DELETE_EMAILS_ACTION$$.next(__WEBPACK_IMPORTED_MODULE_5__model_Action__["a" /* Action */].DISABLE);
+        for (var _i = 0, _a = this._FULL_MENU; _i < _a.length; _i++) {
             var menuItem = _a[_i];
             for (var _b = 0, _c = menuItem.subItems; _b < _c.length; _b++) {
                 var subMenuItem = _c[_b];
                 if (__WEBPACK_IMPORTED_MODULE_4__utils_service__["a" /* UtilsService */].sameUrl(state.url, subMenuItem)) {
-                    this._activeMenuItem.next(subMenuItem);
+                    this._ACTIVE_MENU_ITEM$$.next(subMenuItem);
                     return subMenuItem;
                 }
             }
@@ -59,21 +59,21 @@ var MenuService = (function () {
     };
     Object.defineProperty(MenuService.prototype, "fullMenu", {
         get: function () {
-            return this._fullMenu;
+            return this._FULL_MENU;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(MenuService.prototype, "activeMenuItem", {
+    Object.defineProperty(MenuService.prototype, "activeMenuItem$$", {
         get: function () {
-            return this._activeMenuItem;
+            return this._ACTIVE_MENU_ITEM$$;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(MenuService.prototype, "deleteEmails", {
+    Object.defineProperty(MenuService.prototype, "deleteEmailsAction$$", {
         get: function () {
-            return this._deleteEmails;
+            return this._DELETE_EMAILS_ACTION$$;
         },
         enumerable: true,
         configurable: true
@@ -104,7 +104,7 @@ MenuService = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Subject__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__authentication_service__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__menu_service__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Contact__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Contact__ = __webpack_require__(79);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_map__ = __webpack_require__(106);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_map__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MailsService; });
@@ -131,18 +131,18 @@ var MailsService = (function () {
         this._menuService = _menuService;
         this._formBuilder = _formBuilder;
         this._af = _af;
-        this.COLLECTION_NAME = '/mails';
-        this._mailsQP = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Subject__["Subject"]();
-        this._mailsQ = this._af.database.list(this.COLLECTION_NAME, {
+        this._COLLECTION_NAME = '/mails';
+        this._MAILS_QP$$ = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Subject__["Subject"]();
+        this._MAILS_Q$ = this._af.database.list(this._COLLECTION_NAME, {
             query: {
                 orderByChild: 'ownerType',
-                equalTo: this._mailsQP
+                equalTo: this._MAILS_QP$$
             }
         }).map(function (mails) {
             mails.sort(function (first, second) { return second.time - first.time; });
             return mails;
         });
-        this._unreadMailsQ = this._af.database.list(this.COLLECTION_NAME, {
+        this._UNREAD_MAILS_Q$ = this._af.database.list(this._COLLECTION_NAME, {
             query: {
                 orderByChild: 'read',
                 equalTo: false
@@ -154,7 +154,6 @@ var MailsService = (function () {
     };
     MailsService.prototype.initMailForm = function (type, mail, typeAll) {
         var profile = this._authenticationService.authenticatedProfile;
-        var owner = type === 'Compose' ? profile.$key : mail.owner;
         var myContact = __WEBPACK_IMPORTED_MODULE_6__model_Contact__["a" /* Contact */].initFromProfile(profile);
         var topic;
         var body;
@@ -177,7 +176,7 @@ var MailsService = (function () {
                 break;
         }
         return this._formBuilder.group({
-            owner: [owner],
+            owner: [profile.$key],
             type: [''],
             ownerType: [''],
             favorite: [false],
@@ -191,19 +190,19 @@ var MailsService = (function () {
         });
     };
     MailsService.prototype.getMail = function (id) {
-        return this._af.database.object(this.COLLECTION_NAME + "/" + id);
+        return this._af.database.object(this._COLLECTION_NAME + "/" + id);
     };
     MailsService.prototype.searchMails = function (type) {
-        this._mailsQP.next("" + this._authenticationService.authenticatedProfile.$key + type);
+        this._MAILS_QP$$.next("" + this._authenticationService.authenticatedProfile.$key + type);
     };
     MailsService.prototype.getMails = function () {
-        return this._mailsQ;
+        return this._MAILS_Q$;
     };
     MailsService.prototype.updateMail = function (mail) {
         return this.getMail(mail.$key).update(mail);
     };
     MailsService.prototype.addMail = function (mail) {
-        this._af.database.list(this.COLLECTION_NAME).push(mail);
+        this._af.database.list(this._COLLECTION_NAME).push(mail);
     };
     MailsService.prototype.updateMenuLabels = function () {
         var inboxMenuItem;
@@ -220,9 +219,10 @@ var MailsService = (function () {
                 }
             }
         }
-        this._unreadMailsQ.subscribe(function (mails) {
+        var subscription = this._UNREAD_MAILS_Q$.subscribe(function (mails) {
             inboxMenuItem.countLabel = mails.filter(function (mail) { return mail.type === 'INBOX'; }).length;
             trashMenuItem.countLabel = mails.filter(function (mail) { return mail.type === 'TRASH'; }).length;
+            subscription.unsubscribe();
         });
     };
     MailsService.prototype.generateMails = function () {
@@ -322,14 +322,14 @@ var UtilsService_1;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular_2_local_storage__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular_2_local_storage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_angular_2_local_storage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ts_md5_dist_md5__ = __webpack_require__(282);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ts_md5_dist_md5__ = __webpack_require__(284);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ts_md5_dist_md5___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ts_md5_dist_md5__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angularfire2__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_Subject__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_Subject__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_ReplaySubject__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_ReplaySubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_ReplaySubject__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_first__ = __webpack_require__(248);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_first__ = __webpack_require__(250);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_first___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_first__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -356,50 +356,51 @@ var AuthenticationService = (function () {
         this._formBuilder = _formBuilder;
         this._af = _af;
         this._router = _router;
-        this.COLLECTION_NAME = '/profiles';
-        this._authenticated = new __WEBPACK_IMPORTED_MODULE_7_rxjs_ReplaySubject__["ReplaySubject"](1);
-        this._authenticationResult = new __WEBPACK_IMPORTED_MODULE_6_rxjs_Subject__["Subject"]();
-        this._authenticateQP = new __WEBPACK_IMPORTED_MODULE_6_rxjs_Subject__["Subject"]();
-        this._authenticateQ = this._af.database.list(this.COLLECTION_NAME, {
+        this._COLLECTION_NAME = '/profiles';
+        this._AUTHENTICATED$$ = new __WEBPACK_IMPORTED_MODULE_7_rxjs_ReplaySubject__["ReplaySubject"](1);
+        this._AUTHENTICATION_RESULT$$ = new __WEBPACK_IMPORTED_MODULE_6_rxjs_Subject__["Subject"]();
+        this._AUTHENTICATE_QP$$ = new __WEBPACK_IMPORTED_MODULE_6_rxjs_Subject__["Subject"]();
+        this._AUTHENTICATE_Q$ = this._af.database.list(this._COLLECTION_NAME, {
             query: {
                 orderByChild: 'email',
-                equalTo: this._authenticateQP
+                equalTo: this._AUTHENTICATE_QP$$
             }
         }).first();
     }
     AuthenticationService.prototype.canActivate = function (route, state) {
         this.checkAuthentication();
-        return this._authenticated.asObservable();
+        return this._AUTHENTICATED$$.asObservable();
     };
     AuthenticationService.prototype.resolve = function (route, state) {
         return this._authenticatedProfile;
     };
     AuthenticationService.prototype.initAuthenticationForm = function () {
         return this._formBuilder.group({
-            email: ['ikoval@gmail.com', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].email, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].minLength(3)]],
-            password: ['12345', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].minLength(3)]]
+            email: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].email, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].minLength(3)]],
+            password: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].minLength(3)]]
         });
     };
     AuthenticationService.prototype.authenticate = function (credentials) {
         var _this = this;
-        this._authenticateQ.subscribe(function (profiles) {
+        var subscription = this._AUTHENTICATE_Q$.subscribe(function (profiles) {
             if (!profiles[0]) {
-                _this._authenticationResult.next('User doesn\'t exist');
+                _this._AUTHENTICATION_RESULT$$.next('User doesn\'t exist');
             }
             else if (__WEBPACK_IMPORTED_MODULE_4_ts_md5_dist_md5__["Md5"].hashStr(credentials.password) !== profiles[0].password) {
-                _this._authenticationResult.next('Invalid password');
+                _this._AUTHENTICATION_RESULT$$.next('Invalid password');
             }
             else {
                 _this._authenticatedProfile = profiles[0];
                 _this._localStorageService.set('AUTHENTICATION_PROFILE', _this._authenticatedProfile.$key);
-                _this._authenticationResult.next(null);
+                _this._AUTHENTICATION_RESULT$$.next(null);
             }
+            subscription.unsubscribe();
         });
-        this._authenticateQP.next(credentials.email);
+        this._AUTHENTICATE_QP$$.next(credentials.email);
     };
-    Object.defineProperty(AuthenticationService.prototype, "authenticationResult", {
+    Object.defineProperty(AuthenticationService.prototype, "authenticationResult$$", {
         get: function () {
-            return this._authenticationResult;
+            return this._AUTHENTICATION_RESULT$$;
         },
         enumerable: true,
         configurable: true
@@ -414,7 +415,7 @@ var AuthenticationService = (function () {
     AuthenticationService.prototype.checkAuthentication = function () {
         var _this = this;
         if (this.authenticatedProfile) {
-            this._authenticated.next(true);
+            this._AUTHENTICATED$$.next(true);
             return;
         }
         var authenticationProfile = this._localStorageService.get('AUTHENTICATION_PROFILE');
@@ -422,18 +423,20 @@ var AuthenticationService = (function () {
             this.failAuthentication();
             return;
         }
-        this._af.database.object(this.COLLECTION_NAME + "/" + authenticationProfile).first().subscribe(function (profile) {
+        var subscription = this._af.database.object(this._COLLECTION_NAME + "/" + authenticationProfile).first()
+            .subscribe(function (profile) {
             if (!profile) {
                 _this.failAuthentication();
                 return;
             }
             _this._authenticatedProfile = profile;
-            _this._authenticated.next(true);
+            _this._AUTHENTICATED$$.next(true);
+            subscription.unsubscribe();
         });
     };
     AuthenticationService.prototype.failAuthentication = function () {
         this._router.navigate(['authenticate']);
-        this._authenticated.next(false);
+        this._AUTHENTICATED$$.next(false);
     };
     return AuthenticationService;
 }());
@@ -497,8 +500,7 @@ var Action;
 /* 75 */,
 /* 76 */,
 /* 77 */,
-/* 78 */,
-/* 79 */
+/* 78 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -530,18 +532,15 @@ var AuthenticationComponent = (function () {
     AuthenticationComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.authenticationForm = this._authenticationService.initAuthenticationForm();
-        var authenticationResult = this._authenticationService.authenticationResult$$;
-        var subscribe = authenticationResult.subscribe(function (result) {
+        var authenticationResult = this._authenticationService.authenticationResult$$.subscribe(function (result) {
             _this.loading = false;
             if (result) {
                 _this.errorMessage = result;
+                return;
             }
-            else {
-                _this.errorMessage = null;
-                subscribe.unsubscribe();
-                authenticationResult.complete();
-                _this._router.navigate(['/mailbox']);
-            }
+            _this.errorMessage = null;
+            authenticationResult.unsubscribe();
+            _this._router.navigate(['/mailbox']);
         });
     };
     AuthenticationComponent.prototype.authenticate = function () {
@@ -557,7 +556,7 @@ var AuthenticationComponent = (function () {
 AuthenticationComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'mailbox-authentication',
-        template: __webpack_require__(227),
+        template: __webpack_require__(228),
         styles: [__webpack_require__(208)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__common_service_authentication_service__["a" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__common_service_authentication_service__["a" /* AuthenticationService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _b || Object])
@@ -567,7 +566,7 @@ var _a, _b;
 //# sourceMappingURL=authentication.component.js.map
 
 /***/ }),
-/* 80 */
+/* 79 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -596,7 +595,7 @@ var Contact = (function () {
 //# sourceMappingURL=Contact.js.map
 
 /***/ }),
-/* 81 */
+/* 80 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -635,7 +634,7 @@ var MailPagingPipe_1;
 //# sourceMappingURL=mail-paging.pipe.js.map
 
 /***/ }),
-/* 82 */
+/* 81 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -660,20 +659,20 @@ var ContactsService = (function () {
     function ContactsService(_af) {
         this._af = _af;
         this._COLLECTION_NAME = '/contacts';
-        this._CONTACT_QP = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
-        this._CONTACT_Q = this._af.database.list(this._COLLECTION_NAME, {
+        this._CONTACT_QP$$ = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
+        this._CONTACT_Q$ = this._af.database.list(this._COLLECTION_NAME, {
             query: {
                 orderByChild: 'email',
-                equalTo: this._CONTACT_QP
+                equalTo: this._CONTACT_QP$$
             }
         }).first();
     }
     ContactsService.prototype.searchContact = function (email) {
-        this._CONTACT_QP.next(email);
+        this._CONTACT_QP$$.next(email);
     };
     Object.defineProperty(ContactsService.prototype, "contactSearch", {
         get: function () {
-            return this._CONTACT_Q;
+            return this._CONTACT_Q$;
         },
         enumerable: true,
         configurable: true
@@ -692,6 +691,35 @@ var _a;
 //# sourceMappingURL=contacts.service.js.map
 
 /***/ }),
+/* 82 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactsGroupComponent; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var ContactsGroupComponent = (function () {
+    function ContactsGroupComponent() {
+    }
+    return ContactsGroupComponent;
+}());
+ContactsGroupComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: 'mailbox-contacts-group',
+        template: __webpack_require__(231),
+        styles: [__webpack_require__(211)]
+    })
+], ContactsGroupComponent);
+
+//# sourceMappingURL=contacts-group.component.js.map
+
+/***/ }),
 /* 83 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -704,24 +732,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 var ContactsComponent = (function () {
     function ContactsComponent() {
     }
-    ContactsComponent.prototype.ngOnInit = function () {
-    };
     return ContactsComponent;
 }());
 ContactsComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'mailbox-contacts',
-        template: __webpack_require__(230),
-        styles: [__webpack_require__(211)]
-    }),
-    __metadata("design:paramtypes", [])
+        template: __webpack_require__(232),
+        styles: [__webpack_require__(212)]
+    })
 ], ContactsComponent);
 
 //# sourceMappingURL=contacts.component.js.map
@@ -748,8 +770,8 @@ var MailboxComponent = (function () {
 MailboxComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'mailbox-mailbox',
-        template: __webpack_require__(231),
-        styles: [__webpack_require__(212)]
+        template: __webpack_require__(233),
+        styles: [__webpack_require__(213)]
     })
 ], MailboxComponent);
 
@@ -767,11 +789,11 @@ MailboxComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_service_mails_service__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_service_menu_service__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_common_service_utils_service__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__common_service_contacts_service__ = __webpack_require__(82);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__common_model_Contact__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_observable_zip__ = __webpack_require__(245);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__common_service_contacts_service__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__common_model_Contact__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_observable_zip__ = __webpack_require__(247);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_observable_zip___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rxjs_add_observable_zip__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_last__ = __webpack_require__(249);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_last__ = __webpack_require__(251);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_last___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_last__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MailComposeComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -803,13 +825,17 @@ var MailComposeComponent = (function () {
     }
     MailComposeComponent.prototype.ngOnInit = function () {
         var _this = this;
-        __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].zip(this._activatedRoute.data, this._activatedRoute.queryParams).subscribe(function (result) {
+        this._routeSubscription = __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].zip(this._activatedRoute.data, this._activatedRoute.queryParams).subscribe(function (result) {
             _this.type = result[0].type;
             _this.mailForm = _this._mailService.initMailForm(_this.type, result[0].mail, result[1].all);
         });
-        this._menuService.activeMenuItem.subscribe(function (activeMenuItem) {
+        this._activeMenuSubscription = this._menuService.activeMenuItem$$.subscribe(function (activeMenuItem) {
             _this._previousActiveMenuItem = activeMenuItem;
         });
+    };
+    MailComposeComponent.prototype.ngOnDestroy = function () {
+        this._routeSubscription.unsubscribe();
+        this._activeMenuSubscription.unsubscribe();
     };
     MailComposeComponent.prototype.evaluateEmail = function () {
         var _this = this;
@@ -821,7 +847,7 @@ var MailComposeComponent = (function () {
         var contact;
         this.errorMessage = '';
         var email = receiverEmail.value.trim();
-        this._contactsService.contactSearch.subscribe(function (contacts) {
+        var subscription = this._contactsService.contactSearch.subscribe(function (contacts) {
             if (contacts.length === 0) {
                 contact = __WEBPACK_IMPORTED_MODULE_7__common_model_Contact__["a" /* Contact */].init(email);
             }
@@ -841,6 +867,7 @@ var MailComposeComponent = (function () {
                 receivers.push(contact);
             }
             receiverEmail.setValue('');
+            subscription.unsubscribe();
         });
         this._contactsService.searchContact(email);
     };
@@ -874,8 +901,8 @@ var MailComposeComponent = (function () {
 MailComposeComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'mailbox-mail-compose',
-        template: __webpack_require__(232),
-        styles: [__webpack_require__(213)]
+        template: __webpack_require__(234),
+        styles: [__webpack_require__(214)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__common_service_contacts_service__["a" /* ContactsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__common_service_contacts_service__["a" /* ContactsService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__common_service_mails_service__["a" /* MailsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__common_service_mails_service__["a" /* MailsService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__common_service_menu_service__["a" /* MenuService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__common_service_menu_service__["a" /* MenuService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _e || Object])
 ], MailComposeComponent);
@@ -891,18 +918,18 @@ var _a, _b, _c, _d, _e;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_service_mails_service__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_common_pipes_mail_paging_pipe__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_common_pipes_mail_paging_pipe__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_service_utils_service__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_model_Action__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__common_service_menu_service__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__common_data_mailFilterItems__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_map__ = __webpack_require__(106);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_do__ = __webpack_require__(247);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_do__ = __webpack_require__(249);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_do___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_do__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_add_operator_switchMapTo__ = __webpack_require__(251);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_add_operator_switchMapTo__ = __webpack_require__(253);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_add_operator_switchMapTo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_rxjs_add_operator_switchMapTo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rxjs_add_operator_debounce__ = __webpack_require__(246);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rxjs_add_operator_debounce__ = __webpack_require__(248);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rxjs_add_operator_debounce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_rxjs_add_operator_debounce__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MailListComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -931,7 +958,7 @@ var MailListComponent = (function () {
         this._activatedRoute = _activatedRoute;
         this._mailService = _mailService;
         this._menuService = _menuService;
-        this.mailFilterItems = __WEBPACK_IMPORTED_MODULE_7__common_data_mailFilterItems__["a" /* MAIL_FILTER_ITEMS */];
+        this.MAIL_FILTER_ITEMS = __WEBPACK_IMPORTED_MODULE_7__common_data_mailFilterItems__["a" /* MAIL_FILTER_ITEMS */];
         this.loading = true;
         this.filterField = 'All';
         this.page = 1;
@@ -939,7 +966,7 @@ var MailListComponent = (function () {
     }
     MailListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._activatedRoute.data
+        var mailsSubscription = this._activatedRoute.data
             .do(function (data) {
             _this.activeMenuItem = data.activeMenuItem;
         })
@@ -948,14 +975,18 @@ var MailListComponent = (function () {
             _this.loading = false;
             _this._originalMails = mails;
             _this.mails = mails;
+            mailsSubscription.unsubscribe();
         });
         this._mailService.searchMails(this.activeMenuItem.type);
-        this._menuService.deleteEmailsAction$$.subscribe(function (action) {
+        this._deleteEmailsActionSubscription = this._menuService.deleteEmailsAction$$.subscribe(function (action) {
             if (__WEBPACK_IMPORTED_MODULE_5__common_model_Action__["a" /* Action */].SUBMIT === action) {
                 _this.moveSelectedMailsToTrash();
                 _this._menuService.deleteEmailsAction$$.next(__WEBPACK_IMPORTED_MODULE_5__common_model_Action__["a" /* Action */].DISABLE);
             }
         });
+    };
+    MailListComponent.prototype.ngOnDestroy = function () {
+        this._deleteEmailsActionSubscription.unsubscribe();
     };
     MailListComponent.prototype.initLoading = function (value) {
         this.loading = value;
@@ -1002,9 +1033,7 @@ var MailListComponent = (function () {
         return __WEBPACK_IMPORTED_MODULE_4__common_service_utils_service__["a" /* UtilsService */].getPageFirstItem(this.mails, this.page, __WEBPACK_IMPORTED_MODULE_3_app_common_pipes_mail_paging_pipe__["a" /* MailPagingPipe */].MAILS_PER_PAGE) + 1;
     };
     MailListComponent.prototype.getLastItemPage = function () {
-        var mailsLength = this.mails ? this.mails.length : 0;
-        var lastItemPage = this.page * __WEBPACK_IMPORTED_MODULE_3_app_common_pipes_mail_paging_pipe__["a" /* MailPagingPipe */].MAILS_PER_PAGE;
-        return lastItemPage <= mailsLength ? lastItemPage : mailsLength;
+        return __WEBPACK_IMPORTED_MODULE_4__common_service_utils_service__["a" /* UtilsService */].getPageLastItem(this.mails, this.page, __WEBPACK_IMPORTED_MODULE_3_app_common_pipes_mail_paging_pipe__["a" /* MailPagingPipe */].MAILS_PER_PAGE);
     };
     MailListComponent.prototype.moveSelectedMailsToTrash = function () {
         this.loading = true;
@@ -1023,8 +1052,8 @@ var MailListComponent = (function () {
 MailListComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'mailbox-mail-list',
-        template: __webpack_require__(234),
-        styles: [__webpack_require__(215)]
+        template: __webpack_require__(236),
+        styles: [__webpack_require__(216)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__common_service_mails_service__["a" /* MailsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__common_service_mails_service__["a" /* MailsService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_6__common_service_menu_service__["a" /* MenuService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__common_service_menu_service__["a" /* MenuService */]) === "function" && _c || Object])
 ], MailListComponent);
@@ -1066,12 +1095,16 @@ var MailViewComponent = (function () {
     }
     MailViewComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._activatedRoute.data.subscribe(function (data) {
+        this._routeSubscription = this._activatedRoute.data.subscribe(function (data) {
             _this.mail = data.mail;
         });
-        this._menuService.activeMenuItem.subscribe(function (activeMenuItem) {
+        this._activeMenuSubscription = this._menuService.activeMenuItem$$.subscribe(function (activeMenuItem) {
             _this._previousActiveMenuItem = activeMenuItem;
         });
+    };
+    MailViewComponent.prototype.ngOnDestroy = function () {
+        this._routeSubscription.unsubscribe();
+        this._activeMenuSubscription.unsubscribe();
     };
     MailViewComponent.prototype.favorite = function () {
         this.mail.favorite = !this.mail.favorite;
@@ -1088,8 +1121,8 @@ var MailViewComponent = (function () {
 MailViewComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'mailbox-mail-view',
-        template: __webpack_require__(235),
-        styles: [__webpack_require__(216)]
+        template: __webpack_require__(237),
+        styles: [__webpack_require__(217)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__common_service_mails_service__["a" /* MailsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__common_service_mails_service__["a" /* MailsService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__common_service_menu_service__["a" /* MenuService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__common_service_menu_service__["a" /* MenuService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _d || Object])
 ], MailViewComponent);
@@ -1128,8 +1161,8 @@ var MailsComponent = (function () {
 MailsComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'mailbox-mails',
-        template: __webpack_require__(236),
-        styles: [__webpack_require__(217)]
+        template: __webpack_require__(238),
+        styles: [__webpack_require__(218)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__common_service_mails_service__["a" /* MailsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__common_service_mails_service__["a" /* MailsService */]) === "function" && _a || Object])
 ], MailsComponent);
@@ -1252,7 +1285,7 @@ __decorate([
 InputComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'authentication-input',
-        template: __webpack_require__(228),
+        template: __webpack_require__(229),
         styles: [__webpack_require__(209)]
     })
 ], InputComponent);
@@ -1266,7 +1299,12 @@ var _a;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MAIL_FILTER_ITEMS; });
-var MAIL_FILTER_ITEMS = ['All', 'Read', 'Unread', 'Starred'];
+var MAIL_FILTER_ITEMS = [
+    'All',
+    'Read',
+    'Unread',
+    'Starred'
+];
 //# sourceMappingURL=mailFilterItems.js.map
 
 /***/ }),
@@ -1451,7 +1489,7 @@ var MailDatePipe = (function () {
         this.HOUR_MS = 60 * this.MINUTES_MS;
         this.DAY_MS = 24 * this.HOUR_MS;
         this.YESTERDAY = 'Yesterday';
-        this.MONTHES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        this.MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     }
     MailDatePipe.prototype.transform = function (time) {
         var date = new Date();
@@ -1467,7 +1505,7 @@ var MailDatePipe = (function () {
         if (time > currentDate.getTime() - yesterday) {
             return this.YESTERDAY;
         }
-        return date.getDate() + " " + this.MONTHES[date.getMonth()];
+        return date.getDate() + " " + this.MONTHS[date.getMonth()];
     };
     return MailDatePipe;
 }());
@@ -1501,7 +1539,7 @@ var MailboxAppComponent = (function () {
 MailboxAppComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'mailbox-app-root',
-        template: __webpack_require__(229),
+        template: __webpack_require__(230),
         styles: [__webpack_require__(210)]
     })
 ], MailboxAppComponent);
@@ -1525,7 +1563,7 @@ MailboxAppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mailbox_menu_menu_item_menu_item_component__ = __webpack_require__(139);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mailbox_menu_menu_actions_menu_actions_component__ = __webpack_require__(138);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__routes__ = __webpack_require__(142);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__authentication_authentication_component__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__authentication_authentication_component__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__mailbox_mailbox_component__ = __webpack_require__(84);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__common_service_authentication_service__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__authentication_input_input_component__ = __webpack_require__(128);
@@ -1537,14 +1575,15 @@ MailboxAppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__common_service_menu_service__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__common_service_mails_service__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__mailbox_mails_mail_list_mail_list_item_mail_list_item_component__ = __webpack_require__(137);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__common_service_contacts_service__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__common_service_contacts_service__ = __webpack_require__(81);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__common_pipes_contact_pipe__ = __webpack_require__(133);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__common_pipes_mail_date_pipe__ = __webpack_require__(134);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__mailbox_mails_mail_view_mail_view_component__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__mailbox_mails_mail_compose_mail_compose_component__ = __webpack_require__(85);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__common_pipes_mail_paging_pipe__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__common_pipes_mail_paging_pipe__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_angular_2_local_storage__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_angular_2_local_storage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_30_angular_2_local_storage__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__mailbox_contacts_contacts_group_contacts_group_component__ = __webpack_require__(82);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MailboxAppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1552,6 +1591,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -1608,7 +1648,8 @@ MailboxAppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_26__common_pipes_mail_date_pipe__["a" /* MailDatePipe */],
             __WEBPACK_IMPORTED_MODULE_27__mailbox_mails_mail_view_mail_view_component__["a" /* MailViewComponent */],
             __WEBPACK_IMPORTED_MODULE_28__mailbox_mails_mail_compose_mail_compose_component__["a" /* MailComposeComponent */],
-            __WEBPACK_IMPORTED_MODULE_29__common_pipes_mail_paging_pipe__["a" /* MailPagingPipe */]
+            __WEBPACK_IMPORTED_MODULE_29__common_pipes_mail_paging_pipe__["a" /* MailPagingPipe */],
+            __WEBPACK_IMPORTED_MODULE_31__mailbox_contacts_contacts_group_contacts_group_component__["a" /* ContactsGroupComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -1658,15 +1699,15 @@ var MailListItemComponent = (function () {
     function MailListItemComponent(_mailService, _router) {
         this._mailService = _mailService;
         this._router = _router;
-        this.loading = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.loading$ = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.checkedMail = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.checked = false;
     }
     MailListItemComponent.prototype.favorite = function () {
         var _this = this;
-        this.loading.emit(true);
+        this.loading$.emit(true);
         this.mail.favorite = !this.mail.favorite;
-        this._mailService.updateMail(this.mail).then(function () { return _this.loading.emit(false); });
+        this._mailService.updateMail(this.mail).then(function () { return _this.loading$.emit(false); });
     };
     MailListItemComponent.prototype.openMail = function () {
         if (!this.mail.read) {
@@ -1693,7 +1734,7 @@ __decorate([
 __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
     __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]) === "function" && _b || Object)
-], MailListItemComponent.prototype, "loading", void 0);
+], MailListItemComponent.prototype, "loading$", void 0);
 __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
     __metadata("design:type", typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]) === "function" && _c || Object)
@@ -1701,8 +1742,8 @@ __decorate([
 MailListItemComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'mailbox-mail-list-item',
-        template: __webpack_require__(233),
-        styles: [__webpack_require__(214)]
+        template: __webpack_require__(235),
+        styles: [__webpack_require__(215)]
     }),
     __metadata("design:paramtypes", [typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__common_service_mails_service__["a" /* MailsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__common_service_mails_service__["a" /* MailsService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _e || Object])
 ], MailListItemComponent);
@@ -1762,8 +1803,8 @@ var MenuActionsComponent = (function () {
 MenuActionsComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'mailbox-menu-actions',
-        template: __webpack_require__(237),
-        styles: [__webpack_require__(218)]
+        template: __webpack_require__(239),
+        styles: [__webpack_require__(219)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__common_service_menu_service__["a" /* MenuService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__common_service_menu_service__["a" /* MenuService */]) === "function" && _b || Object])
 ], MenuActionsComponent);
@@ -1803,8 +1844,8 @@ __decorate([
 MenuItemComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'mailbox-menu-item',
-        template: __webpack_require__(238),
-        styles: [__webpack_require__(219)]
+        template: __webpack_require__(240),
+        styles: [__webpack_require__(220)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _a || Object])
 ], MenuItemComponent);
@@ -1843,8 +1884,8 @@ var MenuComponent = (function () {
 MenuComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'mailbox-menu',
-        template: __webpack_require__(239),
-        styles: [__webpack_require__(220)]
+        template: __webpack_require__(241),
+        styles: [__webpack_require__(221)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__common_service_menu_service__["a" /* MenuService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__common_service_menu_service__["a" /* MenuService */]) === "function" && _a || Object])
 ], MenuComponent);
@@ -1877,17 +1918,20 @@ var ProfileComponent = (function () {
     }
     ProfileComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._activatedRoute.data.subscribe(function (data) {
+        this._subscription = this._activatedRoute.data.subscribe(function (data) {
             _this.profile = data.profile;
         });
+    };
+    ProfileComponent.prototype.ngOnDestroy = function () {
+        this._subscription.unsubscribe();
     };
     return ProfileComponent;
 }());
 ProfileComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'mailbox-profile',
-        template: __webpack_require__(240),
-        styles: [__webpack_require__(221)]
+        template: __webpack_require__(242),
+        styles: [__webpack_require__(222)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _a || Object])
 ], ProfileComponent);
@@ -1900,7 +1944,7 @@ var _a;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__authentication_authentication_component__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__authentication_authentication_component__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mailbox_mailbox_component__ = __webpack_require__(84);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_service_authentication_service__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mailbox_mails_mails_component__ = __webpack_require__(88);
@@ -1910,7 +1954,9 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mailbox_mails_mail_view_mail_view_component__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__common_service_mails_service__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mailbox_mails_mail_compose_mail_compose_component__ = __webpack_require__(85);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mailbox_contacts_contacts_group_contacts_group_component__ = __webpack_require__(82);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return routes; });
+
 
 
 
@@ -2032,14 +2078,14 @@ var routes = [
                     },
                     {
                         path: 'all',
-                        component: __WEBPACK_IMPORTED_MODULE_5__mailbox_mails_mail_list_mail_list_component__["a" /* MailListComponent */],
+                        component: __WEBPACK_IMPORTED_MODULE_10__mailbox_contacts_contacts_group_contacts_group_component__["a" /* ContactsGroupComponent */],
                         resolve: {
                             activeMenuItem: __WEBPACK_IMPORTED_MODULE_6__common_service_menu_service__["a" /* MenuService */]
                         }
                     },
                     {
                         path: ':group',
-                        component: __WEBPACK_IMPORTED_MODULE_5__mailbox_mails_mail_list_mail_list_component__["a" /* MailListComponent */],
+                        component: __WEBPACK_IMPORTED_MODULE_10__mailbox_contacts_contacts_group_contacts_group_component__["a" /* ContactsGroupComponent */],
                         resolve: {
                             activeMenuItem: __WEBPACK_IMPORTED_MODULE_6__common_service_menu_service__["a" /* MenuService */]
                         }
@@ -2247,7 +2293,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, ".bootstrap-tagsinput {\r\n  background-color: #fff;\r\n  border: 1px solid #ccc;\r\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\r\n  padding: 4px 6px;\r\n  margin-bottom: 10px;\r\n  color: #555;\r\n  vertical-align: middle;\r\n  max-width: 100%;\r\n  line-height: 22px;\r\n  cursor: text;\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n}\r\n.bootstrap-tagsinput input {\r\n  border: none;\r\n  box-shadow: none;\r\n  outline: none;\r\n  background-color: transparent;\r\n  padding: 0;\r\n  margin: 0;\r\n  width: auto !important;\r\n  max-width: inherit;\r\n}\r\n.bootstrap-tagsinput input:focus {\r\n  border: none;\r\n  box-shadow: none;\r\n}\r\n.bootstrap-tagsinput .tag {\r\n  margin-right: 2px;\r\n  color: white;\r\n}\r\n.bootstrap-tagsinput .tag [data-role=\"remove\"] {\r\n  margin-left: 8px;\r\n  cursor: pointer;\r\n}\r\n.bootstrap-tagsinput .tag [data-role=\"remove\"]:after {\r\n  content: \"x\";\r\n  padding: 0px 2px;\r\n}\r\n.bootstrap-tagsinput .tag [data-role=\"remove\"]:hover {\r\n  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);\r\n}\r\n.bootstrap-tagsinput .tag [data-role=\"remove\"]:hover:active {\r\n  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);\r\n}\r\n\r\ntextarea {\r\n  height: 300px;\r\n}\r\n\r\n.receiver {\r\n  width: 100px !important;\r\n  -webkit-box-flex: 100;\r\n      -ms-flex-positive: 100;\r\n          flex-grow: 100;\r\n}\r\n\r\n.validation-message {\r\n  float: right;\r\n  color: #c62828;\r\n  font-weight: bold;\r\n}\r\n", ""]);
+exports.push([module.i, "", ""]);
 
 // exports
 
@@ -2264,7 +2310,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, ".unread {\r\n  font-weight: bold;\r\n  font-size: 16px;\r\n}\r\n\r\n.star, .name-col, .subj-col {\r\n  cursor: pointer;\r\n}\r\n", ""]);
+exports.push([module.i, ".bootstrap-tagsinput {\r\n  background-color: #fff;\r\n  border: 1px solid #ccc;\r\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\r\n  padding: 4px 6px;\r\n  margin-bottom: 10px;\r\n  color: #555;\r\n  vertical-align: middle;\r\n  max-width: 100%;\r\n  line-height: 22px;\r\n  cursor: text;\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n}\r\n.bootstrap-tagsinput input {\r\n  border: none;\r\n  box-shadow: none;\r\n  outline: none;\r\n  background-color: transparent;\r\n  padding: 0;\r\n  margin: 0;\r\n  width: auto !important;\r\n  max-width: inherit;\r\n}\r\n.bootstrap-tagsinput input:focus {\r\n  border: none;\r\n  box-shadow: none;\r\n}\r\n.bootstrap-tagsinput .tag {\r\n  margin-right: 2px;\r\n  color: white;\r\n}\r\n.bootstrap-tagsinput .tag [data-role=\"remove\"] {\r\n  margin-left: 8px;\r\n  cursor: pointer;\r\n}\r\n.bootstrap-tagsinput .tag [data-role=\"remove\"]:after {\r\n  content: \"x\";\r\n  padding: 0px 2px;\r\n}\r\n.bootstrap-tagsinput .tag [data-role=\"remove\"]:hover {\r\n  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);\r\n}\r\n.bootstrap-tagsinput .tag [data-role=\"remove\"]:hover:active {\r\n  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);\r\n}\r\n\r\ntextarea {\r\n  height: 300px;\r\n}\r\n\r\n.receiver {\r\n  width: 100px !important;\r\n  -webkit-box-flex: 100;\r\n      -ms-flex-positive: 100;\r\n          flex-grow: 100;\r\n}\r\n\r\n.validation-message {\r\n  float: right;\r\n  color: #c62828;\r\n  font-weight: bold;\r\n}\r\n", ""]);
 
 // exports
 
@@ -2281,7 +2327,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, ".progress {\r\n  height: 43px;\r\n  margin-bottom: 0;\r\n}\r\n\r\n.progress-bar {\r\n  width: 100%;\r\n  color: #ffffff;\r\n  padding: 10px 0;\r\n  font-size: 16px;\r\n}\r\n\r\n.dropdown-menu > li, .pager > li {\r\n  cursor: pointer;\r\n}\r\n", ""]);
+exports.push([module.i, ".unread {\r\n  font-weight: bold;\r\n  font-size: 16px;\r\n}\r\n\r\n.star, .name-col, .subj-col {\r\n  cursor: pointer;\r\n}\r\n", ""]);
 
 // exports
 
@@ -2298,7 +2344,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, ".icon-accent {\r\n  padding-right: 10px;\r\n  cursor: pointer;\r\n}\r\n", ""]);
+exports.push([module.i, ".progress {\r\n  height: 43px;\r\n  margin-bottom: 0;\r\n}\r\n\r\n.progress-bar {\r\n  width: 100%;\r\n  color: #ffffff;\r\n  padding: 10px 0;\r\n  font-size: 16px;\r\n}\r\n\r\n.dropdown-menu > li, .pager > li {\r\n  cursor: pointer;\r\n}\r\n", ""]);
 
 // exports
 
@@ -2315,7 +2361,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".icon-accent {\r\n  padding-right: 10px;\r\n  cursor: pointer;\r\n}\r\n", ""]);
 
 // exports
 
@@ -2383,6 +2429,23 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+/* 222 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)();
+// imports
+
+
+// module
 exports.push([module.i, ".profile-info .profile-details h3 span {\r\n  font-family: 'Roboto', Arial, Helvetica, sans-serif;\r\n  font-weight: 400;\r\n  color: #757575;\r\n  font-size: 19px;\r\n  line-height: 23px;\r\n  text-decoration: none;\r\n}\r\n", ""]);
 
 // exports
@@ -2392,97 +2455,101 @@ exports.push([module.i, ".profile-info .profile-details h3 span {\r\n  font-fami
 module.exports = module.exports.toString();
 
 /***/ }),
-/* 222 */,
 /* 223 */,
 /* 224 */,
 /* 225 */,
 /* 226 */,
-/* 227 */
+/* 227 */,
+/* 228 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"form\">\n  <h1>Mailbox</h1>\n\n  <form [formGroup]=\"authenticationForm\">\n    <authentication-input [input]=\"authenticationForm.get('email')\" [submitted]=\"submitted\">Email</authentication-input>\n    <authentication-input [input]=\"authenticationForm.get('password')\" [type]=\"'password'\" [submitted]=\"submitted\">Password</authentication-input>\n\n    <button class=\"button button-block\" (click)=\"authenticate()\" *ngIf=\"!loading; else loadingIndicator\">Log In</button>\n  </form>\n\n  <h2 *ngIf=\"errorMessage\">{{errorMessage}}</h2>\n</div>\n\n<ng-template #loadingIndicator>\n  <div class=\"progress\">\n    <div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\">Log In</div>\n  </div>\n</ng-template>\n"
 
 /***/ }),
-/* 228 */
+/* 229 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"field-wrap\">\n  <label [ngClass]=\"{'active highlight': isEditing()}\">\n    <ng-content></ng-content><span class=\"req\">*</span>\n  </label>\n  <input [type]=\"type || 'text'\" [formControl]=\"input\" [ngClass]=\"{'validation-failed': isInvalidValue()}\"/>\n</div>\n"
 
 /***/ }),
-/* 229 */
-/***/ (function(module, exports) {
-
-module.exports = "<router-outlet></router-outlet>\n"
-
-/***/ }),
 /* 230 */
 /***/ (function(module, exports) {
 
-module.exports = "<router-outlet></router-outlet>\r\n"
+module.exports = "<router-outlet></router-outlet>\n"
 
 /***/ }),
 /* 231 */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <div class='page-topbar '>\r\n    <div class='logo-area'>\r\n      <h1>Mailbox</h1>\r\n    </div>\r\n  </div>\r\n  <div class=\"page-container row-fluid container-fluid\">\r\n    <div class=\"page-sidebar pagescroll\">\r\n      <div class=\"page-sidebar-wrapper\" id=\"main-menu-wrapper\">\r\n        <mailbox-profile></mailbox-profile>\r\n        <mailbox-menu></mailbox-menu>\r\n      </div>\r\n    </div>\r\n    <section id=\"main-content\" class=\" \">\r\n      <section class=\"wrapper main-wrapper row\" style=''>\r\n        <div class=\"col-lg-12\">\r\n          <section class=\"box nobox \">\r\n            <div class=\"content-body\">\r\n              <div class=\"row\">\r\n                <div class=\"col-md-12 col-sm-12 col-xs-12\">\r\n                  <div class=\"mail_content\">\r\n                    <router-outlet></router-outlet>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </section>\r\n        </div>\r\n      </section>\r\n    </section>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<p>\n  Not implemented yet!\n</p>\n"
 
 /***/ }),
 /* 232 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-xs-12\">\n    <h3 class=\"mail_head\">{{type}}</h3>\n  </div>\n\n  <form [formGroup]=\"mailForm\">\n    <div class=\"col-xs-12 mail_view_title\">\n      <div class=\"pull-right\">\n        <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Send\" (click)=\"sendMail('SENT')\">\n          <i class=\"fa fa-paper-plane-o icon-xs\"></i>\n        </button>\n        <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Save and close\" (click)=\"sendMail('DRAFT')\">\n          <i class=\"fa fa-floppy-o icon-xs\"></i>\n        </button>\n        <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Delete\" (click)=\"sendMail('TRASH')\">\n          <i class=\"fa fa-trash-o icon-xs\"></i>\n        </button>\n      </div>\n    </div>\n\n    <div class=\"form-group mail_cc_bcc\">\n      <label class=\"form-label\">To:</label>\n      <span class=\"desc\">type email and press enter, e.g. \"apalmer2q@oracle.com\"</span>\n      <span class=\"validation-message\">{{errorMessage}}</span>\n    </div>\n\n    <div class=\"controls\">\n      <div class=\"bootstrap-tagsinput\">\n        <span class=\"tag label label-primary\" *ngFor=\"let receiver of mailForm.controls.receivers.value\">\n          {{receiver | contact}}<span data-role=\"remove\" (click)=\"removeReceiver(receiver)\"></span>\n        </span>\n        <input class=\"receiver\" type=\"text\" [formControl]=\"mailForm.controls.receiverEmail\" (keyup.enter)=\"evaluateEmail()\">\n      </div>\n    </div>\n\n    <div class=\"form-group\">\n      <label class=\"form-label\">Subject:</label>\n      <div class=\"controls\">\n        <input type=\"text\" class=\"form-control\" [formControl]=\"mailForm.controls.topic\">\n      </div>\n    </div>\n\n    <div class=\"form-group\">\n      <label class=\"form-label\">Message:</label>\n      <textarea class=\"form-control\" [formControl]=\"mailForm.controls.body\"></textarea>\n    </div>\n  </form>\n</div>\n"
+module.exports = "<router-outlet></router-outlet>\r\n"
 
 /***/ }),
 /* 233 */
 /***/ (function(module, exports) {
 
-module.exports = "<li [ngClass]=\"{odd: !odd}\">\n  <div class=\"row\">\n    <span class=\"checkbox-col\">\n      <input class=\"iCheck\" [checked]=\"checked\" type=\"checkbox\" (click)=\"chooseMail()\" *ngIf=\"mail.type !== 'TRASH'\">\n    </span>\n    <span class=\"star-col\">\n      <span class=\"star\">\n        <i class='fa fa-star-o icon-xs icon-accent' [ngClass]=\"{'fa-star-o': !mail.favorite, 'fa-star': mail.favorite}\" (click)=\"favorite()\"></i>\n      </span>\n    </span>\n    <span class=\"name-col open-view\"\n          [ngClass]=\"{unread: !mail.read}\"\n          (click)=\"openMail()\">\n      <span *ngIf=\"mail.type !== 'SENT' && mail.type !== 'DRAFT'; else overrideSender\">{{mail.sender | contact}}</span>\n    </span>\n    <span class=\"subj-col open-view\"><span class=\"msgtext\" (click)=\"openMail()\">{{mail.topic}}</span></span>\n    <span class=\"date-col open-view\"><span class=\"msg_time\">{{mail.time | mailDate}}</span></span>\n  </div>\n</li>\n\n<ng-template #overrideSender>me</ng-template>\n"
+module.exports = "<div>\r\n  <div class='page-topbar '>\r\n    <div class='logo-area'>\r\n      <h1>Mailbox</h1>\r\n    </div>\r\n  </div>\r\n  <div class=\"page-container row-fluid container-fluid\">\r\n    <div class=\"page-sidebar pagescroll\">\r\n      <div class=\"page-sidebar-wrapper\" id=\"main-menu-wrapper\">\r\n        <mailbox-profile></mailbox-profile>\r\n        <mailbox-menu></mailbox-menu>\r\n      </div>\r\n    </div>\r\n    <section id=\"main-content\" class=\" \">\r\n      <section class=\"wrapper main-wrapper row\" style=''>\r\n        <div class=\"col-lg-12\">\r\n          <section class=\"box nobox \">\r\n            <div class=\"content-body\">\r\n              <div class=\"row\">\r\n                <div class=\"col-md-12 col-sm-12 col-xs-12\">\r\n                  <div class=\"mail_content\">\r\n                    <router-outlet></router-outlet>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </section>\r\n        </div>\r\n      </section>\r\n    </section>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 /* 234 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-xs-12\">\n    <h3 class=\"mail_head\">{{activeMenuItem$$.name}} <sup *ngIf=\"activeMenuItem$$.countLabel\">({{activeMenuItem$$.countLabel}})</sup></h3>\n  </div>\n\n  <div class=\"col-xs-12\">\n    <div class=\"pull-left\">\n      <div class=\"btn-group mail_more_btn\">\n        <button type=\"button\" class=\"btn btn-default\">{{filterField}}</button>\n        <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n          <span class=\"caret\"></span>\n        </button>\n        <ul class=\"dropdown-menu\" role=\"menu\">\n          <li *ngFor=\"let filterItem of mailFilterItems\"><a (click)=\"filterMails(filterItem)\">{{filterItem}}</a></li>\n        </ul>\n      </div>\n    </div>\n\n    <nav class='pull-right'>\n      <ul class=\"pager mail_nav\">\n        <li><a (click)=\"changePage(-1)\"><i class='fa fa-arrow-left icon-xs icon-accent icon-secondary'></i></a></li>\n        <li><a (click)=\"changePage(1)\"><i class='fa fa-arrow-right icon-xs icon-accent icon-secondary'></i></a></li>\n      </ul>\n    </nav>\n    <span class='pull-right mail_count_nav text-muted'>\n      <strong>{{getFirstItemPage()}}</strong> to <strong>{{getLastItemPage()}}</strong> of {{mails?.length}}\n    </span>\n  </div>\n\n  <div class=\"mail_list col-xs-12\">\n    <div class=\"progress\" *ngIf=\"loading\">\n      <div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\">Loading...</div>\n    </div>\n    <ul>\n      <mailbox-mail-list-item *ngFor=\"let mail of mails | mailPaging:page; odd as odd\"\n                              [mail]=\"mail\"\n                              [odd]=\"odd\"\n                              (loading)=\"initLoading($event)\"\n                              (checkedMail)=\"manipulateSelectedMail($event)\">\n      </mailbox-mail-list-item>\n    </ul>\n  </div>\n</div>\n"
+module.exports = "<div class=\"row\">\n  <div class=\"col-xs-12\">\n    <h3 class=\"mail_head\">{{type}}</h3>\n  </div>\n\n  <form [formGroup]=\"mailForm\">\n    <div class=\"col-xs-12 mail_view_title\">\n      <div class=\"pull-right\">\n        <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Send\" (click)=\"sendMail('SENT')\">\n          <i class=\"fa fa-paper-plane-o icon-xs\"></i>\n        </button>\n        <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Save and close\" (click)=\"sendMail('DRAFT')\">\n          <i class=\"fa fa-floppy-o icon-xs\"></i>\n        </button>\n        <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Delete\" (click)=\"sendMail('TRASH')\">\n          <i class=\"fa fa-trash-o icon-xs\"></i>\n        </button>\n      </div>\n    </div>\n\n    <div class=\"form-group mail_cc_bcc\">\n      <label class=\"form-label\">To:</label>\n      <span class=\"desc\">type email and press enter, e.g. \"apalmer2q@oracle.com\"</span>\n      <span class=\"validation-message\">{{errorMessage}}</span>\n    </div>\n\n    <div class=\"controls\">\n      <div class=\"bootstrap-tagsinput\">\n        <span class=\"tag label label-primary\" *ngFor=\"let receiver of mailForm.controls.receivers.value\">\n          {{receiver | contact}}<span data-role=\"remove\" (click)=\"removeReceiver(receiver)\"></span>\n        </span>\n        <input class=\"receiver\" type=\"text\" [formControl]=\"mailForm.controls.receiverEmail\" (keyup.enter)=\"evaluateEmail()\">\n      </div>\n    </div>\n\n    <div class=\"form-group\">\n      <label class=\"form-label\">Subject:</label>\n      <div class=\"controls\">\n        <input type=\"text\" class=\"form-control\" [formControl]=\"mailForm.controls.topic\">\n      </div>\n    </div>\n\n    <div class=\"form-group\">\n      <label class=\"form-label\">Message:</label>\n      <textarea class=\"form-control\" [formControl]=\"mailForm.controls.body\"></textarea>\n    </div>\n  </form>\n</div>\n"
 
 /***/ }),
 /* 235 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-xs-12\">\n    <h3 class=\"mail_head\">View</h3>\n  </div>\n\n  <div class=\"col-xs-12 mail_view_title\">\n    <div class=\"pull-left\">\n      <h3 class=\"\">{{mail.topic}}</h3>\n    </div>\n\n    <div class=\"pull-right\">\n      <i class='fa fa-star-o icon-xs icon-accent' [ngClass]=\"{'fa-star-o': !mail.favorite, 'fa-star': mail.favorite}\" (click)=\"favorite()\"></i>\n      <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Reply\"\n              [routerLink]=\"['/mailbox/mails/reply']\"\n              [queryParams]=\"{id: this.mail.$key, all: false}\">\n        <i class=\"fa fa-reply icon-xs\"></i>\n      </button>\n      <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Reply All\"\n              [routerLink]=\"['/mailbox/mails/reply']\"\n              [queryParams]=\"{id: this.mail.$key, all: true}\">\n        <i class=\"fa fa-reply-all icon-xs\"></i>\n      </button>\n      <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Forward\"\n              [routerLink]=\"['/mailbox/mails/forward']\"\n              [queryParams]=\"{id: this.mail.$key}\">\n        <i class=\"fa fa-mail-forward icon-xs\"></i>\n      </button>\n      <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Trash\"\n              (click)=\"moveToTrash()\" *ngIf=\"(mail.type !== 'TRASH')\">\n        <i class=\"fa fa-trash-o icon-xs\"></i>\n      </button>\n    </div>\n  </div>\n\n  <div class=\"col-xs-12 mail_view_info\">\n    <div class=\"pull-left\">\n      <div><span><strong>From: </strong></span>{{mail.sender | contact}}</div>\n      <div>\n        <strong>To: </strong>\n        <span *ngFor=\"let receiver of mail.receivers; last as last\">{{receiver | contact}}<span *ngIf=\"!last\">,</span> </span>\n      </div>\n    </div>\n    <div class=\"pull-right\">\n      <span class=\"msg_ts text-muted\">{{mail.time | date:'dd MMM yyyy, HH:mm'}}</span>\n    </div>\n  </div>\n\n  <div class=\"col-xs-12 mail_view\">{{mail.body}}</div>\n</div>\n"
+module.exports = "<li [ngClass]=\"{odd: !odd}\">\n  <div class=\"row\">\n    <span class=\"checkbox-col\">\n      <input class=\"iCheck\" [checked]=\"checked\" type=\"checkbox\" (click)=\"chooseMail()\" *ngIf=\"mail.type !== 'TRASH'\">\n    </span>\n    <span class=\"star-col\">\n      <span class=\"star\">\n        <i class='fa fa-star-o icon-xs icon-accent'\n           [ngClass]=\"{'fa-star-o': !mail.favorite, 'fa-star': mail.favorite}\"\n           (click)=\"favorite()\"></i>\n      </span>\n    </span>\n    <span class=\"name-col open-view\"\n          [ngClass]=\"{unread: !mail.read}\"\n          (click)=\"openMail()\">\n      <span *ngIf=\"mail.type !== 'SENT' && mail.type !== 'DRAFT'; else overrideSender\">{{mail.sender | contact}}</span>\n    </span>\n    <span class=\"subj-col open-view\"><span class=\"msgtext\" (click)=\"openMail()\">{{mail.topic}}</span></span>\n    <span class=\"date-col open-view\"><span class=\"msg_time\">{{mail.time | mailDate}}</span></span>\n  </div>\n</li>\n\n<ng-template #overrideSender>me</ng-template>\n"
 
 /***/ }),
 /* 236 */
 /***/ (function(module, exports) {
 
-module.exports = "<router-outlet></router-outlet>\n"
+module.exports = "<div class=\"row\">\n  <div class=\"col-xs-12\">\n    <h3 class=\"mail_head\">{{activeMenuItem.name}} <sup *ngIf=\"activeMenuItem.countLabel\">({{activeMenuItem.countLabel}})</sup></h3>\n  </div>\n\n  <div class=\"col-xs-12\">\n    <div class=\"pull-left\">\n      <div class=\"btn-group mail_more_btn\">\n        <button type=\"button\" class=\"btn btn-default\">{{filterField}}</button>\n        <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n          <span class=\"caret\"></span>\n        </button>\n        <ul class=\"dropdown-menu\" role=\"menu\">\n          <li *ngFor=\"let filterItem of MAIL_FILTER_ITEMS\"><a (click)=\"filterMails(filterItem)\">{{filterItem}}</a></li>\n        </ul>\n      </div>\n    </div>\n\n    <nav class='pull-right'>\n      <ul class=\"pager mail_nav\">\n        <li><a (click)=\"changePage(-1)\"><i class='fa fa-arrow-left icon-xs icon-accent icon-secondary'></i></a></li>\n        <li><a (click)=\"changePage(1)\"><i class='fa fa-arrow-right icon-xs icon-accent icon-secondary'></i></a></li>\n      </ul>\n    </nav>\n    <span class='pull-right mail_count_nav text-muted'>\n      <strong>{{getFirstItemPage()}}</strong> to <strong>{{getLastItemPage()}}</strong> of {{mails?.length}}\n    </span>\n  </div>\n\n  <div class=\"mail_list col-xs-12\">\n    <div class=\"progress\" *ngIf=\"loading\">\n      <div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\">Loading...</div>\n    </div>\n    <ul>\n      <mailbox-mail-list-item *ngFor=\"let mail of mails | mailPaging:page; odd as odd\"\n                              [mail]=\"mail\"\n                              [odd]=\"odd\"\n                              (loading$)=\"initLoading($event)\"\n                              (checkedMail)=\"manipulateSelectedMail($event)\">\n      </mailbox-mail-list-item>\n    </ul>\n  </div>\n</div>\n"
 
 /***/ }),
 /* 237 */
 /***/ (function(module, exports) {
 
-module.exports = "<li class='menusection'></li>\n<div *ngIf=\"router.isActive('mails' | activeMenu)\">\n  <a class=\"btn btn-primary btn-block\" [routerLink]=\"['/mailbox/mails/compose']\">Compose</a>\n  <a class=\"btn btn-primary btn-block\" (click)=\"deleteEmailsAction$$()\" [attr.disabled]=\"deleteEmailsEnabled ? null : 'true'\">Delete</a>\n</div>\n<div *ngIf=\"router.isActive('contacts' | activeMenu)\">\n  <a class=\"btn btn-primary btn-block\" disabled=\"true\">Add contact</a>\n  <a class=\"btn btn-primary btn-block\" disabled=\"true\">Add group</a>\n  <a class=\"btn btn-primary btn-block\" disabled=\"true\">Delete</a>\n</div>\n"
+module.exports = "<div class=\"row\">\n  <div class=\"col-xs-12\">\n    <h3 class=\"mail_head\">View</h3>\n  </div>\n\n  <div class=\"col-xs-12 mail_view_title\">\n    <div class=\"pull-left\">\n      <h3 class=\"\">{{mail.topic}}</h3>\n    </div>\n\n    <div class=\"pull-right\">\n      <i class='fa fa-star-o icon-xs icon-accent'\n         [ngClass]=\"{'fa-star-o': !mail.favorite, 'fa-star': mail.favorite}\"\n         (click)=\"favorite()\"></i>\n      <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Reply\"\n              [routerLink]=\"['/mailbox/mails/reply']\"\n              [queryParams]=\"{id: this.mail.$key, all: false}\">\n        <i class=\"fa fa-reply icon-xs\"></i>\n      </button>\n      <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Reply All\"\n              [routerLink]=\"['/mailbox/mails/reply']\"\n              [queryParams]=\"{id: this.mail.$key, all: true}\">\n        <i class=\"fa fa-reply-all icon-xs\"></i>\n      </button>\n      <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Forward\"\n              [routerLink]=\"['/mailbox/mails/forward']\"\n              [queryParams]=\"{id: this.mail.$key}\">\n        <i class=\"fa fa-mail-forward icon-xs\"></i>\n      </button>\n      <button type=\"button\" class=\"btn btn-default btn-icon\" title=\"Trash\"\n              (click)=\"moveToTrash()\" *ngIf=\"(mail.type !== 'TRASH')\">\n        <i class=\"fa fa-trash-o icon-xs\"></i>\n      </button>\n    </div>\n  </div>\n\n  <div class=\"col-xs-12 mail_view_info\">\n    <div class=\"pull-left\">\n      <div><span><strong>From: </strong></span>{{mail.sender | contact}}</div>\n      <div>\n        <strong>To: </strong>\n        <span *ngFor=\"let receiver of mail.receivers; last as last\">{{receiver | contact}}<span *ngIf=\"!last\">,</span> </span>\n      </div>\n    </div>\n    <div class=\"pull-right\">\n      <span class=\"msg_ts text-muted\">{{mail.time | date:'dd MMM yyyy, HH:mm'}}</span>\n    </div>\n  </div>\n\n  <div class=\"col-xs-12 mail_view\">{{mail.body}}</div>\n</div>\n"
 
 /***/ }),
 /* 238 */
 /***/ (function(module, exports) {
 
-module.exports = "<li routerLinkActive=\"open\">\n  <a [routerLink]=\"[menuItem.href]\">\n    <i [ngClass]=\"menuItem.icon\"></i>\n    <span class=\"title\">{{menuItem.name}}</span>\n  </a>\n  <ul class=\"sub-menu\" *ngIf=\"router.isActive(menuItem.href | activeMenu)\">\n    <li *ngFor=\"let subItem of menuItem.subItems\">\n      <a [routerLink]=\"[subItem.href]\" routerLinkActive=\"active\">\n        <i [ngClass]=\"subItem.icon\" *ngIf=\"subItem.icon\"></i>\n        {{subItem.name}}\n        <span *ngIf=\"subItem.countLabel\" class=\"label label-accent\">{{subItem.countLabel}}</span>\n      </a>\n    </li>\n  </ul>\n</li>\n"
+module.exports = "<router-outlet></router-outlet>\n"
 
 /***/ }),
 /* 239 */
 /***/ (function(module, exports) {
 
-module.exports = "<ul class='wraplist'>\n  <li class='menusection'></li>\n  <mailbox-menu-item *ngFor=\"let menuItem of menuItems\" [menuItem]=\"menuItem\"></mailbox-menu-item>\n  <li class='menusection'></li>\n  <mailbox-menu-actions></mailbox-menu-actions>\n</ul>\n"
+module.exports = "<li class='menusection'></li>\n<div *ngIf=\"router.isActive('mails' | activeMenu)\">\n  <a class=\"btn btn-primary btn-block\" [routerLink]=\"['/mailbox/mails/compose']\">Compose</a>\n  <a class=\"btn btn-primary btn-block\" (click)=\"deleteEmails()\" [attr.disabled]=\"deleteEmailsEnabled ? null : 'true'\">Delete</a>\n</div>\n<div *ngIf=\"router.isActive('contacts' | activeMenu)\">\n  <a class=\"btn btn-primary btn-block\" disabled=\"true\">Add contact</a>\n  <a class=\"btn btn-primary btn-block\" disabled=\"true\">Add group</a>\n  <a class=\"btn btn-primary btn-block\" disabled=\"true\">Delete</a>\n</div>\n"
 
 /***/ }),
 /* 240 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"profile-info row\">\n  <div class=\"profile-image col-xs-4\">\n    <a href=\"ui-profile.html\">\n      <img src=\"{{profile.photo}}\" class=\"img-responsive img-circle\">\n    </a>\n  </div>\n  <div class=\"profile-details col-xs-8\">\n    <h3>\n      <span>{{profile.firstName}} {{profile.lastName}}</span>\n      <span class=\"profile-status online\"></span>\n    </h3>\n    <p class=\"profile-title\">{{profile.jobPosition}}</p>\n  </div>\n</div>\n"
+module.exports = "<li routerLinkActive=\"open\">\n  <a [routerLink]=\"[menuItem.href]\">\n    <i [ngClass]=\"menuItem.icon\"></i>\n    <span class=\"title\">{{menuItem.name}}</span>\n  </a>\n  <ul class=\"sub-menu\" *ngIf=\"router.isActive(menuItem.href | activeMenu)\">\n    <li *ngFor=\"let subItem of menuItem.subItems\">\n      <a [routerLink]=\"[subItem.href]\" routerLinkActive=\"active\">\n        <i [ngClass]=\"subItem.icon\" *ngIf=\"subItem.icon\"></i>\n        {{subItem.name}}\n        <span *ngIf=\"subItem.countLabel\" class=\"label label-accent\">{{subItem.countLabel}}</span>\n      </a>\n    </li>\n  </ul>\n</li>\n"
 
 /***/ }),
-/* 241 */,
-/* 242 */,
+/* 241 */
+/***/ (function(module, exports) {
+
+module.exports = "<ul class='wraplist'>\n  <li class='menusection'></li>\n  <mailbox-menu-item *ngFor=\"let menuItem of menuItems\" [menuItem]=\"menuItem\"></mailbox-menu-item>\n  <li class='menusection'></li>\n  <mailbox-menu-actions></mailbox-menu-actions>\n</ul>\n"
+
+/***/ }),
+/* 242 */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"profile-info row\">\n  <div class=\"profile-image col-xs-4\">\n    <img src=\"{{profile.photo}}\" class=\"img-responsive img-circle\">\n  </div>\n  <div class=\"profile-details col-xs-8\">\n    <h3>\n      <span>{{profile.firstName}} {{profile.lastName}}</span>\n      <span class=\"profile-status online\"></span>\n    </h3>\n    <p class=\"profile-title\">{{profile.jobPosition}}</p>\n  </div>\n</div>\n"
+
+/***/ }),
 /* 243 */,
 /* 244 */,
 /* 245 */,
@@ -2524,12 +2591,14 @@ module.exports = "<div class=\"profile-info row\">\n  <div class=\"profile-image
 /* 281 */,
 /* 282 */,
 /* 283 */,
-/* 284 */
+/* 284 */,
+/* 285 */,
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(123);
 
 
 /***/ })
-],[284]);
+],[286]);
 //# sourceMappingURL=main.bundle.js.map

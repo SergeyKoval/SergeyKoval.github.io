@@ -11,7 +11,7 @@
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
-          <li *ngFor="let filterItem of mailFilterItems"><a (click)="filterMails(filterItem)">{{filterItem}}</a></li>
+          <li *ngFor="let filterItem of MAIL_FILTER_ITEMS"><a (click)="filterMails(filterItem)">{{filterItem}}</a></li>
         </ul>
       </div>
     </div>
@@ -35,7 +35,7 @@
       <mailbox-mail-list-item *ngFor="let mail of mails | mailPaging:page; odd as odd"
                               [mail]="mail"
                               [odd]="odd"
-                              (loading)="initLoading($event)"
+                              (loading$)="initLoading($event)"
                               (checkedMail)="manipulateSelectedMail($event)">
       </mailbox-mail-list-item>
     </ul>

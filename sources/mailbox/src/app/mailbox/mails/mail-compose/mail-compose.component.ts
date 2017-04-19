@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AbstractControl, FormGroup} from '@angular/forms';
 
 import {Observable} from 'rxjs/Observable';
+import {Subscription} from 'rxjs/Subscription';
 
 import {MailsService} from '../../../common/service/mails.service';
 import {MenuService} from '../../../common/service/menu.service';
@@ -19,11 +20,13 @@ import 'rxjs/add/operator/last';
   templateUrl: './mail-compose.component.html',
   styleUrls: ['./mail-compose.component.css']
 })
-export class MailComposeComponent implements OnInit {
+export class MailComposeComponent implements OnInit, OnDestroy {
   public type: string;
   public mailForm: FormGroup;
   public errorMessage: string;
   private _previousActiveMenuItem: MenuItem;
+  private _routeSubscription: Subscription;
+  private _activeMenuSubscription: Subscription;
 
   public constructor(
     private _activatedRoute: ActivatedRoute,
@@ -31,10 +34,10 @@ export class MailComposeComponent implements OnInit {
     private _mailService: MailsService,
     private _menuService: MenuService,
     private _router: Router
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
-    Observable.zip(
+    this._routeSubscription = Observable.zip(
       this._activatedRoute.data,
       this._activatedRoute.queryParams
     ).subscribe((result: [{mail: Mail, type: string}, {all: string}]) => {
@@ -42,9 +45,14 @@ export class MailComposeComponent implements OnInit {
       this.mailForm = this._mailService.initMailForm(this.type, result[0].mail, result[1].all);
     });
 
-    this._menuService.activeMenuItem$$.subscribe((activeMenuItem: MenuItem) => {
+    this._activeMenuSubscription = this._menuService.activeMenuItem$$.subscribe((activeMenuItem: MenuItem) => {
       this._previousActiveMenuItem = activeMenuItem;
     });
+  }
+
+  public ngOnDestroy(): void {
+    this._routeSubscription.unsubscribe();
+    this._activeMenuSubscription.unsubscribe();
   }
 
   public evaluateEmail(): void {
@@ -57,7 +65,7 @@ export class MailComposeComponent implements OnInit {
     let contact: Contact;
     this.errorMessage = '';
     const email: string = receiverEmail.value.trim();
-    this._contactsService.contactSearch.subscribe((contacts: Contact[]) => {
+    const subscription: Subscription = this._contactsService.contactSearch.subscribe((contacts: Contact[]) => {
       if (contacts.length === 0) {
         contact = Contact.init(email);
       } else {
@@ -76,6 +84,7 @@ export class MailComposeComponent implements OnInit {
         receivers.push(contact);
       }
       receiverEmail.setValue('');
+      subscription.unsubscribe();
     });
     this._contactsService.searchContact(email);
   }

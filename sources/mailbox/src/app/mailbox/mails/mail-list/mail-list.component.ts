@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+
+import {Subscription} from 'rxjs/Subscription';
 
 import {MailsService} from '../../../common/service/mails.service';
 import {MailPagingPipe} from 'app/common/pipes/mail-paging.pipe';
@@ -19,15 +21,17 @@ import 'rxjs/add/operator/debounce';
   templateUrl: './mail-list.component.html',
   styleUrls: ['./mail-list.component.css']
 })
-export class MailListComponent implements OnInit {
-  public mailFilterItems: string[] = MAIL_FILTER_ITEMS;
+export class MailListComponent implements OnInit, OnDestroy {
+  public readonly MAIL_FILTER_ITEMS: string[] = MAIL_FILTER_ITEMS;
   public activeMenuItem: MenuItem;
   public mails: Mail[];
   public loading: boolean = true;
   public filterField: string = 'All';
   public page: number = 1;
+
   private _originalMails: Mail[];
   private _selectedMails: Mail[] = [];
+  private _deleteEmailsActionSubscription: Subscription;
 
   public constructor(
     private _activatedRoute: ActivatedRoute,
@@ -36,7 +40,7 @@ export class MailListComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this._activatedRoute.data
+    const mailsSubscription: Subscription = this._activatedRoute.data
       .do((data: {activeMenuItem: MenuItem}) => {
         this.activeMenuItem = data.activeMenuItem;
       })
@@ -45,16 +49,21 @@ export class MailListComponent implements OnInit {
         this.loading = false;
         this._originalMails = mails;
         this.mails = mails;
+        mailsSubscription.unsubscribe();
       });
 
     this._mailService.searchMails(this.activeMenuItem.type);
 
-    this._menuService.deleteEmailsAction$$.subscribe((action: Action) => {
+    this._deleteEmailsActionSubscription = this._menuService.deleteEmailsAction$$.subscribe((action: Action) => {
       if (Action.SUBMIT === action) {
         this.moveSelectedMailsToTrash();
         this._menuService.deleteEmailsAction$$.next(Action.DISABLE);
       }
     });
+  }
+
+  public ngOnDestroy(): void {
+    this._deleteEmailsActionSubscription.unsubscribe();
   }
 
   public initLoading(value: boolean): void {
@@ -107,9 +116,7 @@ export class MailListComponent implements OnInit {
   }
 
   public getLastItemPage(): number {
-    const mailsLength: number = this.mails ? this.mails.length : 0;
-    const lastItemPage: number = this.page * MailPagingPipe.MAILS_PER_PAGE;
-    return lastItemPage <= mailsLength ? lastItemPage : mailsLength;
+    return UtilsService.getPageLastItem(this.mails, this.page, MailPagingPipe.MAILS_PER_PAGE);
   }
 
   private moveSelectedMailsToTrash(): void {

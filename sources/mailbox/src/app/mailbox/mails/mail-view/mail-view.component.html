@@ -9,7 +9,9 @@
     </div>
 
     <div class="pull-right">
-      <i class='fa fa-star-o icon-xs icon-accent' [ngClass]="{'fa-star-o': !mail.favorite, 'fa-star': mail.favorite}" (click)="favorite()"></i>
+      <i class='fa fa-star-o icon-xs icon-accent'
+         [ngClass]="{'fa-star-o': !mail.favorite, 'fa-star': mail.favorite}"
+         (click)="favorite()"></i>
       <button type="button" class="btn btn-default btn-icon" title="Reply"
               [routerLink]="['/mailbox/mails/reply']"
               [queryParams]="{id: this.mail.$key, all: false}">
