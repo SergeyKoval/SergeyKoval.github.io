@@ -6,7 +6,8 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
+      "outDir": "../../angular2-project",
+      "deployUrl": "/angular2-project",
       "assets": [
         "assets",
         "favicon.ico"
