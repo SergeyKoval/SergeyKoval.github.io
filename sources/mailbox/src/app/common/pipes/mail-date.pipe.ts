@@ -9,7 +9,7 @@ export class MailDatePipe implements PipeTransform {
   private readonly HOUR_MS: number = 60 * this.MINUTES_MS;
   private readonly DAY_MS: number = 24 * this.HOUR_MS;
   private readonly YESTERDAY: string = 'Yesterday';
-  private readonly MONTHES: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  private readonly MONTHS: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   public transform(time: number): string {
     const date: Date = new Date();
@@ -29,6 +29,6 @@ export class MailDatePipe implements PipeTransform {
       return this.YESTERDAY;
     }
 
-    return `${date.getDate()} ${this.MONTHES[date.getMonth()]}`;
+    return `${date.getDate()} ${this.MONTHS[date.getMonth()]}`;
   }
 }
