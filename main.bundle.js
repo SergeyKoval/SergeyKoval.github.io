@@ -530,7 +530,7 @@ var AuthenticationComponent = (function () {
     AuthenticationComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.authenticationForm = this._authenticationService.initAuthenticationForm();
-        var authenticationResult = this._authenticationService.authenticationResult;
+        var authenticationResult = this._authenticationService.authenticationResult$$;
         var subscribe = authenticationResult.subscribe(function (result) {
             _this.loading = false;
             if (result) {
@@ -950,10 +950,10 @@ var MailListComponent = (function () {
             _this.mails = mails;
         });
         this._mailService.searchMails(this.activeMenuItem.type);
-        this._menuService.deleteEmails.subscribe(function (action) {
+        this._menuService.deleteEmailsAction$$.subscribe(function (action) {
             if (__WEBPACK_IMPORTED_MODULE_5__common_model_Action__["a" /* Action */].SUBMIT === action) {
                 _this.moveSelectedMailsToTrash();
-                _this._menuService.deleteEmails.next(__WEBPACK_IMPORTED_MODULE_5__common_model_Action__["a" /* Action */].DISABLE);
+                _this._menuService.deleteEmailsAction$$.next(__WEBPACK_IMPORTED_MODULE_5__common_model_Action__["a" /* Action */].DISABLE);
             }
         });
     };
@@ -965,12 +965,12 @@ var MailListComponent = (function () {
         if (index !== -1) {
             this._selectedMails.splice(index, 1);
             if (this._selectedMails.length === 0) {
-                this._menuService.deleteEmails.next(__WEBPACK_IMPORTED_MODULE_5__common_model_Action__["a" /* Action */].DISABLE);
+                this._menuService.deleteEmailsAction$$.next(__WEBPACK_IMPORTED_MODULE_5__common_model_Action__["a" /* Action */].DISABLE);
             }
         }
         else {
             this._selectedMails.push(mail);
-            this._menuService.deleteEmails.next(__WEBPACK_IMPORTED_MODULE_5__common_model_Action__["a" /* Action */].ENABLE);
+            this._menuService.deleteEmailsAction$$.next(__WEBPACK_IMPORTED_MODULE_5__common_model_Action__["a" /* Action */].ENABLE);
         }
     };
     MailListComponent.prototype.filterMails = function (filterField) {
@@ -1741,7 +1741,7 @@ var MenuActionsComponent = (function () {
     }
     MenuActionsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._menuService.deleteEmails.subscribe(function (action) {
+        this._menuService.deleteEmailsAction$$.subscribe(function (action) {
             switch (action) {
                 case __WEBPACK_IMPORTED_MODULE_2_app_common_model_Action__["a" /* Action */].ENABLE:
                     _this.deleteEmailsEnabled = true;
@@ -1754,7 +1754,7 @@ var MenuActionsComponent = (function () {
     };
     MenuActionsComponent.prototype.deleteEmails = function () {
         if (this.deleteEmailsEnabled) {
-            this._menuService.deleteEmails.next(__WEBPACK_IMPORTED_MODULE_2_app_common_model_Action__["a" /* Action */].SUBMIT);
+            this._menuService.deleteEmailsAction$$.next(__WEBPACK_IMPORTED_MODULE_2_app_common_model_Action__["a" /* Action */].SUBMIT);
         }
     };
     return MenuActionsComponent;
@@ -2442,7 +2442,7 @@ module.exports = "<li [ngClass]=\"{odd: !odd}\">\n  <div class=\"row\">\n    <sp
 /* 234 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-xs-12\">\n    <h3 class=\"mail_head\">{{activeMenuItem.name}} <sup *ngIf=\"activeMenuItem.countLabel\">({{activeMenuItem.countLabel}})</sup></h3>\n  </div>\n\n  <div class=\"col-xs-12\">\n    <div class=\"pull-left\">\n      <div class=\"btn-group mail_more_btn\">\n        <button type=\"button\" class=\"btn btn-default\">{{filterField}}</button>\n        <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n          <span class=\"caret\"></span>\n        </button>\n        <ul class=\"dropdown-menu\" role=\"menu\">\n          <li *ngFor=\"let filterItem of mailFilterItems\"><a (click)=\"filterMails(filterItem)\">{{filterItem}}</a></li>\n        </ul>\n      </div>\n    </div>\n\n    <nav class='pull-right'>\n      <ul class=\"pager mail_nav\">\n        <li><a (click)=\"changePage(-1)\"><i class='fa fa-arrow-left icon-xs icon-accent icon-secondary'></i></a></li>\n        <li><a (click)=\"changePage(1)\"><i class='fa fa-arrow-right icon-xs icon-accent icon-secondary'></i></a></li>\n      </ul>\n    </nav>\n    <span class='pull-right mail_count_nav text-muted'>\n      <strong>{{getFirstItemPage()}}</strong> to <strong>{{getLastItemPage()}}</strong> of {{mails?.length}}\n    </span>\n  </div>\n\n  <div class=\"mail_list col-xs-12\">\n    <div class=\"progress\" *ngIf=\"loading\">\n      <div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\">Loading...</div>\n    </div>\n    <ul>\n      <mailbox-mail-list-item *ngFor=\"let mail of mails | mailPaging:page; odd as odd\"\n                              [mail]=\"mail\"\n                              [odd]=\"odd\"\n                              (loading)=\"initLoading($event)\"\n                              (checkedMail)=\"manipulateSelectedMail($event)\">\n      </mailbox-mail-list-item>\n    </ul>\n  </div>\n</div>\n"
+module.exports = "<div class=\"row\">\n  <div class=\"col-xs-12\">\n    <h3 class=\"mail_head\">{{activeMenuItem$$.name}} <sup *ngIf=\"activeMenuItem$$.countLabel\">({{activeMenuItem$$.countLabel}})</sup></h3>\n  </div>\n\n  <div class=\"col-xs-12\">\n    <div class=\"pull-left\">\n      <div class=\"btn-group mail_more_btn\">\n        <button type=\"button\" class=\"btn btn-default\">{{filterField}}</button>\n        <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n          <span class=\"caret\"></span>\n        </button>\n        <ul class=\"dropdown-menu\" role=\"menu\">\n          <li *ngFor=\"let filterItem of mailFilterItems\"><a (click)=\"filterMails(filterItem)\">{{filterItem}}</a></li>\n        </ul>\n      </div>\n    </div>\n\n    <nav class='pull-right'>\n      <ul class=\"pager mail_nav\">\n        <li><a (click)=\"changePage(-1)\"><i class='fa fa-arrow-left icon-xs icon-accent icon-secondary'></i></a></li>\n        <li><a (click)=\"changePage(1)\"><i class='fa fa-arrow-right icon-xs icon-accent icon-secondary'></i></a></li>\n      </ul>\n    </nav>\n    <span class='pull-right mail_count_nav text-muted'>\n      <strong>{{getFirstItemPage()}}</strong> to <strong>{{getLastItemPage()}}</strong> of {{mails?.length}}\n    </span>\n  </div>\n\n  <div class=\"mail_list col-xs-12\">\n    <div class=\"progress\" *ngIf=\"loading\">\n      <div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\">Loading...</div>\n    </div>\n    <ul>\n      <mailbox-mail-list-item *ngFor=\"let mail of mails | mailPaging:page; odd as odd\"\n                              [mail]=\"mail\"\n                              [odd]=\"odd\"\n                              (loading)=\"initLoading($event)\"\n                              (checkedMail)=\"manipulateSelectedMail($event)\">\n      </mailbox-mail-list-item>\n    </ul>\n  </div>\n</div>\n"
 
 /***/ }),
 /* 235 */
@@ -2460,7 +2460,7 @@ module.exports = "<router-outlet></router-outlet>\n"
 /* 237 */
 /***/ (function(module, exports) {
 
-module.exports = "<li class='menusection'></li>\n<div *ngIf=\"router.isActive('mails' | activeMenu)\">\n  <a class=\"btn btn-primary btn-block\" [routerLink]=\"['/mailbox/mails/compose']\">Compose</a>\n  <a class=\"btn btn-primary btn-block\" (click)=\"deleteEmails()\" [attr.disabled]=\"deleteEmailsEnabled ? null : 'true'\">Delete</a>\n</div>\n<div *ngIf=\"router.isActive('contacts' | activeMenu)\">\n  <a class=\"btn btn-primary btn-block\" disabled=\"true\">Add contact</a>\n  <a class=\"btn btn-primary btn-block\" disabled=\"true\">Add group</a>\n  <a class=\"btn btn-primary btn-block\" disabled=\"true\">Delete</a>\n</div>\n"
+module.exports = "<li class='menusection'></li>\n<div *ngIf=\"router.isActive('mails' | activeMenu)\">\n  <a class=\"btn btn-primary btn-block\" [routerLink]=\"['/mailbox/mails/compose']\">Compose</a>\n  <a class=\"btn btn-primary btn-block\" (click)=\"deleteEmailsAction$$()\" [attr.disabled]=\"deleteEmailsEnabled ? null : 'true'\">Delete</a>\n</div>\n<div *ngIf=\"router.isActive('contacts' | activeMenu)\">\n  <a class=\"btn btn-primary btn-block\" disabled=\"true\">Add contact</a>\n  <a class=\"btn btn-primary btn-block\" disabled=\"true\">Add group</a>\n  <a class=\"btn btn-primary btn-block\" disabled=\"true\">Delete</a>\n</div>\n"
 
 /***/ }),
 /* 238 */

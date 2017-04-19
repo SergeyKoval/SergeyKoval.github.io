@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 
-import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
 
 import {AuthenticationService} from '../common/service/authentication.service';
@@ -27,18 +26,17 @@ export class AuthenticationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.authenticationForm = this._authenticationService.initAuthenticationForm();
-    const authenticationResult: Subject<string> = this._authenticationService.authenticationResult;
-    const subscribe: Subscription = authenticationResult.subscribe((result: string) => {
+    const authenticationResult: Subscription = this._authenticationService.authenticationResult$$.subscribe((result: string) => {
       this.loading = false;
 
       if (result) {
         this.errorMessage = result;
-      } else {
-        this.errorMessage = null;
-        subscribe.unsubscribe();
-        authenticationResult.complete();
-        this._router.navigate(['/mailbox']);
+        return;
       }
+
+      this.errorMessage = null;
+      authenticationResult.unsubscribe();
+      this._router.navigate(['/mailbox']);
     });
   }
 

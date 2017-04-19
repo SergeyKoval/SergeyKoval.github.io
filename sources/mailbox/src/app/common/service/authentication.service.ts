@@ -8,18 +8,19 @@ import {AngularFire} from 'angularfire2';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {Subscription} from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/first';
 
 @Injectable()
 export class AuthenticationService implements CanActivate, Resolve<Profile> {
-  private readonly COLLECTION_NAME: string = '/profiles';
+  private readonly _COLLECTION_NAME: string = '/profiles';
+  private readonly _AUTHENTICATED$$: ReplaySubject<boolean> = new ReplaySubject(1);
+  private readonly _AUTHENTICATION_RESULT$$: Subject<string> = new Subject();
+  private readonly _AUTHENTICATE_QP$$: Subject<string> = new Subject();
+  private readonly _AUTHENTICATE_Q$: Observable<Profile[]>;
 
-  private _authenticated: ReplaySubject<boolean> = new ReplaySubject(1);
   private _authenticatedProfile: Profile;
-  private _authenticationResult: Subject<string> = new Subject();
-  private _authenticateQ: Observable<Profile[]>;
-  private _authenticateQP: Subject<string> = new Subject();
 
   public constructor(
     private _localStorageService: LocalStorageService,
@@ -27,17 +28,17 @@ export class AuthenticationService implements CanActivate, Resolve<Profile> {
     private _af: AngularFire,
     private _router: Router
   ) {
-    this._authenticateQ = this._af.database.list(this.COLLECTION_NAME, {
+    this._AUTHENTICATE_Q$ = this._af.database.list(this._COLLECTION_NAME, {
       query: {
         orderByChild: 'email',
-        equalTo: this._authenticateQP
+        equalTo: this._AUTHENTICATE_QP$$
       }
     }).first();
   }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     this.checkAuthentication();
-    return this._authenticated.asObservable();
+    return this._AUTHENTICATED$$.asObservable();
   }
 
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Profile {
@@ -46,29 +47,30 @@ export class AuthenticationService implements CanActivate, Resolve<Profile> {
 
   public initAuthenticationForm(): FormGroup {
     return this._formBuilder.group({
-      email: ['ikoval@gmail.com', [Validators.required, Validators.email, Validators.minLength(3)]],
-      password: ['12345', [Validators.required, Validators.minLength(3)]]
+      email: ['', [Validators.required, Validators.email, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 
   public authenticate(credentials: Credentials): void {
-    this._authenticateQ.subscribe((profiles: Profile[]) => {
+    const subscription: Subscription = this._AUTHENTICATE_Q$.subscribe((profiles: Profile[]) => {
       if (!profiles[0]) {
-        this._authenticationResult.next('User doesn\'t exist');
+        this._AUTHENTICATION_RESULT$$.next('User doesn\'t exist');
       } else if (Md5.hashStr(credentials.password) !== profiles[0].password) {
-        this._authenticationResult.next('Invalid password');
+        this._AUTHENTICATION_RESULT$$.next('Invalid password');
       } else {
         this._authenticatedProfile = profiles[0];
         this._localStorageService.set('AUTHENTICATION_PROFILE', this._authenticatedProfile.$key);
-        this._authenticationResult.next(null);
+        this._AUTHENTICATION_RESULT$$.next(null);
       }
+      subscription.unsubscribe();
     });
 
-    this._authenticateQP.next(credentials.email);
+    this._AUTHENTICATE_QP$$.next(credentials.email);
   }
 
-  public get authenticationResult(): Subject<string> {
-    return this._authenticationResult;
+  public get authenticationResult$$(): Subject<string> {
+    return this._AUTHENTICATION_RESULT$$;
   }
 
   public get authenticatedProfile(): Profile {
@@ -77,7 +79,7 @@ export class AuthenticationService implements CanActivate, Resolve<Profile> {
 
   private checkAuthentication(): void {
     if (this.authenticatedProfile) {
-      this._authenticated.next(true);
+      this._AUTHENTICATED$$.next(true);
       return;
     }
 
@@ -87,19 +89,21 @@ export class AuthenticationService implements CanActivate, Resolve<Profile> {
       return;
     }
 
-    this._af.database.object(`${this.COLLECTION_NAME}/${authenticationProfile}`).first().subscribe((profile: Profile) => {
-      if (!profile) {
-        this.failAuthentication();
-        return;
-      }
+    const subscription: Subscription = this._af.database.object(`${this._COLLECTION_NAME}/${authenticationProfile}`).first()
+      .subscribe((profile: Profile) => {
+        if (!profile) {
+          this.failAuthentication();
+          return;
+        }
 
-      this._authenticatedProfile = profile;
-      this._authenticated.next(true);
-    });
+        this._authenticatedProfile = profile;
+        this._AUTHENTICATED$$.next(true);
+        subscription.unsubscribe();
+      });
   }
 
   private failAuthentication(): void {
     this._router.navigate(['authenticate']);
-    this._authenticated.next(false);
+    this._AUTHENTICATED$$.next(false);
   }
 }

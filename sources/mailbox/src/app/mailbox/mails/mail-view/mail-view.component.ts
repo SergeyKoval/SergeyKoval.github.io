@@ -27,7 +27,7 @@ export class MailViewComponent implements OnInit {
       this.mail = data.mail;
     });
 
-    this._menuService.activeMenuItem.subscribe((activeMenuItem: MenuItem) => {
+    this._menuService.activeMenuItem$$.subscribe((activeMenuItem: MenuItem) => {
       this._previousActiveMenuItem = activeMenuItem;
     });
   }

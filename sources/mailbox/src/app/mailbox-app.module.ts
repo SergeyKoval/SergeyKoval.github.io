@@ -31,6 +31,7 @@ import { MailViewComponent } from './mailbox/mails/mail-view/mail-view.component
 import { MailComposeComponent } from './mailbox/mails/mail-compose/mail-compose.component';
 import { MailPagingPipe } from './common/pipes/mail-paging.pipe';
 import {LocalStorageModule} from 'angular-2-local-storage';
+import {ContactsGroupComponent} from './mailbox/contacts/contacts-group/contacts-group.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import {LocalStorageModule} from 'angular-2-local-storage';
     MailDatePipe,
     MailViewComponent,
     MailComposeComponent,
-    MailPagingPipe
+    MailPagingPipe,
+    ContactsGroupComponent
   ],
   imports: [
     BrowserModule,

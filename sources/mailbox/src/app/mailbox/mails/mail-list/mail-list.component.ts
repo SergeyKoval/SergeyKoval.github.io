@@ -49,10 +49,10 @@ export class MailListComponent implements OnInit {
 
     this._mailService.searchMails(this.activeMenuItem.type);
 
-    this._menuService.deleteEmails.subscribe((action: Action) => {
+    this._menuService.deleteEmailsAction$$.subscribe((action: Action) => {
       if (Action.SUBMIT === action) {
         this.moveSelectedMailsToTrash();
-        this._menuService.deleteEmails.next(Action.DISABLE);
+        this._menuService.deleteEmailsAction$$.next(Action.DISABLE);
       }
     });
   }
@@ -66,11 +66,11 @@ export class MailListComponent implements OnInit {
     if (index !== -1) {
       this._selectedMails.splice(index, 1);
       if (this._selectedMails.length === 0) {
-        this._menuService.deleteEmails.next(Action.DISABLE);
+        this._menuService.deleteEmailsAction$$.next(Action.DISABLE);
       }
     } else {
       this._selectedMails.push(mail);
-      this._menuService.deleteEmails.next(Action.ENABLE);
+      this._menuService.deleteEmailsAction$$.next(Action.ENABLE);
     }
   }
 

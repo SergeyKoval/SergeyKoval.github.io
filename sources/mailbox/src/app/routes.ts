@@ -10,6 +10,7 @@ import {MenuService} from './common/service/menu.service';
 import {MailViewComponent} from './mailbox/mails/mail-view/mail-view.component';
 import {MailsService} from './common/service/mails.service';
 import {MailComposeComponent} from './mailbox/mails/mail-compose/mail-compose.component';
+import {ContactsGroupComponent} from './mailbox/contacts/contacts-group/contacts-group.component';
 
 export const routes: Route[] = [
   {
@@ -122,14 +123,14 @@ export const routes: Route[] = [
           },
           {
             path: 'all',
-            component: MailListComponent,
+            component: ContactsGroupComponent,
             resolve: {
               activeMenuItem: MenuService
             }
           },
           {
             path: ':group',
-            component: MailListComponent,
+            component: ContactsGroupComponent,
             resolve: {
               activeMenuItem: MenuService
             }

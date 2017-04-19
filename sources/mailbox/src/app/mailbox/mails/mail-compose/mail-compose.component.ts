@@ -42,7 +42,7 @@ export class MailComposeComponent implements OnInit {
       this.mailForm = this._mailService.initMailForm(this.type, result[0].mail, result[1].all);
     });
 
-    this._menuService.activeMenuItem.subscribe((activeMenuItem: MenuItem) => {
+    this._menuService.activeMenuItem$$.subscribe((activeMenuItem: MenuItem) => {
       this._previousActiveMenuItem = activeMenuItem;
     });
   }

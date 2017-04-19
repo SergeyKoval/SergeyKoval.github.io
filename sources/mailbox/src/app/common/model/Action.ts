@@ -1,3 +1,5 @@
 export enum Action {
-  ENABLE, DISABLE, SUBMIT
+  ENABLE,
+  DISABLE,
+  SUBMIT
 }

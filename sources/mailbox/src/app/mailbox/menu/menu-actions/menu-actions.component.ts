@@ -18,7 +18,7 @@ export class MenuActionsComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this._menuService.deleteEmails.subscribe((action: Action) => {
+    this._menuService.deleteEmailsAction$$.subscribe((action: Action) => {
       switch (action) {
         case Action.ENABLE:
           this.deleteEmailsEnabled = true;
@@ -32,7 +32,7 @@ export class MenuActionsComponent implements OnInit {
 
   public deleteEmails(): void {
     if (this.deleteEmailsEnabled) {
-      this._menuService.deleteEmails.next(Action.SUBMIT);
+      this._menuService.deleteEmailsAction$$.next(Action.SUBMIT);
     }
   }
 }

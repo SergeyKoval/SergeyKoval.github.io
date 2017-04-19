@@ -9,26 +9,26 @@ import {Contact} from 'app/common/model/Contact';
 @Injectable()
 export class ContactsService {
   private readonly _COLLECTION_NAME: string = '/contacts';
-  private readonly _CONTACT_Q: Observable<Contact[]>;
-  private readonly _CONTACT_QP: Subject<string> = new Subject();
+  private readonly _CONTACT_Q$: Observable<Contact[]>;
+  private readonly _CONTACT_QP$$: Subject<string> = new Subject();
 
   public constructor(
     private _af: AngularFire
   ) {
-    this._CONTACT_Q = this._af.database.list(this._COLLECTION_NAME, {
+    this._CONTACT_Q$ = this._af.database.list(this._COLLECTION_NAME, {
       query: {
         orderByChild: 'email',
-        equalTo: this._CONTACT_QP
+        equalTo: this._CONTACT_QP$$
       }
     }).first();
   }
 
   public searchContact(email: string): void {
-    this._CONTACT_QP.next(email);
+    this._CONTACT_QP$$.next(email);
   }
 
   public get contactSearch(): Observable<Contact[]> {
-    return this._CONTACT_Q;
+    return this._CONTACT_Q$;
   }
 
   public getContact(id: string): FirebaseObjectObservable<Contact> {

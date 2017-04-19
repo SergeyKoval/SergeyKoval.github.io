@@ -5,6 +5,7 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {AngularFire, FirebaseObjectObservable} from 'angularfire2';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
+import {Subscription} from 'rxjs/Subscription';
 
 import {AuthenticationService} from './authentication.service';
 import {MenuService} from './menu.service';
@@ -15,11 +16,10 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class MailsService implements Resolve<Mail> {
-  private readonly COLLECTION_NAME: string = '/mails';
-
-  private _mailsQ: Observable<Mail[]>;
-  private _unreadMailsQ: Observable<Mail[]>;
-  private _mailsQP: Subject<string> = new Subject();
+  private readonly _COLLECTION_NAME: string = '/mails';
+  private readonly _MAILS_Q$: Observable<Mail[]>;
+  private readonly _UNREAD_MAILS_Q$: Observable<Mail[]>;
+  private readonly _MAILS_QP$$: Subject<string> = new Subject();
 
   public constructor(
     private _authenticationService: AuthenticationService,
@@ -27,17 +27,17 @@ export class MailsService implements Resolve<Mail> {
     private _formBuilder: FormBuilder,
     private _af: AngularFire
   ) {
-    this._mailsQ = this._af.database.list(this.COLLECTION_NAME, {
+    this._MAILS_Q$ = this._af.database.list(this._COLLECTION_NAME, {
       query: {
         orderByChild: 'ownerType',
-        equalTo: this._mailsQP
+        equalTo: this._MAILS_QP$$
       }
     }).map((mails: Mail[]) => {
       mails.sort((first: Mail, second: Mail) => second.time - first.time);
       return mails;
     });
 
-    this._unreadMailsQ = this._af.database.list(this.COLLECTION_NAME, {
+    this._UNREAD_MAILS_Q$ = this._af.database.list(this._COLLECTION_NAME, {
       query: {
         orderByChild: 'read',
         equalTo: false
@@ -51,7 +51,6 @@ export class MailsService implements Resolve<Mail> {
 
   public initMailForm(type: string, mail: Mail, typeAll: string): FormGroup {
     const profile: Profile = this._authenticationService.authenticatedProfile;
-    const owner: string = type === 'Compose' ? profile.$key : mail.owner;
     const myContact: Contact = Contact.initFromProfile(profile);
 
     let topic: string;
@@ -77,7 +76,7 @@ export class MailsService implements Resolve<Mail> {
 
 
     return this._formBuilder.group({
-      owner: [owner],
+      owner: [ profile.$key],
       type: [''],
       ownerType: [''],
       favorite: [false],
@@ -92,15 +91,15 @@ export class MailsService implements Resolve<Mail> {
   }
 
   public getMail(id: string): FirebaseObjectObservable<Mail> {
-    return this._af.database.object(`${this.COLLECTION_NAME}/${id}`);
+    return this._af.database.object(`${this._COLLECTION_NAME}/${id}`);
   }
 
   public searchMails(type: string): void {
-    this._mailsQP.next(`${this._authenticationService.authenticatedProfile.$key}${type}`);
+    this._MAILS_QP$$.next(`${this._authenticationService.authenticatedProfile.$key}${type}`);
   }
 
   public getMails(): Observable<Mail[]> {
-    return this._mailsQ;
+    return this._MAILS_Q$;
   }
 
   public updateMail(mail: Mail): firebase.Promise<void> {
@@ -108,7 +107,7 @@ export class MailsService implements Resolve<Mail> {
   }
 
   public addMail(mail: Mail): void {
-    this._af.database.list(this.COLLECTION_NAME).push(mail);
+    this._af.database.list(this._COLLECTION_NAME).push(mail);
   }
 
   public updateMenuLabels(): void {
@@ -125,9 +124,10 @@ export class MailsService implements Resolve<Mail> {
       }
     }
 
-    this._unreadMailsQ.subscribe((mails: Mail[]) => {
+    const subscription: Subscription = this._UNREAD_MAILS_Q$.subscribe((mails: Mail[]) => {
       inboxMenuItem.countLabel = mails.filter((mail: Mail) => mail.type === 'INBOX').length;
       trashMenuItem.countLabel = mails.filter((mail: Mail) => mail.type === 'TRASH').length;
+      subscription.unsubscribe();
     });
   }
 
