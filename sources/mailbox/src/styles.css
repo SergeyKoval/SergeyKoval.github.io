@@ -3992,7 +3992,7 @@ a.cke_button_off:hover, .cke_hc a.cke_button_off:focus, .cke_hc a.cke_button_off
   margin: 0px !important;
   top: 0px;
   left: 0px;
-  background-image: url('assets/images/profile.jpg') !important;
+  /*background-image: url('assets/images/profile.jpg') !important;*/
   cursor: hand;
   cursor: pointer;
   background-repeat: no-repeat !important;
@@ -4395,7 +4395,7 @@ a.cke_button_off:hover, .cke_hc a.cke_button_off:focus, .cke_hc a.cke_button_off
   background-color: transparent;
   min-height: 92px;
   width: auto;
-  background-image: url('assets/images/profile.jpg');
+  /*background-image: url('assets/images/profile.jpg');*/
   background-position: center top;
   background-repeat: no-repeat;
   text-indent: -9999px;
@@ -4511,7 +4511,7 @@ a.cke_button_off:hover, .cke_hc a.cke_button_off:focus, .cke_hc a.cke_button_off
 }
 body.login_page {
   background-color: #3F51B5;
-  background-image: url('assets/images/profile.jpg');
+  /*background-image: url('assets/images/profile.jpg');*/
   background-attachment: fixed;
   /*height: 100%;*/
   /*max-height: 100%;*/
